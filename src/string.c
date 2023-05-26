@@ -23,15 +23,6 @@ int memcmp(const void *str1, const void *str2, size_t n) {
     return 0;
 }
 
-// char *s21_strcpy(char *destination, const char *source) {
-//     while (*source != '\0' || *destination != '\0') {
-//         *destination = *source;
-//         ++destination;
-//         ++source;
-//     }
-//     return 0;
-// }
-
 char *strncat(char *dest, const char *src, size_t n) {
     if (n == 0) {
         return dest;
@@ -110,3 +101,90 @@ char *strtok(char *str, const char *delim) {
 //     lastToken = NULL;
 //     return NULL;
 // }
+
+
+char *s21_strcpy(char *destination, const char *source) {
+    while (*source != '\0' || *destination != '\0') {
+        *destination = *source;
+        ++destination;
+        ++source;
+    }
+    return 0;
+}
+
+char *strncpy(char *dest, const char *src, size_t n) {
+    size_t i;
+    for (i = 0; i < n && src[i] != '\0'; i++) {
+        dest[i] = src[i];
+    }
+    if (i < n) {
+        dest[i] = '\0';
+    }
+    return dest;
+}
+
+void *memcpy(void *dest, const void *src, size_t n) {
+    char *d = dest;
+    const char *s = src;
+    while (n > 0) {
+        *d++ = *s++;
+        n--;
+    }
+    return dest;
+}
+
+void *memset(void *str, int c, size_t n) {
+    char *s = str;
+    while(n > 0) {
+        *s++ = c;
+        n--;
+    }
+    return str;
+}
+
+int strncmp(const char *str1, const char *str2, size_t n)  {
+
+    for (size_t i = 0; i < n; i++)
+    {
+        if (str1[i] != str2[i]) {
+            return (str1[i] < str2[i] ? -1 : 1);
+        }
+    }
+    return 0;
+}
+
+
+char *strpbrk(const char *str1, const char *str2)  {
+    if (str1 == NULL || str1 == NULL) {
+        return NULL;
+    }
+    const char *s1 = str1;
+    for(;*s1 != '\0'; s1++) {
+        const char *s2 = str2;
+        for(;*s2 != '\0'; s2++) {
+            if(*s1 == *s2) {
+                return (char*)s1;
+            }
+        }
+    }
+    return NULL;
+}
+
+char *strchr(const char *str, int c)  {
+     for(;*str != '\0'; str++) {
+        if (*str == c) {
+            return (char*)str;
+        }
+    }
+    return NULL;
+}
+
+char *strrchr(const char *str, int c) {
+    const char *endStr = str + strlen(str);
+     for(;*endStr != *str; endStr--) {
+        if (*endStr == c) {
+            return (char*)endStr;
+        }
+    }
+    return NULL;
+}
