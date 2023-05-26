@@ -9,7 +9,7 @@ char *strncpy(char *dest, const char *src, size_t n)                    in progr
 size_t strcspn(const char *str1, const char *str2)
 char *strerror(int errnum)                                              
 size_t strlen(const char *str)                                          +
-char *strpbrk(const char *str1, const char *str2)
+char *strpbrk(const char *str1, const char *str2)                       in progress M
 char *strrchr(const char *str, int c)                                   in progress A
 char *strstr(const char *haystack, const char *needle)
 char *strtok(char *str, const char *delim)                              in progress M
