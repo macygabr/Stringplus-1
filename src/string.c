@@ -32,13 +32,17 @@ int memcmp(const void *str1, const void *str2, size_t n) {
 //     return 0;
 // }
 
-char *s21_strcat(char *str1, char *str2) {
-    char *p = str1 + strlen(str1);
-    while (*str2 != '\0') {
-        *p++ = *str2++;
+char *strncat(char *dest, const char *src, size_t n) {
+    if (n == 0) {
+        return dest;
     }
-    *p = '\0';
-    return str1;
+    char *begin = dest + strlen(dest);
+    char *end = dest + strlen(dest) + n - 1;
+    while (*src != '\0' && begin <= end) {
+        *begin++ = *src++;
+    }
+    *begin = '\0';
+    return dest;
 }
 // char *s21_strchr(const char *str, char *n) {
 //     while (*str != '\0') {
@@ -53,28 +57,18 @@ char *s21_strcat(char *str1, char *str2) {
 //     return NULL;
 // }
 
-// char *strtok(char *str, const char *delim) {
-//     const char *str1 = NULL;
-//     if (str != NULL) {
-//         str1 = str;
-//         for (int i = 0; delim[i] != '\0'; i++) {
-//             for (int j = 0; str1[j] != '\0'; j++) {
-//               if (str1[j] == delim[i]) {
-//                 printf("'\0'");
-//                 j++;
-//               }
-//               printf("%c", str1[j]);
-//             }
-//         }
-//     }
-// }
-
 
 char *strtok(char *str, const char *delim) {
     char *pDelim = delim;
     static char *endStr = NULL;
     char *curentStr = NULL;
-    str != NULL ? endStr = str : NULL;
+    if (str != NULL) {
+        endStr = str;
+    }
+    if (endStr == NULL) {
+        return NULL;
+    }
+    
     for (pDelim = delim; *pDelim != '\0'; pDelim++) {
         for (;*endStr != '\0'; endStr++) {
           if (*endStr == *pDelim) {
@@ -88,7 +82,7 @@ char *strtok(char *str, const char *delim) {
     return NULL;
 }
 
-// char *strtok(char *str, const char *delim) {
+// / char *strtok(char *str, const char *delim) {
 //     static char *lastToken = NULL; // указатель на последний токен
 //     char *token = NULL; // указатель на текущий токен
 //     const char *delimPtr = delim; // указатель на текущий разделитель
