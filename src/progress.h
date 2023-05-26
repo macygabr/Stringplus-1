@@ -1,9 +1,9 @@
-void *memchr(const void *str, int c, size_t n)                          in progress A
+void *memchr(const void *str, int c, size_t n)                          +
 int memcmp(const void *str1, const void *str2, size_t n)                +
 void *memcpy(void *dest, const void *src, size_t n)
 void *memset(void *str, int c, size_t n)
 char *strncat(char *dest, const char *src, size_t n)                    in progress M
-char *strchr(const char *str, int c)                                    in porgress A
+char *strchr(const char *str, int c)                                    in porgress A, yep
 int strncmp(const char *str1, const char *str2, size_t n)
 char *strncpy(char *dest, const char *src, size_t n)                    in progress M
 size_t strcspn(const char *str1, const char *str2)
