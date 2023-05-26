@@ -19,6 +19,8 @@ void print_arg(va_list argptr, char mas_format) {
             break;
     }
 }
+// c, d, i, e, E, f, g, G, o, s, u, x, X, p, n, %
+// 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0
 
 int s21_sprintf(char* buf, char* format, ...)
 {
