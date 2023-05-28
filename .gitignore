@@ -52,6 +52,5 @@ Mkfile.old
 dkms.conf
 
 # My ignore_list
-.vscode
 .DS_Store
 src/test
