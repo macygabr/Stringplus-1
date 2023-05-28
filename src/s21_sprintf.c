@@ -22,7 +22,7 @@ void itoa(int n, char s[])
          s[i] = s[j];
          s[j] = c;
      }
-} 
+}
 
 void sellect_arg(char* buf,int *index, va_list argptr, char format) {
     
@@ -41,10 +41,21 @@ void sellect_arg(char* buf,int *index, va_list argptr, char format) {
             buf = strcat(buf,str2);
             (*index) +=strlen(str2);
             break;
+        case 'f':
+            char str3[20];
+            itoa(va_arg(argptr, int), str3);
+            buf = strcat(buf,str3);
+            (*index) +=strlen(str3);
+            break;
+        case 'u':
+            char* str4 = va_arg(argptr,  char*);
+            buf = strcat(buf,str4);
+            (*index) +=strlen(str4);
+            break;
         default:
-            // char out[512] = "grep: ";
-            // strcat(out, optarg);
-            // perror(out);
+            char out[50];
+            s21_sprintf(out, "Флага %c нет", format);
+            perror(out);
             break;
     }
 }
@@ -63,6 +74,7 @@ int s21_sprintf(char* buf, char* format, ...)
         sellect_arg(buf,&index, argptr, format[++i]);
         else
         buf[(index)++] = format[i];
+        buf[index + 1] = '\0';
     }
     va_end(argptr);
     return 0;
