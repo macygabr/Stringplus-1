@@ -17,18 +17,18 @@ int s21_sprintf(char* buf, char* format, ...)
             switch (format[output.format_index+1])
             {
             case '-':
-                add_spase(&output, format);
+                count_spase(&output, format);
                 sellect_arg(buf ,&output, format[output.format_index]);  
                 for(int j=0; j<(int)(output.space) - output.str_long; j++) buf[output.index_buf_mass++] = ' ';
                 break;
              case '+':
                 output.flag_plus =1;
-                add_spase(&output, format);
+                count_spase(&output, format);
                 sellect_arg(buf ,&output, format[output.format_index]);  
                 break;
              case ' ':
                 output.flag_plus =1;
-                add_spase(&output, format);
+                count_spase(&output, format);
                 sellect_arg(buf ,&output, format[output.format_index]);  
                 break;
             default:
@@ -37,7 +37,8 @@ int s21_sprintf(char* buf, char* format, ...)
             }
         }
         else buf[output.index_buf_mass++] = format[output.format_index];
-        buf[output.index_buf_mass] = '\0';
+        
+        buf[output.index_buf_mass+1] = '\0';
     }
     va_end(output.argptr);
     return 0;
@@ -50,8 +51,7 @@ void sellect_arg(char* buf, write_in_buf* output, char format) {
             char str1[20];
             itoa(output,va_arg(output->argptr, int), str1, 0);
             output->str_long = strlen(str1);
-            for(int j=0;output->flag_plus && j<(int)(output->space) - output->str_long; j++) 
-                buf[output->index_buf_mass++] = ' ';
+            add_space(output, buf);
             buf = strcat(buf,str1);
             output->index_buf_mass +=strlen(str1);
             break;
@@ -60,6 +60,8 @@ void sellect_arg(char* buf, write_in_buf* output, char format) {
             break;
         case 's':
             char* str2 = va_arg(output->argptr,  char*);
+            output->str_long = strlen(str2);
+            add_space(output, buf);
             buf = strcat(buf,str2);
             (output->index_buf_mass) +=strlen(str2);
             break;
@@ -67,14 +69,14 @@ void sellect_arg(char* buf, write_in_buf* output, char format) {
             char str3[20];
             itoa(output,va_arg(output->argptr, double), str3, 1);
             output->str_long = strlen(str3);
-            for(int j=0;output->flag_plus && j<(int)(output->space) - output->str_long; j++) 
-                buf[output->index_buf_mass++] = ' ';
+            add_space(output, buf);
             buf = strcat(buf,str3);
             (output->index_buf_mass) +=strlen(str3);
             break;
         case 'u':
             char str4[20];
             itoa(output,va_arg(output->argptr, unsigned int), str4, 0);
+            output->str_long = strlen(str4);
             buf = strcat(buf,str4);
             (output->index_buf_mass) +=strlen(str4);
             break;
@@ -129,7 +131,7 @@ void itoa(write_in_buf* output,long double n, char s[], int itsFloat)
     }
 }
 
-void add_spase(write_in_buf* output, char* format)
+void count_spase(write_in_buf* output, char* format)
 {
     output->format_index += 2;
     output->space = 0;
@@ -142,13 +144,15 @@ void add_spase(write_in_buf* output, char* format)
     output->space *= simple_pow(10,i-1);
 }
 
-// void add_sign(char* buf, write_in_buf* output, char* format)
-// {
-
-// }
 double simple_pow(int base,int exp)
 {
     if( exp ==0) return 1;
     for(int i =1; i<exp; i++) base*= base;
     return base;
+}
+void add_space(write_in_buf* output, char* buf)
+{
+if(output->flag_plus) 
+ for(int j=0; j<(int)(output->space) - output->str_long; j++) 
+        buf[output->index_buf_mass++] = ' ';
 }
