@@ -14,7 +14,7 @@
                 "${fileDirname}/s21_string.c",
                 "${fileDirname}/s21_sprintf.c",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/test_my_func"
             ],
             "options": {
                 "cwd": "${fileDirname}"
