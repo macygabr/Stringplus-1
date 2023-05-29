@@ -1,5 +1,34 @@
 #include "s21_string.h"
 
+int s21_sprintf(char* buf, char* format, ...)
+{
+    write_in_buf output = {0};
+    
+    va_start(output.argptr, format);
+    buf[0] = '\0';
+
+    int format_len = strlen(format);
+    for(output.format_index=0; output.format_index<format_len; output.format_index++) {
+        if(format[output.format_index] == '%')
+        {
+            switch (format[output.format_index+1])
+            {
+            case '-':
+                add_spase(buf, &output, format);
+                break;
+            default:
+                sellect_arg(buf ,&output, format[++output.format_index]);  
+                break;
+            }
+        }
+       
+        else
+        buf[output.index_buf_mass++] = format[output.format_index];
+        buf[output.index_buf_mass + 1] = '\0';
+    }
+    va_end(output.argptr);
+    return 0;
+}
 
 void itoa(long double n, char s[], int itsFloat)
  {
@@ -105,33 +134,3 @@ void sellect_arg(char* buf, write_in_buf* output, char format) {
 }
 // c, d, i, e, E, f, g, G, o, s, u, x, X, p, n, %
 // 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0
-
-int s21_sprintf(char* buf, char* format, ...)
-{
-    write_in_buf output = {0};
-    
-    va_start(output.argptr, format);
-    buf[0] = '\0';
-
-    int format_len = strlen(format);
-    for(output.format_index=0; output.format_index<format_len; output.format_index++) {
-        if(format[output.format_index] == '%')
-        {
-            switch (format[output.format_index+1])
-            {
-            case '-':
-                add_spase(buf, &output, format);
-                break;
-            default:
-                sellect_arg(buf ,&output, format[++output.format_index]);  
-                break;
-            }
-        }
-       
-        else
-        buf[output.index_buf_mass++] = format[output.format_index];
-        buf[output.index_buf_mass + 1] = '\0';
-    }
-    va_end(output.argptr);
-    return 0;
-}

@@ -9,9 +9,6 @@
 
 #include <math.h>
 
-int s21_string();
-int s21_sprintf(char* buf, char* format, ...);
-
 typedef struct {
 int index_buf_mass; 
 int format_index;
@@ -20,4 +17,9 @@ va_list argptr;
 
 } write_in_buf;
 
+int s21_sprintf(char* buf, char* format, ...);
+void itoa(long double n, char s[], int itsFloat);
+void add_spase(char* buf, write_in_buf* output, char* format);
+double simple_pow(int base,int exp);
+void sellect_arg(char* buf, write_in_buf* output, char format);
 #endif
