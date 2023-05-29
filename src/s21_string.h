@@ -21,7 +21,8 @@ va_list argptr;
 
 int s21_sprintf(char* buf, char* format, ...);
 void itoa(write_in_buf* output,long double n, char s[], int itsFloat);
-void add_spase(write_in_buf* output, char* format);
+void count_spase(write_in_buf* output, char* format);
 double simple_pow(int base,int exp);
 void sellect_arg(char* buf, write_in_buf* output, char format);
+void add_space(write_in_buf* output, char* buf);
 #endif
