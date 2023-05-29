@@ -3,10 +3,10 @@
 
 int main ()
 {
-    char bas[80];
-    s21_sprintf(bas, "%s %c %f", "one", '8', 10.11);
-    //sprintf(bas, "%s %c %d %f", "one", 'N', 1, 10.1);
-    printf("%s\n", bas);
-    
+    char bas[200];
+    s21_sprintf(bas, "%s %c %-12d %u %%", "one", '8', -10, 10);
+    printf("pice of shit = \"%s\"\n", bas);
+    sprintf(bas, "%s %c %-12d %u %%", "one", '8', -10, 10);
+    printf("origin       = \"%s\"\n", bas);
     return 0;
 }
