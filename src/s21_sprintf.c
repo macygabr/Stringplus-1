@@ -39,10 +39,20 @@ void itoa(long double n, char s[], int itsFloat)
     }
 }
 
-void add_spase(char* buf, write_in_buf* output, int space)
+void add_spase(char* buf, write_in_buf* output, char* format)
 {
-    for(int j=0; j<space; j++){
-    buf[output->index_buf_mass++] = ' ';}
+    output->format_index += 2;
+    double space = 0;
+    int i = 0;
+    for(i = 0; format[output->format_index]<='9' && format[output->format_index]>='0';i++)
+    {
+        space += (format[output->format_index] - '0')/simple_pow(10,i);
+        output->format_index++;
+    } 
+    space *= simple_pow(10,i-1);
+    sellect_arg(buf ,output, format[output->format_index]);  
+     for(int j=0; j<(int)space - output->str_long; j++)
+     buf[output->index_buf_mass++] = ' ';
 }
 double simple_pow(int base,int exp)
 {
@@ -78,7 +88,6 @@ void sellect_arg(char* buf, write_in_buf* output, char format) {
             break;
         case 'u':
             char str4[20];
-            // positiv_int(va_arg(output->argptr, int), str4);
             itoa(va_arg(output->argptr, unsigned int), str4, 0);
             buf = strcat(buf,str4);
             (output->index_buf_mass) +=strlen(str4);
@@ -111,27 +120,12 @@ int s21_sprintf(char* buf, char* format, ...)
             switch (format[output.format_index+1])
             {
             case '-':
-                output.format_index += 2;
-                
-                double space = 0;
-                int i = 0;
-                for(i = 0; format[output.format_index]<='9' && format[output.format_index]>='0';i++)
-                {
-                    space += (format[output.format_index] - '0')/simple_pow(10,i);
-                    output.format_index++;
-                } 
-                space *= simple_pow(10,i-1);
-
-                sellect_arg(buf ,&output, format[output.format_index]);  
-                add_spase(buf,&output, (int)space - output.str_long);
+                add_spase(buf, &output, format);
                 break;
-            
             default:
                 sellect_arg(buf ,&output, format[++output.format_index]);  
                 break;
             }
-            // if(format[output.format_index+1] == ' ') output.format_index++;
-            // if(format[output.format_index+1] == '+') output.format_index++; 
         }
        
         else
