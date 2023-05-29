@@ -1,6 +1,8 @@
 #ifndef SRC_S21_STRING_H_
 #define SRC_S21_STRING_H_
 
+typedef unsigned long s21_size_t;
+
 /**
  * Searches for the first occurrence of the specified character in the array
  * @param str a pointer to an array to be searched
@@ -10,7 +12,7 @@
  * @return A pointer to the found character, if the required character is found in the specified section of the array.
 NULL - if the required character is not found
 */
-void *memchr(const void *str, int c, size_t n);
+void *memchr(const void *str, int c, s21_size_t n);
 
 /**
  * Array comparison
@@ -20,7 +22,7 @@ void *memchr(const void *str, int c, size_t n);
  * 
  * @return 0 - if the compared parts of the arrays are identical
 */
-int memcmp(const void *str1, const void *str2, size_t n);
+int memcmp(const void *str1, const void *str2, s21_size_t n);
 
 /**
  * Find the first occurrence of a character in a string

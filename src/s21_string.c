@@ -1,7 +1,7 @@
 #include "s21_string.h"
 #include <stdio.h>
 
-void *memchr(const void *str, int c, size_t n) {
+void *memchr(const void *str, int c, s21_size_t n) {
     const char *str_big = (const char *)str;
     size_t lenght;
     for (lenght = 0; lenght < n; lenght++) {
@@ -12,7 +12,7 @@ void *memchr(const void *str, int c, size_t n) {
     return NULL;
 }
 
-int memcmp(const void *str1, const void *str2, size_t n) {
+int memcmp(const void *str1, const void *str2, s21_size_t n) {
     if (n != 0) {
         unsigned char *pstr1 = str1, *pstr2 = str2;
         do {
