@@ -13,13 +13,15 @@ typedef struct {
 int index_buf_mass; 
 int format_index;
 int str_long;
+double space;
+int flag_plus;
 va_list argptr;
 
 } write_in_buf;
 
 int s21_sprintf(char* buf, char* format, ...);
-void itoa(long double n, char s[], int itsFloat);
-void add_spase(char* buf, write_in_buf* output, char* format);
+void itoa(write_in_buf* output,long double n, char s[], int itsFloat);
+void add_spase(write_in_buf* output, char* format);
 double simple_pow(int base,int exp);
 void sellect_arg(char* buf, write_in_buf* output, char format);
 #endif
