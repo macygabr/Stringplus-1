@@ -1,12 +1,11 @@
 #include <check.h>
 #include <math.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "s21_string.h"
 
-START_TEST(first_func) {
- 
-}
+START_TEST(first_func) {}
 END_TEST
 
 int main(void) {
@@ -17,7 +16,7 @@ int main(void) {
 
   suite_add_tcase(suite, tcase);
   tcase_add_test(tcase, first_func);
- 
+
   srunner_run_all(srunner, CK_NORMAL);
   val = srunner_ntests_failed(srunner);
   srunner_free(srunner);
