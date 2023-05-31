@@ -14,71 +14,99 @@ int s21_sprintf(char* buf, char* format, ...) {
     output.flag_add_space = 0;
     output.flag_h = 0;
     output.flag_l = 0;
+    output.flag_accuracy = 0;
     output.accuracy = 6;
-    if (format[output.format_index] == '%') { // флаги
-      switch (format[++output.format_index]) {
-        case '-':
-          output.format_index++;
-          count_spase(&output, format);
-          sellect_arg(buf, &output, format[output.format_index]);
-          output.flag_add_space = 1;
-          add_space(&output, buf);
-          break;
-        case '+':
-          output.format_index++;
-          output.flag_plus = 1;
-          count_spase(&output, format);
-          sellect_arg(buf, &output, format[output.format_index]);
-          break;
-        case ' ':
-          output.format_index++;
-          output.flag_plus = 1;
-          count_spase(&output, format);
-          sellect_arg(buf, &output, format[output.format_index]);
-          break;
-        
-        case '0' ... '9':
-          output.flag_add_space = 1;
-          count_spase(&output, format);
-          sellect_arg(buf, &output, format[output.format_index]);
-          break;
-        case '.':  // до 16 знаков после запятой работает, после просто 0
-          output.format_index++;
-          count_spase(&output, format);
-          output.accuracy = output.space;
-          sellect_arg(buf, &output, format[output.format_index]);
-          break;
-        case 'h':
-          output.format_index++;
-          if (format[output.format_index] == 'd') {
-            output.flag_h = 1;
-            sellect_arg(buf, &output, format[output.format_index]);
-          } else
-            output.error = 1;
-          break;
-        case 'l':
-          output.format_index++;
-          if (format[output.format_index] == 'd') {
-            output.flag_l = 1;
-            sellect_arg(buf, &output, format[output.format_index]);
-          } else
-            output.error = 1;
-          break;
-        default:
-            sellect_arg(buf ,&output, format[output.format_index]);
-          break;
-      }
+    if (format[output.format_index] == '%') {
+      sellect_flags(buf, &output, format);
     } else
       buf[output.index_buf_mass++] = format[output.format_index];
-
     buf[output.index_buf_mass + 1] = '\0';
   }
   va_end(output.argptr);
   return 0;
 }
 
-void sellect_arg(char* buf, write_in_buf* output, char format) {
-  switch (format) {
+void sellect_flags(char* buf, write_in_buf* output, char* format) {
+  switch (format[++output->format_index]) {
+    case '-':
+      output->format_index++;
+      count_spase(output, format);
+      sellect_width(buf, output, format);
+      output->flag_add_space = 1;
+      add_space(output, buf);
+      break;
+    case '+':
+      output->format_index++;
+      output->flag_plus = 1;
+      count_spase(output, format);
+      sellect_width(buf, output, format);
+      break;
+    case ' ':
+      output->format_index++;
+      output->flag_plus = 1;
+      count_spase(output, format);
+      sellect_width(buf, output, format);
+      break;
+    default:
+      sellect_width(buf, output, format);
+      break;
+  }
+}
+void sellect_width(char* buf, write_in_buf* output, char* format) {
+  switch (format[output->format_index]) {
+    case '0' ... '9':
+      output->flag_add_space = 1;
+      count_spase(output, format);
+      sellect_accuracy(buf, output, format);
+      break;
+    default:
+      sellect_accuracy(buf, output, format);
+      break;
+  }
+}
+void sellect_accuracy(char* buf, write_in_buf* output, char* format) {
+  switch (format[output->format_index]) {
+    case '.':  // до 16 знаков после запятой работает, после просто 0
+      output->format_index++;
+      output->flag_accuracy = 1;
+      int rub_flag = output->space;
+      count_spase(output, format);
+      output->accuracy = output->space;
+      output->space = rub_flag;
+      sellect_modifier(buf, output, format);
+      break;
+    default:
+      sellect_modifier(buf, output, format);
+      break;
+  }
+}
+
+void sellect_modifier(char* buf, write_in_buf* output, char* format) {
+  switch (format[output->format_index]) {
+    case 'h':
+      output->format_index++;
+      if (format[output->format_index] == 'd') {
+        output->flag_h = 1;
+        sellect_type(buf, output, format);
+      } else
+        output->error = 1;
+      break;
+    case 'l':
+      output->format_index++;
+      if (format[output->format_index] == 'd') {
+        output->flag_l = 1;
+        sellect_type(buf, output, format);
+      } else
+        output->error = 1;
+      break;
+    default:
+      sellect_type(buf, output, format);
+      break;
+  }
+}
+
+void sellect_type(char* buf, write_in_buf* output, char* format) {
+  switch (format[output->format_index]) {
     case 'd':
       char str1[256];
       long int input_data = va_arg(output->argptr, long int);
@@ -121,25 +149,35 @@ void sellect_arg(char* buf, write_in_buf* output, char format) {
       buf = strcat(buf, str4);
       (output->index_buf_mass) += strlen(str4);
       break;
+    case 'g':
+      break;
+    case 'G':
+      break;
+    case 'e':
+      break;
+    case 'E':
+      break;
+    case 'x':
+      break;
+    case 'X':
+      break;
+    case 'o':
+      break;
+    case 'p':
+      break;
     case '%':
-          buf[output->index_buf_mass++] = '%';
-          buf[output->index_buf_mass + 1] = '\0';
-          break;
+      buf[output->index_buf_mass++] = '%';
+      buf[output->index_buf_mass + 1] = '\0';
+      break;
     default:
-      char out[256];
-      s21_sprintf(out, "Флага %c нет", format);
-      perror(out);
       break;
   }
-
 }
-// c, d, i, e, E, f, g, G, o, s, u, x, X, p, n, %
-// 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0
+
 void itoa(write_in_buf* output, long double n, char s[], int itsFloat) {
   long int i, j, sign, notWhole = -1;
   char c;
-  if ((sign = n) < 0) /* record sign */
-    n = -n;           /* make n positive */
+  if ((sign = n) < 0) n = -n;
   if (itsFloat) {
     for (notWhole = 0; notWhole < output->accuracy + 1; notWhole++) n *= 10;
     n = (long int)n;
@@ -160,6 +198,9 @@ void itoa(write_in_buf* output, long double n, char s[], int itsFloat) {
       s[i++] = (long int)n % 10 + '0';
     }
   } while ((long int)(n /= 10) > 0);
+  while (output->flag_accuracy && (int)strlen(s) < output->accuracy)
+    s[i++] = '0';
+
   if (sign < 0) s[i++] = '-';
   if (sign >= 0 && output->flag_plus) s[i++] = '+';
   s[i] = '\0';
