@@ -15,6 +15,11 @@ int format_index;
 int str_long;
 double space;
 int flag_plus;
+int flag_add_space;
+int accuracy;
+int error;
+int flag_h;
+int flag_l;
 va_list argptr;
 
 } write_in_buf;
