@@ -9,7 +9,7 @@ void *memchr(const void *str, int c, s21_size_t n) {
             return (void *)&str_big[lenght];
         }
     }
-    return NULL;
+    return S21_S21_NULL;
 }
 
 int memcmp(const void *str1, const void *str2, s21_size_t n) {
@@ -23,8 +23,20 @@ int memcmp(const void *str1, const void *str2, s21_size_t n) {
         }
         ++str1;
         ++str2;
+    const unsigned char *p1 = str1;
+    const unsigned char *p2 = str2;
+
+    for (s21_size_t i = 0; i < n; i++)
+    {
+        if (*p1 != *p2) {
+            return (*p1 < *p2 ? -1 : 1);
+        }
+        ++str1;
+        ++str2;
     }
     return 0;
+    return 0;
+}
 }
 
 s21_size_t strlen(const char* str) {
@@ -47,6 +59,7 @@ char *strncat(char *dest, const char *src, s21_size_t n) {
     return dest;
 }
 
+
 char *strncpy(char *dest, const char *src, s21_size_t n) {
     s21_size_t i;
     for (i = 0; i < n && src[i] != '\0'; i++) {
@@ -57,6 +70,7 @@ char *strncpy(char *dest, const char *src, s21_size_t n) {
     }
     return dest;
 }
+
 
 void *memcpy(void *dest, const void *src, s21_size_t n) {
     char *d = dest;
@@ -77,8 +91,10 @@ void *memset(void *str, int c, s21_size_t n) {
     return str;
 }
 
+
 int strncmp(const char *str1, const char *str2, s21_size_t n)  {
 
+    for (s21_size_t i = 0; i < n; i++)
     for (s21_size_t i = 0; i < n; i++)
     {
         if (str1[i] != str2[i]) {
@@ -89,8 +105,8 @@ int strncmp(const char *str1, const char *str2, s21_size_t n)  {
 }
 
 char *strpbrk(const char *str1, const char *str2)  {
-    if (str1 == NULL || str1 == NULL) {
-        return NULL;
+    if (str1 == S21_NULL || str1 == S21_NULL) {
+        return S21_NULL;
     }
     const char *s1 = str1;
     for(;*s1 != '\0'; s1++) {
@@ -101,7 +117,7 @@ char *strpbrk(const char *str1, const char *str2)  {
             }
         }
     }
-    return NULL;
+    return S21_NULL;
 }
 
 char *strrchr(const char *str, int c) {
@@ -111,7 +127,7 @@ char *strrchr(const char *str, int c) {
             return (char*)endStr;
         }
     }
-    return NULL;
+    return S21_NULL;
 }
 
 char *strchr(const char *str, int c)  {
