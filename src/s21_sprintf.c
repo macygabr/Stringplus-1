@@ -155,15 +155,14 @@ void sellect_type(char* buf, write_in_buf* output, char* format) {
       buf[output->index_buf_mass++] = va_arg(output->argptr, int);
       break;
     case 's':
-    
       char* str2 = va_arg(output->argptr, char*);
-       
-      output->str_long = strlen(str2);
+      char strn[256];
+      if(!output->flag_accuracy) strcpy(strn,str2);
+      output->str_long = strlen(strn);
+      strncpy(strn, str2, output->accuracy);
       if(!output->flag_minus) add_space(output, buf);
-      buf = strcat(buf, str2);
-      output->index_buf_mass += strlen(str2);
-
-      printf("[%d %d]", output->str_long, output->accuracy);
+      buf = strcat(buf, strn);
+      output->index_buf_mass += strlen(strn);
       break;
     case 'f':
       char str3[256];
@@ -266,7 +265,7 @@ void itoa(write_in_buf* output, long double n, char s[], int itsFloat) {
 // void cat_str(write_in_buf* output, long double n, char s[])
 // {
 
-//     s[output->accuracy] = '\0'; 
+  
 // }
 
 void count_space(write_in_buf* output, char* format) {
