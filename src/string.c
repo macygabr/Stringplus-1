@@ -210,3 +210,35 @@ char *strtok(char* str, const char* delim) {
         return result;
     }
 }
+
+size_t strcspn(const char *str1, const char *str2) {
+    size_t s1 = strlen(str1);
+    size_t s2 = strlen(str2);
+    int counter = 0;
+    int result = 0;
+
+    for (size_t i = 0; i <= s1; i++) {
+        counter = 0;
+        for(size_t j = 0; j <=s2; j++) {
+            if((str1 + i) == (str2 + j)) {
+                continue;
+            }
+
+        }
+        counter++;
+        if(counter > result) {
+            result = counter;
+        }
+        if(counter == s1) {
+            return result;
+        }
+    }
+}
+
+size_t strcspn(const char *str1, const char *str2) {
+    int result = strlen(str1);
+    if(strpbrk(str1,str2) != NULL) {
+        result = strpbrk(str1,str2) - str1;
+    }
+    return result;
+}

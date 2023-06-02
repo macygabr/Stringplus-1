@@ -170,3 +170,11 @@ char *strtok(char* str, const char* delim) {
         return result;
     }
 }
+
+size_t strcspn(const char *str1, const char *str2) {
+    int result = strlen(str1);
+    if(strpbrk(str1,str2) != NULL) {
+        result = strpbrk(str1,str2) - str1;
+    }
+    return result;
+}
