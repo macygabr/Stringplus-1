@@ -12,4 +12,4 @@ size_t strlen(const char *str)                                          +
 char *strpbrk(const char *str1, const char *str2)                       +
 char *strrchr(const char *str, int c)                                   +
 char *strstr(const char *haystack, const char *needle)                  +
-char *strtok(char *str, const char *delim)                              in progress M
+char *strtok(char *str, const char *delim)                              +

@@ -114,11 +114,10 @@ char *strrchr(const char *str, int c) {
     return NULL;
 }
 
-char *strrchr(const char *str, int c) {
-    const char *endStr = str + strlen(str);
-     for(;*endStr != *str; endStr--) {
-        if (*endStr == c) {
-            return (char*)endStr;
+char *strchr(const char *str, int c)  {
+     for(;*str != '\0'; str++) {
+        if (*str == c) {
+            return (char*)str;
         }
     }
     return NULL;
@@ -136,4 +135,38 @@ char *strstr(const char *haystack, const char *needle) {
         }
     }
     return NULL;
+}
+
+char *strtok(char* str, const char* delim) {
+    static char *last = NULL;
+    if (str != NULL) {
+        last = str; 
+    }
+    if (last == NULL) { 
+        return NULL;
+    }
+    char* result = last; 
+    char* separator;
+    for(;*last != '\0'; last++) {
+        separator = (char*)delim;
+        for(; *separator != '\0'; separator++) {
+            if(*last == *separator) {
+                *last = '\0';
+                last++;
+                if (result[0] != '\0') {
+                    return result;
+                }
+                else {
+                    result = last;
+                    break;
+                }
+            }
+        }
+    }
+    if (result[0] == '\0') {
+        return NULL;
+    }
+     else { 
+        return result;
+    }
 }

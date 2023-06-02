@@ -175,61 +175,38 @@ char *strstr(const char *haystack, const char *needle) {
     return NULL;
 }
 
-// / char *strtok(char *str, const char *delim) {
-//     static char *lastToken = NULL; // указатель на последний токен
-//     char *token = NULL; // указатель на текущий токен
-//     const char *delimPtr = delim; // указатель на текущий разделитель
-//     if (str != NULL) {
-//         lastToken = str; // начинаем с начала строки
-//     }
-//     if (lastToken == NULL) {
-//         return NULL; // уже все токены разобрали
-//     }
-//     while (*lastToken != '\0') {
-//         delimPtr = delim; // начинаем с начала разделителей
-//         while (*delimPtr != '\0') {
-//             if (*lastToken == *delimPtr) {
-//                 // найден разделитель, заменяем его на нулевой символ
-//                 *lastToken = '\0';
-//                 token = lastToken - strlen(str); // указатель на текущий токен
-//                 lastToken++; // сдвигаем указатель на следующий символ
-//                 return token;
-//             }
-//             delimPtr++;
-//         }
-//         lastToken++; // продолжаем искать разделитель
-//     }
-//     // все токены разобрали, возвращаем NULL
-//     lastToken = NULL;
-//     return NULL;
-// }
 
-функция смотрит строку до первого разделителя, выводит все до, а в памяти сохраняется оставшаяся строка(после 1 разделителя)
-мне нужно пройтись до 1 разделителя
-char *strtok(char *str, const char *delim) {
-    char *begin = NULL;
-    const char *separator = NULL;
-    char *token = NULL;
-    if(str != NULL) {
-        begin = str;
+
+char *strtok(char* str, const char* delim) {
+    static char *last = NULL;
+    if (str != NULL) {
+        last = str; 
     }
-    if(begin == NULL) {
+    if (last == NULL) { 
         return NULL;
     }
-
-    for(;*begin != '\0';begin++) {
-        separator = delim;
-        for(;*separator != '\0';separator++) {
-            if(*begin == *separator) {
-                *begin = '\0';
-                token = begin - strlen(str);
-                begin++;
-                return token;
+    char* result = last; 
+    char* separator;
+    for(;*last != '\0'; last++) {
+        separator = (char*)delim;
+        for(; *separator != '\0'; separator++) {
+            if(*last == *separator) {
+                *last = '\0';
+                last++;
+                if (result[0] != '\0') {
+                    return result;
+                }
+                else {
+                    result = last;
+                    break;
+                }
             }
         }
     }
-    begin = NULL;
-    return NULL;
+    if (result[0] == '\0') {
+        return NULL;
+    }
+     else { 
+        return result;
+    }
 }
-
-мы можем испольщовать функцию, которая находит первый
