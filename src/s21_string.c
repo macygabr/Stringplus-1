@@ -1,7 +1,7 @@
 #include "s21_string.h"
 #include <stdio.h>
 
-void *memchr(const void *str, int c, s21_size_t n) {
+void *s21_memchr(const void *str, int c, s21_size_t n) {
     const char *str_big = (const char *)str;
     s21_size_t lenght;
     for (lenght = 0; lenght < n; lenght++) {
@@ -9,44 +9,32 @@ void *memchr(const void *str, int c, s21_size_t n) {
             return (void *)&str_big[lenght];
         }
     }
-    return S21_S21_NULL;
+    return S21_NULL;
 }
 
-int memcmp(const void *str1, const void *str2, s21_size_t n) {
-    const unsigned char *p1 = str1;
-    const unsigned char *p2 = str2;
+int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
+    const unsigned char *s1 = str1;
+    const unsigned char *s2 = str2;
 
     for (s21_size_t i = 0; i < n; i++)
     {
-        if (*p1 != *p2) {
-            return (*p1 < *p2 ? -1 : 1);
-        }
-        ++str1;
-        ++str2;
-    const unsigned char *p1 = str1;
-    const unsigned char *p2 = str2;
-
-    for (s21_size_t i = 0; i < n; i++)
-    {
-        if (*p1 != *p2) {
-            return (*p1 < *p2 ? -1 : 1);
+        if (*s1 != *s2) {
+            return (*s1 < *s2 ? -1 : 1);
         }
         ++str1;
         ++str2;
     }
     return 0;
-    return 0;
-}
 }
 
-s21_size_t strlen(const char* str) {
+s21_size_t s21_strlen(const char* str) {
     int i;
     for (i = 0; str[i] != '\0'; i++)
         ;
     return i;
 }
 
-char *strncat(char *dest, const char *src, s21_size_t n) {
+char *s21_strncat(char *dest, const char *src, s21_size_t n) {
     if (n == 0) {
         return dest;
     }
@@ -60,7 +48,7 @@ char *strncat(char *dest, const char *src, s21_size_t n) {
 }
 
 
-char *strncpy(char *dest, const char *src, s21_size_t n) {
+char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
     s21_size_t i;
     for (i = 0; i < n && src[i] != '\0'; i++) {
         dest[i] = src[i];
@@ -72,7 +60,7 @@ char *strncpy(char *dest, const char *src, s21_size_t n) {
 }
 
 
-void *memcpy(void *dest, const void *src, s21_size_t n) {
+void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
     char *d = dest;
     const char *s = src;
     while (n > 0) {
@@ -82,7 +70,7 @@ void *memcpy(void *dest, const void *src, s21_size_t n) {
     return dest;
 }
 
-void *memset(void *str, int c, s21_size_t n) {
+void *s21_memset(void *str, int c, s21_size_t n) {
     char *s = str;
     while(n > 0) {
         *s++ = c;
@@ -92,9 +80,8 @@ void *memset(void *str, int c, s21_size_t n) {
 }
 
 
-int strncmp(const char *str1, const char *str2, s21_size_t n)  {
+int *s21_strncmp(const char *str1, const char *str2, s21_size_t n)  {
 
-    for (s21_size_t i = 0; i < n; i++)
     for (s21_size_t i = 0; i < n; i++)
     {
         if (str1[i] != str2[i]) {
@@ -104,7 +91,7 @@ int strncmp(const char *str1, const char *str2, s21_size_t n)  {
     return 0;
 }
 
-char *strpbrk(const char *str1, const char *str2)  {
+char *s21_strpbrk(const char *str1, const char *str2)  {
     if (str1 == S21_NULL || str1 == S21_NULL) {
         return S21_NULL;
     }
@@ -120,8 +107,8 @@ char *strpbrk(const char *str1, const char *str2)  {
     return S21_NULL;
 }
 
-char *strrchr(const char *str, int c) {
-    const char *endStr = str + strlen(str);
+char *s21_strrchr(const char *str, int c) {
+    const char *endStr = str + s21_strlen(str);
      for(;*endStr != *str; endStr--) {
         if (*endStr == c) {
             return (char*)endStr;
@@ -130,7 +117,7 @@ char *strrchr(const char *str, int c) {
     return S21_NULL;
 }
 
-char *strchr(const char *str, int c)  {
+char *s21_strchr(const char *str, int c)  {
      for(;*str != '\0'; str++) {
         if (*str == c) {
             return (char*)str;
@@ -139,21 +126,21 @@ char *strchr(const char *str, int c)  {
     return NULL;
 }
 
-char *strstr(const char *haystack, const char *needle) {
-    size_t s1 = strlen(haystack);
-    size_t s2 = strlen(needle);
+char *s21_strstr(const char *haystack, const char *needle) {
+    size_t s1 = s21_strlen(haystack);
+    size_t s2 = s21_strlen(needle);
     if (s2 > s1 || s2 == 0) {
         return NULL;
     }
     for (size_t i = 0; i <= s1 - s2; i++) {
-        if (strncmp(haystack + i, needle, s2) == 0) {
+        if (s21_strncmp(haystack + i, needle, s2) == 0) {
             return (char*)haystack + i;
         }
     }
     return NULL;
 }
 
-char *strtok(char* str, const char* delim) {
+char *s21_strtok(char* str, const char* delim) {
     static char *last = NULL;
     if (str != NULL) {
         last = str; 
@@ -161,9 +148,9 @@ char *strtok(char* str, const char* delim) {
     if (last == NULL) { 
         return NULL;
     }
-    char* result = last; 
-    char* separator;
-    for(;*last != '\0'; last++) {
+    char *result = last; 
+    char *separator;
+    for(; *last != '\0'; last++) {
         separator = (char*)delim;
         for(; *separator != '\0'; separator++) {
             if(*last == *separator) {
@@ -187,10 +174,10 @@ char *strtok(char* str, const char* delim) {
     }
 }
 
-size_t strcspn(const char *str1, const char *str2) {
-    int result = strlen(str1);
-    if(strpbrk(str1,str2) != NULL) {
-        result = strpbrk(str1,str2) - str1;
+size_t s21_strcspn(const char *str1, const char *str2) {
+    int result = s21_strlen(str1);
+    if(s21_strpbrk(str1,str2) != NULL) {
+        result = s21_strpbrk(str1,str2) - str1;
     }
     return result;
 }
