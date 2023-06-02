@@ -3,61 +3,38 @@
 
 void *memchr(const void *str, int c, s21_size_t n) {
     const char *str_big = (const char *)str;
-    size_t lenght;
-    for (lenght = 0; lenght < n; lenght++) {
-        if (str_big[lenght] == c) {
-            return (void *)&str_big[lenght];
+    s21_size_t symbol;
+    for (symbol = 0; symbol < n; symbol++) {
+        if (str_big[symbol] == c) {
+            return (void *)&str_big[symbol];
         }
     }
-    return NULL;
+    return S21_S21_NULL;
 }
 
 int memcmp(const void *str1, const void *str2, s21_size_t n) {
-    if (n != 0) {
-        unsigned char *pstr1 = str1, *pstr2 = str2;
-        do {
-            if (*pstr1++ != *pstr2) {
-                return (*--pstr1 - *--pstr2);
-            }
-        } while (--n != 0);
+    const unsigned char *p1 = str1;
+    const unsigned char *p2 = str2;
+
+    for (s21_size_t i = 0; i < n; i++)
+    {
+        if (*p1 != *p2) {
+            return (*p1 < *p2 ? -1 : 1);
+        }
+        ++str1;
+        ++str2;
     }
-    return (0);
+    return 0;
 }
-// int memcmp(const void *str1, const void *str2, size_t n) {
-//     const unsigned char *p1 = str1;
-//     const unsigned char *p2 = str2;
 
-//     for (size_t i = 0; i < n; i++)
-//     {
-//         if (*p1 != *p2) {
-//             return (*p1 < *p2 ? -1 : 1);
-//         }
-//         ++str1;
-//         ++str2;
-//     }
-//     return 0;
-// }
-
-
-// Реализовать возврат 3 значений (-1, 0, 1)
-
-// char *strchr(const char *str, int c) {
-   
-//     int i = 0;
-//     while (str[i] && str[i] != c) ++i;
-//     return c == str[i] ? (char*)str + i : NULL;
-
-// }
-
-
-size_t strlen(const char* str) {
+s21_size_t strlen(const char* str) {
     int i;
     for (i = 0; str[i] != '\0'; i++)
         ;
     return i;
 }
 
-char *strncat(char *dest, const char *src, size_t n) {
+char *strncat(char *dest, const char *src, s21_size_t n) {
     if (n == 0) {
         return dest;
     }
@@ -70,8 +47,8 @@ char *strncat(char *dest, const char *src, size_t n) {
     return dest;
 }
 
-char *strncpy(char *dest, const char *src, size_t n) {
-    size_t i;
+char *strncpy(char *dest, const char *src, s21_size_t n) {
+    s21_size_t i;
     for (i = 0; i < n && src[i] != '\0'; i++) {
         dest[i] = src[i];
     }
@@ -81,7 +58,7 @@ char *strncpy(char *dest, const char *src, size_t n) {
     return dest;
 }
 
-void *memcpy(void *dest, const void *src, size_t n) {
+void *memcpy(void *dest, const void *src, s21_size_t n) {
     char *d = dest;
     const char *s = src;
     while (n > 0) {
@@ -91,7 +68,7 @@ void *memcpy(void *dest, const void *src, size_t n) {
     return dest;
 }
 
-void *memset(void *str, int c, size_t n) {
+void *memset(void *str, int c, s21_size_t n) {
     char *s = str;
     while(n > 0) {
         *s++ = c;
@@ -100,9 +77,9 @@ void *memset(void *str, int c, size_t n) {
     return str;
 }
 
-int strncmp(const char *str1, const char *str2, size_t n)  {
+int strncmp(const char *str1, const char *str2, s21_size_t n)  {
 
-    for (size_t i = 0; i < n; i++)
+    for (s21_size_t i = 0; i < n; i++)
     {
         if (str1[i] != str2[i]) {
             return (str1[i] < str2[i] ? -1 : 1);
@@ -112,8 +89,8 @@ int strncmp(const char *str1, const char *str2, size_t n)  {
 }
 
 char *strpbrk(const char *str1, const char *str2)  {
-    if (str1 == NULL || str1 == NULL) {
-        return NULL;
+    if (str1 == S21_NULL || str1 == S21_NULL) {
+        return S21_NULL;
     }
     const char *s1 = str1;
     for(;*s1 != '\0'; s1++) {
@@ -124,7 +101,7 @@ char *strpbrk(const char *str1, const char *str2)  {
             }
         }
     }
-    return NULL;
+    return S21_NULL;
 }
 
 char *strrchr(const char *str, int c) {
@@ -134,5 +111,5 @@ char *strrchr(const char *str, int c) {
             return (char*)endStr;
         }
     }
-    return NULL;
+    return S21_NULL;
 }
