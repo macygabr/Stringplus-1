@@ -22,7 +22,11 @@ typedef struct {
   int error;
   int flag_h;
   int flag_l;
+  int flag_g;
+  char e_exp[256];
   int flag_accuracy;
+  int accuracy_g;
+
   va_list argptr;
 
 } write_in_buf;
@@ -37,5 +41,6 @@ void sellect_width(char* buf, write_in_buf* output, char* format);
 void sellect_accuracy(char* buf, write_in_buf* output, char* format);
 void sellect_modifier(char* buf, write_in_buf* output, char* format);
 void sellect_type(char* buf, write_in_buf* output, char* format);
-void cat_str(write_in_buf* output, long double n, char s[]);
+long double sel_num(write_in_buf* output, long double n);
+long double scientific_notation(write_in_buf* output, long double n);
 #endif
