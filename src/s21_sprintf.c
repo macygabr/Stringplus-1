@@ -163,12 +163,14 @@ void sellect_type(char* buf, write_in_buf* output, char* format) {
       strn[256] = '\0';
       if (!output->flag_accuracy)
         strcpy(strn, str2);
-      else
-        strncpy(strn, str2, output->accuracy);
+      else {
+      strncpy(strn, str2, output->accuracy);
+      strn[output->accuracy] = '\0';
+      }
       output->str_long = strlen(strn);
       if (!output->flag_minus) add_space(output, buf);
-      buf = strcat(buf, strn);
       output->index_buf_mass += strlen(strn);
+      buf = strcat(buf, strn);
       break;
     case 'f':
       itoa(output, va_arg(output->argptr, double), str, 1);
@@ -195,6 +197,7 @@ void sellect_type(char* buf, write_in_buf* output, char* format) {
       output->index_buf_mass += strlen(str);
       break;
     case 'G':
+      output->flag_g = 1;
       input_double = va_arg(output->argptr, double);
       input_double = sel_num(output, input_double);
       itoa(output, input_double, str, 1);
@@ -205,23 +208,20 @@ void sellect_type(char* buf, write_in_buf* output, char* format) {
       break;
     case 'e':
       input_double = va_arg(output->argptr, double);
-      input_double = scientific_notation(output, input_double);
-      itoa(output, input_double, str, 1);
+      scientific_notation(output, input_double);
       output->str_long = strlen(str);
       if (!output->flag_minus) add_space(output, buf);
       buf = strcat(buf, str);
-      buf = strcat(buf, "e+");
-      buf = strcat(buf, output->e_exp);
       output->index_buf_mass += strlen(str);
       break;
     case 'E':
-      input_double = va_arg(output->argptr, double);
-      input_double = scientific_notation(output, input_double);
-      itoa(output, input_double, str, 1);
-      output->str_long = strlen(str);
-      if (!output->flag_minus) add_space(output, buf);
-      buf = strcat(buf, str);
-      output->index_buf_mass += strlen(str);
+      // input_double = va_arg(output->argptr, double);
+      // input_double = scientific_notation(output, input_double);
+      // itoa(output, input_double, str, 1);
+      // output->str_long = strlen(str);
+      // if (!output->flag_minus) add_space(output, buf);
+      // buf = strcat(buf, str);
+      // output->index_buf_mass += strlen(str);
       break;
     case 'x':
       break;
@@ -258,13 +258,16 @@ void itoa(write_in_buf* output, long double n, char s[], int itsFloat) {
   }
   i = 0;
   n = (long int)n;
-  do {
-    if (notWhole != i)
-      s[i++] = (long int)n % 10 + '0';
-    else {
-      s[i++] = '.';
-      s[i++] = (long int)n % 10 + '0';
+
+  if(output->flag_g){
+    while((long int)n % 10 == 0) {
+      n/=10;
+    notWhole--;
     }
+  }
+  do {
+      if (notWhole == i ) s[i++] = '.';  
+      s[i++] = (long int)n % 10 + '0';
   } while ((long int)(n /= 10) > 0);
   s[i] = '\0';
   while (output->flag_accuracy == 1 && !output->flag_g &&
@@ -332,12 +335,26 @@ long double sel_num(write_in_buf* output, long double n) {
   n /= simple_pow(10, i - 1);
   return n;
 }
-long double scientific_notation(write_in_buf* output, long double n) {
+void scientific_notation(write_in_buf* output, long double n) {
   int i = 0;
   long int n_rub = (long int)n;
-
+  char str[256];
+  //char exp[256];
   for (i = 0; n_rub /= 10; i++);
   n /= simple_pow(10, i);
 
-  return n;
+  itoa(output, n, str, 1);
+  output->str_long = strlen(str);
+
+  str[output->str_long++]= 'e';
+  if(i==0) str[output->str_long++]= '-';
+  else str[output->str_long++]= '+';
+
+  if(i < 9)
+  {
+    str[output->str_long++]= '0';
+    str[output->str_long++]= i+'0';
+  }
+  printf("[%s %d]",str, i);
+  
 }

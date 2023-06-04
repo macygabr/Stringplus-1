@@ -42,5 +42,5 @@ void sellect_accuracy(char* buf, write_in_buf* output, char* format);
 void sellect_modifier(char* buf, write_in_buf* output, char* format);
 void sellect_type(char* buf, write_in_buf* output, char* format);
 long double sel_num(write_in_buf* output, long double n);
-long double scientific_notation(write_in_buf* output, long double n);
+void scientific_notation(write_in_buf* output, long double n);
 #endif
