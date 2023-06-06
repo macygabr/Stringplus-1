@@ -23,6 +23,9 @@ typedef struct {
   int flag_h;
   int flag_l;
   int flag_g;
+  int flag_e;
+  int flag_x;
+  int flag_o;
   char e_exp[256];
   int flag_accuracy;
   int accuracy_g;
@@ -42,5 +45,6 @@ void sellect_accuracy(char* buf, write_in_buf* output, char* format);
 void sellect_modifier(char* buf, write_in_buf* output, char* format);
 void sellect_type(char* buf, write_in_buf* output, char* format);
 long double sel_num(write_in_buf* output, long double n);
-void scientific_notation(write_in_buf* output, long double n);
+void scientific_notation(write_in_buf* output, char s[], long double n);
+void hexadecimal(write_in_buf* output, char s[], long int n);
 #endif

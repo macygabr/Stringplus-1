@@ -18,6 +18,9 @@ int s21_sprintf(char* buf, char* format, ...) {
     output.flag_h = 0;
     output.flag_l = 0;
     output.flag_g = 0;
+    output.flag_e = 0;
+    output.flag_x = 0;
+    output.flag_o = 0;
     output.flag_accuracy = 0;
     output.accuracy = 6;
     if (format[output.format_index] == '%') {
@@ -177,14 +180,14 @@ void sellect_type(char* buf, write_in_buf* output, char* format) {
       output->str_long = strlen(str);
       if (!output->flag_minus) add_space(output, buf);
       buf = strcat(buf, str);
-      (output->index_buf_mass) += strlen(str);
+      output->index_buf_mass += strlen(str);
       break;
     case 'u':
       itoa(output, va_arg(output->argptr, unsigned int), str, 0);
       output->str_long = strlen(str);
       if (!output->flag_minus) add_space(output, buf);
       buf = strcat(buf, str);
-      (output->index_buf_mass) += strlen(str);
+       output->index_buf_mass += strlen(str);
       break;
     case 'g':
       output->flag_g = 1;
@@ -207,29 +210,50 @@ void sellect_type(char* buf, write_in_buf* output, char* format) {
       output->index_buf_mass += strlen(str);
       break;
     case 'e':
+      output->flag_e = 1;
       input_double = va_arg(output->argptr, double);
-      scientific_notation(output, input_double);
+      scientific_notation(output, str, input_double);
       output->str_long = strlen(str);
       if (!output->flag_minus) add_space(output, buf);
       buf = strcat(buf, str);
       output->index_buf_mass += strlen(str);
       break;
     case 'E':
-      // input_double = va_arg(output->argptr, double);
-      // input_double = scientific_notation(output, input_double);
-      // itoa(output, input_double, str, 1);
-      // output->str_long = strlen(str);
-      // if (!output->flag_minus) add_space(output, buf);
-      // buf = strcat(buf, str);
-      // output->index_buf_mass += strlen(str);
+      input_double = va_arg(output->argptr, double);
+      scientific_notation(output, str, input_double);
+      output->str_long = strlen(str);
+      if (!output->flag_minus) add_space(output, buf);
+      buf = strcat(buf, str);
+      output->index_buf_mass += strlen(str);
       break;
     case 'x':
+      output->flag_x = 1;
+      input_data = va_arg(output->argptr, int);
+      hexadecimal(output, str, input_data);
+      if (!output->flag_minus) add_space(output, buf);
+      buf = strcat(buf, str);
+      output->index_buf_mass += strlen(str);
       break;
     case 'X':
+      input_data = va_arg(output->argptr, int);
+      hexadecimal(output, str, input_data);
+      if (!output->flag_minus) add_space(output, buf);
+      buf = strcat(buf, str);
+      output->index_buf_mass += strlen(str);
       break;
     case 'o':
+      output->flag_o = 1;
+      input_data = va_arg(output->argptr, int);
+      hexadecimal(output, str, input_data);
+      if (!output->flag_minus) add_space(output, buf);
+      buf = strcat(buf, str);
+      output->index_buf_mass += strlen(str);
       break;
     case 'p':
+      int *input_point = va_arg(output->argptr, void*);
+      //str = input_data;
+      printf("%p\n", input_point);
+      //buf[output->index_buf_mass++] = va_arg(output->argptr, void*);
       break;
 
     case '%':
@@ -237,13 +261,14 @@ void sellect_type(char* buf, write_in_buf* output, char* format) {
       buf[output->index_buf_mass + 1] = '\0';
       break;
     default:
+      output->error++;
       break;
   }
 }
 
 void itoa(write_in_buf* output, long double n, char s[], int itsFloat) {
   s[0] = '\0';
-  long int i, j, sign, notWhole = -1;
+  long int i =0, j=0, sign=0, notWhole = -1;
   char c;
   if ((sign = n) < 0) n = -n;
   if (itsFloat) {
@@ -317,8 +342,7 @@ long double sel_num(write_in_buf* output, long double n) {
   int i = 0;
   int j = 0;
   int int_n_num = (long int)n;
-  for (j = 1; int_n_num /= 10; j++)
-    ;
+  for (j = 1; int_n_num /= 10; j++);
   int_n_num = j;
   output->accuracy_g = output->accuracy - int_n_num;
   output->accuracy = output->accuracy_g;
@@ -335,26 +359,80 @@ long double sel_num(write_in_buf* output, long double n) {
   n /= simple_pow(10, i - 1);
   return n;
 }
-void scientific_notation(write_in_buf* output, long double n) {
+void scientific_notation(write_in_buf* output, char s[], long double n) {
   int i = 0;
-  long int n_rub = (long int)n;
-  char str[256];
-  //char exp[256];
-  for (i = 0; n_rub /= 10; i++);
-  n /= simple_pow(10, i);
-
-  itoa(output, n, str, 1);
-  output->str_long = strlen(str);
-
-  str[output->str_long++]= 'e';
-  if(i==0) str[output->str_long++]= '-';
-  else str[output->str_long++]= '+';
-
-  if(i < 9)
-  {
-    str[output->str_long++]= '0';
-    str[output->str_long++]= i+'0';
+  long int copy_n_int = (long int)n;
+  long  double copy_n_doub = n;
+  long  double origin_n_save = n;
+  if( origin_n_save > 1){
+    for (i = 0; copy_n_int  /= 10; i++);
+    n /= simple_pow(10, i);
   }
-  printf("[%s %d]",str, i);
-  
+  else{
+    for (i = 0; (copy_n_doub *= 10) <10; i++);
+    n *= simple_pow(10, i);
+  }
+  itoa(output, n, s, 1);
+  output->str_long = strlen(s);
+  if(output->flag_e) s[output->str_long++]= 'e';
+  else s[output->str_long++]= 'E';
+  if(origin_n_save<1) s[output->str_long++]= '-';
+  else s[output->str_long++]= '+';
+  if(i < 9) {
+    s[output->str_long++]= '0';
+    s[output->str_long++]= i+'0';
+  } else{
+    s[output->str_long++]= i/10+'0';
+    s[output->str_long++]= i%10+'0';
+  }
+    s[output->str_long++]= '\0';
+}
+
+void hexadecimal(write_in_buf* output, char s[], long int n) {
+  long int remainder = n;
+  int digit = 16;
+  char c;
+  int k=0;
+
+  if(output->flag_o) digit = 8;
+  s[0] = '\0';
+  for(k=0; (remainder = n % digit); k++){
+    if(remainder > 9){
+      switch (remainder - 10){
+        case 0: 
+          if(output->flag_x) s[k] = 'a';
+          else s[k] = 'A';
+          break;
+        case 1:
+           if(output->flag_x) s[k] = 'b';
+          else s[k] = 'B';
+          break;
+        case 2:
+           if(output->flag_x) s[k] = 'c';
+          else s[k] = 'C'; 
+          break;
+        case 3: 
+           if(output->flag_x) s[k] = 'd';
+          else s[k] = 'D';
+          break;
+        case 4: 
+           if(output->flag_x) s[k] = 'e';
+          else s[k] = 'E';
+          break;
+        case 5: 
+           if(output->flag_x) s[k] = 'f';
+          else s[k] = 'F';
+          break;
+      }
+    }
+    else
+      s[k] = remainder +'0';
+    s[k+1] = '\0';
+    n /= digit;
+  }
+   for (int i = 0, j = k - 1; i < j; i++, j--) {
+    c = s[i];
+    s[i] = s[j];
+    s[j] = c;
+  }
 }
