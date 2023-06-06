@@ -9,7 +9,7 @@ void *memchr(const void *str, int c, s21_size_t n) {
             return (void *)&str_big[symbol];
         }
     }
-    return S21_S21_NULL;
+    return S21_NULL;
 }
 
 int memcmp(const void *str1, const void *str2, s21_size_t n) {
