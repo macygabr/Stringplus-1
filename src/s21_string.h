@@ -38,7 +38,7 @@ int s21_sprintf(char* buf, char* format, ...);
 void itoa(write_in_buf* output, long double n, char s[], int itsFloat);
 void count_space(write_in_buf* output, char* format);
 double simple_pow(int base, int exp);
-void add_space(write_in_buf* output, char* buf);
+void add_space(write_in_buf *output, char *buf);
 void sellect_flags(char* buf, write_in_buf* output, char* format);
 void sellect_width(char* buf, write_in_buf* output, char* format);
 void sellect_accuracy(char* buf, write_in_buf* output, char* format);
@@ -47,4 +47,14 @@ void sellect_type(char* buf, write_in_buf* output, char* format);
 long double sel_num(write_in_buf* output, long double n);
 void scientific_notation(write_in_buf* output, char s[], long double n);
 void hexadecimal(write_in_buf* output, char s[], long int n);
+
+void flag_d(char* buf, write_in_buf* output);
+void flag_c(char* buf, write_in_buf* output);
+void flag_s(char* buf, write_in_buf* output);
+void flag_f(char* buf, write_in_buf* output);
+void flag_u(char* buf, write_in_buf* output);
+void flag_g(char* buf, write_in_buf* output);
+void flag_e(char* buf, write_in_buf* output);
+void flag_x(char* buf, write_in_buf* output);
+void flag_p(char* buf, write_in_buf* output);
 #endif
