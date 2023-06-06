@@ -35,18 +35,18 @@ char *strncat(char *dest, const char *src, size_t n) {
     *begin = '\0';
     return dest;
 }
-// char *s21_strchr(const char *str, char *n) {
-//     while (*str != '\0') {
-//         if (*str == *n) {
-//             return (char*)str;
-//         }
-//         str++;
-//     }
-//     if (*str == *n) {
-//         return (char*)str;
-//     }
-//     return NULL;
-// }
+char *s21_strchr(const char *str, char *n) {
+    while (*str != '\0') {
+        if (*str == *n) {
+            return (char*)str;
+        }
+        str++;
+    }
+    if (*str == *n) {
+        return (char*)str;
+    }
+    return NULL;
+}
 
 
 char *strtok(char *str, const char *delim) {
