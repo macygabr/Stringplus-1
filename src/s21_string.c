@@ -18,14 +18,14 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
 // Сравнивает первые n байтов str1 и str2
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
         int result = 0;
-        unsigned char *ps1 = (unsigned char *)str1;
-        unsigned char *ps2 = (unsigned char *)str2;
+        unsigned char *string1 = (unsigned char *)str1;
+        unsigned char *string2 = (unsigned char *)str2;
         for (s21_size_t i = 0; i < n; i++) {
-            if (*ps1 == *ps2) {
-                ps1++;
-                ps2++;
+            if (*string1 == *string2) {
+                string1++;
+                string2++;
             } else {
-                result = *ps1 - *ps2;
+                result = *string1 - *string2;
                 n = 0;
             }
         }
