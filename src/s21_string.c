@@ -15,6 +15,7 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
     }
     return result;
 }
+
 // Сравнивает первые n байтов str1 и str2
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
         int result = 0;
@@ -153,12 +154,9 @@ char *s21_strstr(const char *haystack, const char *needle) {
 
 // Разбивает строку str на ряд токенов, разделенных delim.
 char *s21_strtok(char* str, const char* delim) {
-    static char *last = S21_NULL;
-    if (str != S21_NULL) {
+    static char *last = NULL;
+    if (str != NULL) {
         last = str; 
-    }
-    if (last == S21_NULL) { 
-        return S21_NULL;
     }
     char *result = last; 
     char *separator;
@@ -178,12 +176,7 @@ char *s21_strtok(char* str, const char* delim) {
             }
         }
     }
-    if (result[0] == '\0') {
-        return S21_NULL;
-    }
-     else { 
-        return result;
-    }
+    return (result[0] == '\0') ? NULL : result;
 }
 
 // Вычисляет длину начального сегмента str1, который полностью состоит из символов, не входящих в str2.
@@ -321,6 +314,7 @@ char *s21_strerror(int errnum) {
     }
     return (char *)Error_[errnum];
 }
+
 void s21_itoa(int a, char s[]) {
     int i = 0;
     int sign = a;
@@ -341,6 +335,7 @@ void s21_itoa(int a, char s[]) {
     }
     s21_reverse(s);
 }
+
 void s21_reverse(char *s) {
     int i, j;
     for (i  = 0, j = s21_strlen(s) - 1; i < j; i++, j--) {
@@ -349,6 +344,7 @@ void s21_reverse(char *s) {
         s[j] = temp;
     }
 }
+
 // Добавляет строку, на которую указывает src, в конец строки, на которую указывает dest.
 char *s21_strcat(char *dest, const char *src) {
     char *destmem = dest;
