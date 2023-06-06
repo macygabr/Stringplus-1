@@ -77,7 +77,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
 }
 
 
-int *s21_strncmp(const char *str1, const char *str2, s21_size_t n)  {
+int s21_strncmp(const char *str1, const char *str2, s21_size_t n)  {
     int result = 0;
     for (s21_size_t i = 0; i < n; i++)
     {
@@ -89,23 +89,7 @@ int *s21_strncmp(const char *str1, const char *str2, s21_size_t n)  {
 }
 
 char *s21_strpbrk(const char *str1, const char *str2)  {
-    if (str1 == S21_NULL || str1 == S21_NULL) {
-        return S21_NULL;
-    }
-    const char *s1 = str1;
-    for(;*s1 != '\0'; s1++) {
-        const char *s2 = str2;
-        for(;*s2 != '\0'; s2++) {
-            if(*s1 == *s2) {
-                return (char*)s1;
-            }
-        }
-    }
-    return S21_NULL;
-}
-
-char *max(const char *str1, const char *str2)  {
-   char*result = NULL;
+   char* result = NULL;
     const char *s1 = str1 + strlen(str1);
     for(;*s1 != *str1; s1--) {
         const char *s2 = str2 + strlen(str2);
@@ -153,12 +137,9 @@ char *s21_strstr(const char *haystack, const char *needle) {
 }
 
 char *s21_strtok(char* str, const char* delim) {
-    static char *last = S21_NULL;
-    if (str != S21_NULL) {
+    static char *last = NULL;
+    if (str != NULL) {
         last = str; 
-    }
-    if (last == S21_NULL) { 
-        return S21_NULL;
     }
     char *result = last; 
     char *separator;
@@ -178,12 +159,7 @@ char *s21_strtok(char* str, const char* delim) {
             }
         }
     }
-    if (result[0] == '\0') {
-        return S21_NULL;
-    }
-     else { 
-        return result;
-    }
+    return (result[0] == '\0') ? NULL : result;
 }
 
 s21_size_t s21_strcspn(const char *str1, const char *str2) {
@@ -193,3 +169,4 @@ s21_size_t s21_strcspn(const char *str1, const char *str2) {
     }
     return result;
 }
+
