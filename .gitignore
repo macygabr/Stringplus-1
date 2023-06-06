@@ -54,3 +54,4 @@ dkms.conf
 # My ignore_list
 .DS_Store
 test_my_func
+test_my_func.c
