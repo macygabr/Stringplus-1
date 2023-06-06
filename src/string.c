@@ -73,36 +73,6 @@ char *strtok(char *str, const char *delim) {
     return NULL;
 }
 
-// / char *strtok(char *str, const char *delim) {
-//     static char *lastToken = NULL; // указатель на последний токен
-//     char *token = NULL; // указатель на текущий токен
-//     const char *delimPtr = delim; // указатель на текущий разделитель
-//     if (str != NULL) {
-//         lastToken = str; // начинаем с начала строки
-//     }
-//     if (lastToken == NULL) {
-//         return NULL; // уже все токены разобрали
-//     }
-//     while (*lastToken != '\0') {
-//         delimPtr = delim; // начинаем с начала разделителей
-//         while (*delimPtr != '\0') {
-//             if (*lastToken == *delimPtr) {
-//                 // найден разделитель, заменяем его на нулевой символ
-//                 *lastToken = '\0';
-//                 token = lastToken - strlen(str); // указатель на текущий токен
-//                 lastToken++; // сдвигаем указатель на следующий символ
-//                 return token;
-//             }
-//             delimPtr++;
-//         }
-//         lastToken++; // продолжаем искать разделитель
-//     }
-//     // все токены разобрали, возвращаем NULL
-//     lastToken = NULL;
-//     return NULL;
-// }
-
-
 char *s21_strcpy(char *destination, const char *source) {
     while (*source != '\0' || *destination != '\0') {
         *destination = *source;
@@ -160,9 +130,9 @@ char *strpbrk(const char *str1, const char *str2)  {
     }
     const char *s1 = str1;
     for(;*s1 != '\0'; s1++) {
-        const char *s2 = str2;
-        for(;*s2 != '\0'; s2++) {
-            if(*s1 == *s2) {
+        const char *separator = str2;
+        for(;*separator != '\0'; separator++) {
+            if(*s1 == *separator) {
                 return (char*)s1;
             }
         }
@@ -187,4 +157,88 @@ char *strrchr(const char *str, int c) {
         }
     }
     return NULL;
+}
+
+
+
+char *strstr(const char *haystack, const char *needle) {
+    size_t s1 = strlen(haystack);
+    size_t separator = strlen(needle);
+    if (separator > s1 || separator == 0) {
+        return NULL;
+    }
+    for (size_t i = 0; i <= s1 - separator; i++) {
+        if (strncmp(haystack + i, needle, separator) == 0) {
+            return (char*)haystack + i;
+        }
+    }
+    return NULL;
+}
+
+
+
+char *strtok(char* str, const char* delim) {
+    static char *last = NULL;
+    if (str != NULL) {
+        last = str; 
+    }
+    if (last == NULL) { 
+        return NULL;
+    }
+    char* result = last; 
+    char* separator;
+    for(;*last != '\0'; last++) {
+        separator = (char*)delim;
+        for(; *separator != '\0'; separator++) {
+            if(*last == *separator) {
+                *last = '\0';
+                last++;
+                if (result[0] != '\0') {
+                    return result;
+                }
+                else {
+                    result = last;
+                    break;
+                }
+            }
+        }
+    }
+    if (result[0] == '\0') {
+        return NULL;
+    }
+     else { 
+        return result;
+    }
+}
+
+size_t strcspn(const char *str1, const char *str2) {
+    size_t s1 = strlen(str1);
+    size_t s2 = strlen(str2);
+    int counter = 0;
+    int result = 0;
+
+    for (size_t i = 0; i <= s1; i++) {
+        counter = 0;
+        for(size_t j = 0; j <=s2; j++) {
+            if((str1 + i) == (str2 + j)) {
+                continue;
+            }
+
+        }
+        counter++;
+        if(counter > result) {
+            result = counter;
+        }
+        if(counter == s1) {
+            return result;
+        }
+    }
+}
+
+size_t strcspn(const char *str1, const char *str2) {
+    int result = strlen(str1);
+    if(strpbrk(str1,str2) != NULL) {
+        result = strpbrk(str1,str2) - str1;
+    }
+    return result;
 }

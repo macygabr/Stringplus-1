@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include "s21_string.h"
 
+START_TEST(test_memchr) {
+ 
+}
+END_TEST
+
 START_TEST(first_func) {
  
 }
