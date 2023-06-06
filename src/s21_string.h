@@ -15,7 +15,6 @@ typedef struct {
   int flag_zero;
   int flag_add_space;
   int accuracy;
-  //int error;
   int flag_h;
   int flag_l;
   int flag_L;
