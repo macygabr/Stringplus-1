@@ -1,10 +1,10 @@
-#include "s21_string.h"
-
 #include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "s21_string.h"
 
 int s21_sprintf(char *buf, char *format, ...) {
   write_in_buf output = {0};
@@ -83,7 +83,7 @@ void sellect_width(char *buf, write_in_buf *output, char *format) {
       output->space = va_arg(output->argptr, int);
       if (output->space < 0) {
         output->flag_minus = 1;
-        output->space = -output->space;
+        output->space *= -1;
       }
       output->format_index++;
       sellect_accuracy(buf, output, format);
@@ -119,13 +119,13 @@ void sellect_modifier(char *buf, write_in_buf *output, char *format) {
   switch (format[output->format_index]) {
     case 'h':
       output->format_index++;
-        output->flag_h = 1;
-        sellect_type(buf, output, format);
+      output->flag_h = 1;
+      sellect_type(buf, output, format);
       break;
     case 'l':
       output->format_index++;
-        output->flag_l = 1;
-        sellect_type(buf, output, format);
+      output->flag_l = 1;
+      sellect_type(buf, output, format);
       break;
     case 'L':
       output->format_index++;
@@ -198,6 +198,7 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
   char c;
   if ((sign = n) < 0) n = -n;
   if (itsFloat) {
+    if(output->accuracy<0) output->accuracy=6;
     for (notWhole = 0; notWhole < output->accuracy + 1; notWhole++) n *= 10;
     n = (long int)n;
     if ((long int)n % 10 >= 5) {
@@ -355,7 +356,7 @@ void flag_d(char *buf, write_in_buf *output) {
   char str[256];
   long int input_data;
   input_data = va_arg(output->argptr, long int);
-  //if(output->flag_L) output->flag_l =1;
+  // if(output->flag_L) output->flag_l =1;
   if (output->flag_h) input_data = (short int)input_data;
   // if (output->flag_l)
   //   if (input_data == (int)input_data) output->error = 1;
@@ -371,7 +372,7 @@ void flag_d(char *buf, write_in_buf *output) {
 }
 
 void flag_c(char *buf, write_in_buf *output) {
-  output->str_long =1;
+  output->str_long = 1;
   if (!output->flag_minus) add_space(output, buf);
   buf[output->index_buf_mass++] = va_arg(output->argptr, int);
 }
@@ -395,7 +396,8 @@ void flag_s(char *buf, write_in_buf *output) {
 
 void flag_f(char *buf, write_in_buf *output) {
   char str[256];
-  itoa(output, va_arg(output->argptr, double), str, 1);
+  if(output->flag_L) itoa(output, va_arg(output->argptr, long double), str, 1);
+  else itoa(output, va_arg(output->argptr, double), str, 1);
   output->str_long = strlen(str);
   if (!output->flag_minus) add_space(output, buf);
   buf = strcat(buf, str);
