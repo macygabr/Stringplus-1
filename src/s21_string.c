@@ -1,7 +1,7 @@
 #include "s21_string.h"
 #include <stdio.h>
 
-// Выполняет поиск первого вхождения символа c (беззнаковый тип) в первых n байтах строки
+// Выполняет поиск первого вхождения указанного символа в массиве
 void *s21_memchr(const void *str, int c, s21_size_t n) {
     int end = 1;
     char *ptr = (char *)str, *result = S21_NULL;
@@ -16,7 +16,7 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
     return result;
 }
 
-// Сравнивает первые n байтов str1 и str2
+// Сравнивает первые n байтов двух массивов
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
         int result = 0;
         unsigned char *string1 = (unsigned char *)str1;
@@ -33,7 +33,7 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
     return result;
 }
 
-// Вычисляет длину строки str, не включая завершающий нулевой символ.
+// Вычисляет длину строки str, не включая завершающий нулевой символ
 s21_size_t s21_strlen(const char* str) {
     int i;
     for (i = 0; str[i] != '\0'; i++)
