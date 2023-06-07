@@ -8,7 +8,7 @@ typedef struct {
   int index_buf_mass;
   int format_index;
   int str_long;
-  double space;
+  int space;
   int flag_plus;
   int flag_minus;
   int flag_space;
@@ -22,9 +22,12 @@ typedef struct {
   int flag_e;
   int flag_x;
   int flag_o;
+  int flag_negative;
+  int flag_dot;
   char e_exp[256];
   int flag_accuracy;
   int accuracy_g;
+  int res;
 
   va_list argptr;
 
