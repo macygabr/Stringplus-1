@@ -5,7 +5,6 @@
 #include "s21_string.h"
 
 //сравнение массивов
-
 START_TEST(test_s21_memcmp) {
 char arr1 = "Hola, amigo!";
 char arr2 = "Hola, amigo!";
@@ -24,37 +23,32 @@ s21_size_t len4 = 10;
 s21_size_t len5 = 53;
 s21_size_t len6 = 1;
 s21_size_t len7 = 2;
+int reduction(arr1, arr2, length) {
+    int res1 = memcmp(arr1, arr2, length);
+    res1 = res1 > 0 ? 1 : res1 == 0 ? 0 : -1;
+    return res1;
+}
 // Сравнение всей длины массива из символов
-ck_assert_ptr_eq(memcmp(arr1, arr2, len3), s21_memcmp(arr1, arr2, len3));
+ck_assert_ptr_eq(reduction(arr1, arr2, len3), s21_memcmp(arr1, arr2, len3));
 // Сравнение половины длины массива из символов
-ck_assert_ptr_eq(memcmp(arr1, arr2, len2), s21_memcmp(arr1, arr2, len2));
+ck_assert_ptr_eq(reduction(arr1, arr2, len2), s21_memcmp(arr1, arr2, len2));
 // Сравнение 0 длины массива из символов
-ck_assert_ptr_eq(memcmp(arr1, arr2, len1), s21_memcmp(arr1, arr2, len1));
+ck_assert_ptr_eq(reduction(arr1, arr2, len1), s21_memcmp(arr1, arr2, len1));
 // Сравнение всей длины массива из чисел
-ck_assert_ptr_eq(memcmp(arr3, arr4, len4), s21_memcmp(arr3, arr4, len4));
+ck_assert_ptr_eq(reduction(arr3, arr4, len4), s21_memcmp(arr3, arr4, len4));
 // Сравнение части длины массива из чисел
-ck_assert_ptr_eq(memcmp(arr3, arr4, len2), s21_memcmp(arr3, arr4, len2));
+ck_assert_ptr_eq(reduction(arr3, arr4, len2), s21_memcmp(arr3, arr4, len2));
 // Сравнение 0 длины массива из чисел
-ck_assert_ptr_eq(memcmp(arr3, arr4, len1), s21_memcmp(arr3, arr4, len1));
+ck_assert_ptr_eq(reduction(arr3, arr4, len1), s21_memcmp(arr3, arr4, len1));
 // Сравнение всей длины массива из фразы
-ck_assert_ptr_eq(memcmp(arr5, arr6, len5), s21_memcmp(arr5, arr6, len5));
+ck_assert_ptr_eq(reduction(arr5, arr6, len5), s21_memcmp(arr5, arr6, len5));
 // Сравнение части длины массива из фразы
-ck_assert_ptr_eq(memcmp(arr5, arr6,len3), s21_memcmp(arr5, arr6, len3));
+ck_assert_ptr_eq(reduction(arr5, arr6,len3), s21_memcmp(arr5, arr6, len3));
 // Сравнение 0 длины массива из фразы
-ck_assert_ptr_eq(memcmp(arr5, arr6, len1), s21_memcmp(arr5, arr6, len1));
+ck_assert_ptr_eq(reduction(arr5, arr6, len1), s21_memcmp(arr5, arr6, len1));
 // Сравнение пустой строки с пробелом
-ck_assert_ptr_eq(memcmp(arr7, arr8, len6), s21_memcmp(arr7, arr8, len6));
+ck_assert_ptr_eq(reduction(arr7, arr8, len6), s21_memcmp(arr7, arr8, len6));
 // Сравнение пустой строки
-ck_assert_ptr_eq(memcmp(arr9, arr10, len7), s21_memcmp(arr9, arr10, len7));
+ck_assert_ptr_eq(reduction(arr9, arr10, len7), s21_memcmp(arr9, arr10, len7));
 }
 END_TEST
-
-int main() {
-    Suite *test_memcmp(void) {
-    Suite *s = suite_create("\033[45m-=S21_MEMCMP=-\033[0m");
-    TCase *tc = tcase_create("memcmp_tc");
-    tcase_add_test(tc, test_s21_memcmp);
-    suite_add_tcase(s, tc);
-    return s;
-    }
-}
