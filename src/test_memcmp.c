@@ -4,10 +4,9 @@
 #include <stdlib.h>
 #include "s21_string.h"
 
-START_TEST(s21_memcmp) {
-    
 //сравнение массивов
 
+START_TEST(test_s21_memcmp) {
 char arr1 = "Hola, amigo!";
 char arr2 = "Hola, amigo!";
 char arr3 = "123456789";
@@ -50,29 +49,11 @@ ck_assert_ptr_eq(memcmp(arr9, arr10, len7), s21_memcmp(arr9, arr10, len7));
 }
 END_TEST
 
-
 int main() {
     Suite *test_memcmp(void) {
     Suite *s = suite_create("\033[45m-=S21_MEMCMP=-\033[0m");
     TCase *tc = tcase_create("memcmp_tc");
-
-    tcase_add_test(tc, memcmp_1);
-    tcase_add_test(tc, memcmp_2);
-    tcase_add_test(tc, memcmp_3);
-    tcase_add_test(tc, memcmp_4);
-    tcase_add_test(tc, memcmp_5);
-    tcase_add_test(tc, memcmp_6);
-    tcase_add_test(tc, memcmp_7);
-    tcase_add_test(tc, memcmp_8);
-    tcase_add_test(tc, memcmp_9);
-    tcase_add_test(tc, memcmp_10);
-    tcase_add_test(tc, memcmp_11);
-    tcase_add_test(tc, memcmp_12);
-    tcase_add_test(tc, memcmp_13);
-    tcase_add_test(tc, memcmp_14);
-    tcase_add_test(tc, memcmp_15);
-    tcase_add_test(tc, memcmp_16);
-
+    tcase_add_test(tc, test_s21_memcmp);
     suite_add_tcase(s, tc);
     return s;
     }
