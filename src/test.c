@@ -131,8 +131,8 @@ START_TEST(tests_memset) {
   char string3[] = "Danke schon";
   char string4[] = "Danke schon";
   ck_assert_str_eq(memset(string3, add_end, len5), s21_memset(string4, add_end, len5));
-  char string5[] = "Better late than never";
-  char string6[] = "Better late than never";
+  char string5[] = "123456789";
+  char string6[] = "123456789";
   s21_size_t length = strlen(string5);
   ck_assert_str_eq(memset(string5, add_space, length), s21_memset(string6, add_space, length));
   char string7[] = "First things first";
@@ -142,6 +142,27 @@ START_TEST(tests_memset) {
   char string10[] = "Oh my God!";
   ck_assert_str_eq(memset(string9, add_space, len5), s21_memset(string10, add_space, len5));
 }
+END_TEST
 
-
-
+START_TEST(strchr_1) {
+  int ch = 'A';
+  int exist = 'B';
+  int twice = 't';
+  int end = '\0';
+  int digit = 42;
+  int sym = ',';
+  char s1[] = "Better late, than never";
+  // Несуществующий символ
+  ck_assert_pstr_eq(strchr(s1, ch), s21_strchr(s1, ch));
+  // Существующий символ
+  ck_assert_pstr_eq(strchr(s1, exist), s21_strchr(s1, exist));
+  // Существующий символ, который встречается несколько раз
+  ck_assert_pstr_eq(strchr(s1, twice), s21_strchr(s1, twice));
+  // Конец строки
+  ck_assert_pstr_eq(strchr(s1, end), s21_strchr(s1, end));
+  // Символ
+  ck_assert_pstr_eq(strchr(s1, sym), s21_strchr(s1, sym));
+  // Число
+  ck_assert_pstr_eq(strchr(s1, digit), s21_strchr(s1, digit));
+}
+END_TEST
