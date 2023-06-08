@@ -13,33 +13,18 @@ void *s21_itoa(int a, char *result);
 char *s21_strcat(char *dest, const char *src);
 
 char *s21_strncpy(char *dest, const char *src, s21_size_t n);
+
 char *s21_strerror(int errnum);
 
-// Возвращает копию строки (str), преобразованной в верхний регистр. В случае
-// какой-либо ошибки следует вернуть значение NULL
 void *s21_to_upper(const char *str);
 
-// Возвращает копию строки (str), преобразованной в нижний регистр. В случае
-// какой-либо ошибки следует вернуть значение NULL
 void *s21_to_lower(const char *str);
 
-// Возвращает новую строку, в которой указанная строка (str) вставлена в
-// указанную позицию (start_index) в данной строке (src). В случае какой-либо
-// ошибки следует вернуть значение NULL
 void *s21_insert(const char *src, const char *str, size_t start_index);
 
-// Возвращает новую строку, в которой удаляются все начальные и конечные
-// вхождения набора заданных символов (trim_chars) из данной строки (src). В
-// случае какой-либо ошибки следует вернуть значение NULL
 void *s21_trim(const char *src, const char *trim_chars);
 
-// int main() {
-//   for (int i = -1; i < 139; i++) printf("(%d)%s\n", i, s21_strerror(i));
-//   return 0;
-// }
-
 #ifdef __linux__
-
 char *s21_strerror(int errnum) {
 #define MAX_NUM_ERR 134
   static const char *Error_[MAX_NUM_ERR] = {
@@ -178,7 +163,6 @@ char *s21_strerror(int errnum) {
       "Operation not possible due to RF-kill",
       "Memory page has hardware error"};
   char *result = malloc(256 * sizeof(char));
-
   if (errnum < 0 || errnum >= MAX_NUM_ERR) {
     char *f = "Unknown error: ";
     char d[256];
@@ -190,8 +174,6 @@ char *s21_strerror(int errnum) {
   return (char *)result;
 }
 #else
-
-//
 char *s21_strerror(int errnum) {
 #define MAX_NUM_ERR 107
   static const char *Error_[MAX_NUM_ERR] = {
@@ -303,7 +285,6 @@ char *s21_strerror(int errnum) {
       "Previous owner died",
       "Interface output queue is full"};
   char *result = malloc(256 * sizeof(char));
-
   if (errnum < 0 || errnum >= MAX_NUM_ERR) {
     char *f = "Unknown error: ";
     char d[256];
@@ -314,7 +295,6 @@ char *s21_strerror(int errnum) {
     s21_strcat(result, Error_[errnum]);
   return (char *)result;
 }
-
 #endif
 
 char *s21_strcat(char *dest, const char *src) {
@@ -351,9 +331,6 @@ void *s21_itoa(int a, char *result) {
   result[end] = '\0';
 }
 
-// Возвращает новую строку, в которой удаляются все начальные и конечные
-// вхождения набора заданных символов (trim_chars) из данной строки (src). В
-// случае какой-либо ошибки следует вернуть значение NULL
 void *s21_trim(const char *src, const char *trim_chars) {
   char *rezult;
   if (src == NULL)
@@ -375,7 +352,7 @@ void *s21_trim(const char *src, const char *trim_chars) {
       int trim_len = s21_strlen(trim_chars);
       int start = 0, end = len - 1;
       char *trim_deleted = malloc(sizeof(trim_chars));
-      s21_strncpy(trim_deleted, trim_chars, s21_strlen(trim_chars));  //
+      s21_strncpy(trim_deleted, trim_chars, s21_strlen(trim_chars));
       for (int i = 0; i < trim_len; i++) {
         while (src[start] == trim_deleted[i]) start++;
         while (src[end] == trim_deleted[i]) end--;
@@ -386,7 +363,7 @@ void *s21_trim(const char *src, const char *trim_chars) {
         }
         free(trim_deleted);
         trim_deleted = malloc(sizeof(buff));
-        s21_strncpy(trim_deleted, buff, s21_strlen(buff));  //
+        s21_strncpy(trim_deleted, buff, s21_strlen(buff));
         free(buff);
         i = -1;
         trim_len = trim_len - 1;
@@ -401,7 +378,6 @@ void *s21_trim(const char *src, const char *trim_chars) {
   return rezult;
 }
 
-// Копирует до n символов из строки, на которую указывает src, в dest.
 char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   s21_size_t i;
   for (i = 0; i < n && src[i] != '\0'; i++) {
