@@ -181,7 +181,8 @@ char *s21_strerror(int errnum) {
 
   if (errnum < 0 || errnum >= MAX_NUM_ERR) {
     char *f = "Unknown error: ";
-    char *d = s21_itoa(errnum);
+    char d[256];
+    s21_itoa(errnum, d);
     s21_strcat(result, f);
     s21_strcat(result, d);
   } else
