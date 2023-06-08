@@ -29,3 +29,44 @@ ck_assert_ptr_eq(memchr(str1, sym5, len1), s21_memchr(str1, sym5, len1)); // п�
 }
 END_TEST
 
+int reduction(int arr1, int arr2, int length) {
+        int res1 = memcmp(arr1, arr2, length);
+        res1 = res1 > 0 ? 1 : res1 == 0 ? 0 : -1;
+        return res1;
+}
+START_TEST(test_s21_memcmp) {
+    s21_size_t len0 = 0;
+    s21_size_t len1 = 1;
+    s21_size_t len2 = 2;
+    s21_size_t len6 = 6;
+    s21_size_t len11 = 11;
+    s21_size_t len13 = 13;
+    s21_size_t len53 = 53;
+    // Сравнение массива из символов
+    char arr1 = "Hola, amigo!";
+    char arr2 = "Hola, amigo!";
+    ck_assert_ptr_eq(reduction(arr1, arr2, len13), s21_memcmp(arr1, arr2, len13));
+    ck_assert_ptr_eq(reduction(arr1, arr2, len6), s21_memcmp(arr1, arr2, len6));
+    ck_assert_ptr_eq(reduction(arr1, arr2, len0), s21_memcmp(arr1, arr2, len0));
+    // Сравнение массива из чисел
+    char arr3 = "4815162342";
+    char arr4 = "4815162342";
+    ck_assert_ptr_eq(reduction(arr3, arr4, len11), s21_memcmp(arr3, arr4, len11));
+    ck_assert_ptr_eq(reduction(arr3, arr4, len6), s21_memcmp(arr3, arr4, len6));
+    ck_assert_ptr_eq(reduction(arr3, arr4, len0), s21_memcmp(arr3, arr4, len0));
+    // Сравнение массива из фразы
+    char arr5 = "The sign of the result is the sign of the difference";
+    char arr6 = "The sign of the result is the sign of the difference";
+    ck_assert_ptr_eq(reduction(arr5, arr6, len53), s21_memcmp(arr5, arr6, len53));
+    ck_assert_ptr_eq(reduction(arr5, arr6,len13), s21_memcmp(arr5, arr6, len13));
+    ck_assert_ptr_eq(reduction(arr5, arr6, len0), s21_memcmp(arr5, arr6, len0));
+    // Сравнение пустой строки с пробелом
+    char arr7 = " ";
+    char arr8 = " ";
+    ck_assert_ptr_eq(reduction(arr7, arr8, len2), s21_memcmp(arr7, arr8, len2));
+    // Сравнение пустой строки
+    char arr9 = "";
+    char arr10 = "";
+    ck_assert_ptr_eq(reduction(arr9, arr10, len1), s21_memcmp(arr9, arr10, len1));
+}
+END_TEST
