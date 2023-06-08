@@ -86,7 +86,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
     return str;
 }
 
-// Сравнивает не более первых n байтов str1 и str2
+// Сравнение строк с ограничением количества сравниваемых символов
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n)  {
     int result = 0;
     for (s21_size_t i = 0; i < n; i++)

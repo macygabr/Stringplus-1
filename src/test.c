@@ -187,3 +187,44 @@ START_TEST(tests_strrchr) {
   ck_assert_pstr_eq(strrchr(yep, maybe_digit), s21_strrchr(yep, maybe_digit));
 }
 END_TEST
+
+int reduction2(int arr1, int arr2, int length) {
+        int ress = strncmp(arr1, arr2, length);
+        ress = ress > 0 ? 1 : ress == 0 ? 0 : -1;
+        return ress;
+}
+START_TEST(test_strncmp) {
+    s21_size_t len0 = 0;
+    s21_size_t len1 = 1;
+    s21_size_t len2 = 2;
+    s21_size_t len11 = 11;
+    s21_size_t len21 = 21;
+    s21_size_t len30 = 30;
+    // Сравнение массива из символов
+    char song1 = "Sweet dreams are made of this";
+    char song2 = "Sweet dreams are made of this";
+    ck_assert_ptr_eq(reduction2(song1, song2, len30), s21_strncmp(song1, song2, len30));
+    ck_assert_ptr_eq(reduction2(song1, song2, len0), s21_strncmp(song1, song2, len0));
+    // Сравнение массива разных фраз
+    char song3 = "Who am I to disagree";
+    char song4 = "Who am I to disagryy";
+    ck_assert_ptr_eq(reduction2(song3, song4, len21), s21_strncmp(song3, song4, len21));
+    // Сравнение массива из чисел
+    char digit1 = "4815162342";
+    char digit2 = "4815162342";
+    ck_assert_ptr_eq(reduction2(digit1, digit2, len11), s21_strncmp(digit1, digit2, len11));
+    ck_assert_ptr_eq(reduction2(digit1, digit2, len2), s21_strncmp(digit1, digit2, len2));
+    ck_assert_ptr_eq(reduction2(digit1, digit2, len0), s21_strncmp(digit1, digit2, len0));
+    // Сравнение пустой строки с пробелом
+    char space_str1 = " ";
+    char space_str2= " ";
+    ck_assert_ptr_eq(reduction2(space_str1, space_str2, len2), s21_strncmp(space_str1, space_str2, len2));
+    // Сравнение пустой строки
+    char empty_str1 = "";
+    char empty_str2 = "";
+    char empty_str3 = "K";
+    char empty_str4 = "";
+    ck_assert_ptr_eq(reduction2(empty_str1, empty_str2, len1), s21_strncmp(empty_str1, empty_str2, len1));
+    ck_assert_ptr_eq(reduction2(empty_str3, empty_str4, len1), s21_strncmp(empty_str3, empty_str4, len1));
+}
+END_TEST
