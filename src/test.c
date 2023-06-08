@@ -117,3 +117,31 @@ START_TEST(test_s21_memcmp) {
     ck_assert_ptr_eq(reduction(arr9, arr10, len1), s21_memcmp(arr9, arr10, len1));
 }
 END_TEST
+
+START_TEST(tests_memset) {
+  s21_size_t len0 = 0;
+  s21_size_t len5 = 5;
+  int add_end = '\0';
+  int add_digit = 7;
+  int add_space = ' ';
+  char string1[] = "";
+  char string2[] = "";
+  ck_assert_str_eq(memset(string1, add_end, len0), s21_memset(string2, add_end, len0));
+  ck_assert_str_eq(memset(string1, add_digit, len5), s21_memset(string2, add_digit, len5));
+  char string3[] = "Danke schon";
+  char string4[] = "Danke schon";
+  ck_assert_str_eq(memset(string3, add_end, len5), s21_memset(string4, add_end, len5));
+  char string5[] = "Better late than never";
+  char string6[] = "Better late than never";
+  s21_size_t length = strlen(string5);
+  ck_assert_str_eq(memset(string5, add_space, length), s21_memset(string6, add_space, length));
+  char string7[] = "First things first";
+  char string8[] = "First things first";
+  ck_assert_str_eq(memset(string7, add_space, len0), s21_memset(string8, add_space, len0));
+  char string9[] = "Oh my God!";
+  char string10[] = "Oh my God!";
+  ck_assert_str_eq(memset(string9, add_space, len5), s21_memset(string10, add_space, len5));
+}
+
+
+
