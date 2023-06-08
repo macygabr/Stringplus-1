@@ -1,39 +1,45 @@
- 
+
 #include <stdio.h>
 #include <stdlib.h>
- 
+
 typedef long unsigned s21_size_t;
- 
+
 s21_size_t s21_strlen(const char *str);
- 
+
 void *s21_insert(const char *src, const char *str, size_t start_index);
- 
+
 void *s21_itoa(int a, char *result);
- 
+
 char *s21_strcat(char *dest, const char *src);
- 
+
 char *s21_strncpy(char *dest, const char *src, s21_size_t n);
- 
+char *s21_strerror(int errnum);
+
 // Возвращает копию строки (str), преобразованной в верхний регистр. В случае
 // какой-либо ошибки следует вернуть значение NULL
 void *s21_to_upper(const char *str);
- 
+
 // Возвращает копию строки (str), преобразованной в нижний регистр. В случае
 // какой-либо ошибки следует вернуть значение NULL
 void *s21_to_lower(const char *str);
- 
+
 // Возвращает новую строку, в которой указанная строка (str) вставлена в
 // указанную позицию (start_index) в данной строке (src). В случае какой-либо
 // ошибки следует вернуть значение NULL
 void *s21_insert(const char *src, const char *str, size_t start_index);
- 
+
 // Возвращает новую строку, в которой удаляются все начальные и конечные
 // вхождения набора заданных символов (trim_chars) из данной строки (src). В
 // случае какой-либо ошибки следует вернуть значение NULL
 void *s21_trim(const char *src, const char *trim_chars);
- 
+
+// int main() {
+//   for (int i = -1; i < 139; i++) printf("(%d)%s\n", i, s21_strerror(i));
+//   return 0;
+// }
+
 #ifdef __linux__
- 
+
 char *s21_strerror(int errnum) {
 #define MAX_NUM_ERR 134
   static const char *Error_[MAX_NUM_ERR] = {
@@ -172,7 +178,7 @@ char *s21_strerror(int errnum) {
       "Operation not possible due to RF-kill",
       "Memory page has hardware error"};
   char *result = malloc(256 * sizeof(char));
- 
+
   if (errnum < 0 || errnum >= MAX_NUM_ERR) {
     char *f = "Unknown error: ";
     char *d = s21_itoa(errnum);
@@ -183,7 +189,7 @@ char *s21_strerror(int errnum) {
   return (char *)result;
 }
 #else
- 
+
 //
 char *s21_strerror(int errnum) {
 #define MAX_NUM_ERR 107
@@ -296,7 +302,7 @@ char *s21_strerror(int errnum) {
       "Previous owner died",
       "Interface output queue is full"};
   char *result = malloc(256 * sizeof(char));
- 
+
   if (errnum < 0 || errnum >= MAX_NUM_ERR) {
     char *f = "Unknown error: ";
     char d[256];
@@ -307,9 +313,9 @@ char *s21_strerror(int errnum) {
     s21_strcat(result, Error_[errnum]);
   return (char *)result;
 }
- 
+
 #endif
- 
+
 char *s21_strcat(char *dest, const char *src) {
   char *destmem = dest;
   while (*dest != 0) dest++;
@@ -321,7 +327,7 @@ char *s21_strcat(char *dest, const char *src) {
   *dest = *src;
   return destmem;
 }
- 
+
 void *s21_itoa(int a, char *result) {
   int end = 0;
   int flag = 0;
@@ -343,7 +349,7 @@ void *s21_itoa(int a, char *result) {
   }
   result[end] = '\0';
 }
- 
+
 // Возвращает новую строку, в которой удаляются все начальные и конечные
 // вхождения набора заданных символов (trim_chars) из данной строки (src). В
 // случае какой-либо ошибки следует вернуть значение NULL
@@ -393,7 +399,7 @@ void *s21_trim(const char *src, const char *trim_chars) {
   }
   return rezult;
 }
- 
+
 // Копирует до n символов из строки, на которую указывает src, в dest.
 char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   s21_size_t i;
@@ -405,7 +411,7 @@ char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   }
   return dest;
 }
- 
+
 s21_size_t s21_strlen(const char *str) {
   s21_size_t len = 0;
   if (str == NULL)
@@ -415,7 +421,7 @@ s21_size_t s21_strlen(const char *str) {
       ;
   return len + 1;
 }
- 
+
 void *s21_insert(const char *src, const char *str, size_t start_index) {
   char *rezult;
   if (start_index < 0 || start_index > s21_strlen(str) ||
@@ -438,7 +444,7 @@ void *s21_insert(const char *src, const char *str, size_t start_index) {
     rezult = NULL;
   return rezult;
 }
- 
+
 void *s21_to_lower(const char *str) {
   char *rezult;
   if (str != NULL) {
@@ -450,7 +456,7 @@ void *s21_to_lower(const char *str) {
     rezult = NULL;
   return rezult;
 }
- 
+
 void *s21_to_upper(const char *str) {
   char *rezult;
   if (str != NULL) {
