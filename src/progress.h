@@ -1,7 +1,7 @@
-void *memchr(const void *str, int c, size_t n)                          +
-int memcmp(const void *str1, const void *str2, size_t n)                +
-void *memcpy(void *dest, const void *src, size_t n)                     +
-void *memset(void *str, int c, size_t n)                                +
+// void *memchr(const void *str, int c, size_t n)                          ++
+// int memcmp(const void *str1, const void *str2, size_t n)                ++
+// void *memcpy(void *dest, const void *src, size_t n)                     ++
+//void *memset(void *str, int c, size_t n)                                 ++
 char *strncat(char *dest, const char *src, size_t n)                    +
 char *strchr(const char *str, int c)                                    +
 int strncmp(const char *str1, const char *str2, size_t n)               +

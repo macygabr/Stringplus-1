@@ -29,6 +29,53 @@ ck_assert_ptr_eq(memchr(str1, sym5, len1), s21_memchr(str1, sym5, len1)); // п�
 }
 END_TEST
 
+START_TEST(tests_memcpy) {
+  char src1[] = "hard";
+  s21_size_t len0 = 0;
+  s21_size_t len1 = 1;
+  s21_size_t len4 = 1;
+  s21_size_t len10 = 10;
+  // выше записы часто использующие переменные
+
+  char dest1[] = "No pain, no gain!";
+  char dest11[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest1, src1, len4), s21_memcpy(dest11, src4, len1));
+  // копирование полного слова в непустой массив
+  char dest2[] = "No pain, no gain!";
+  char dest22[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest2, src1, len0), s21_memcpy(dest22, src1, len0));
+  // копирование 0 символов
+  char src3[] = "\0";
+  char dest3[] = "No pain, no gain!";
+  char dest33[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest3, src3, len1), s21_memcpy(dest33, src3, len1));
+  // копирование символа конца строки. ожидание: пустая строка
+  char dest4[] = "No pain, no gain!";
+  char dest44[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest4, src1, len10), s21_memcpy(dest44, src1, len10));
+  // копирование большего числа битов чем в копируемой строке
+  char src5[] = "";
+  char dest5[] = "No pain, no gain!";
+  char dest55[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest5, src5, len10), s21_memcpy(dest55, src5, len10));
+  // копирование пустой строки
+  char dest6[] = "";
+  char dest66[] = "";
+  // копирование в пустую строку полную строку
+  ck_assert_ptr_eq(memcpy(dest6, src1, len10), s21_memcpy(dest66, src1, len10));
+  char dest7[] = "No pain, no gain!";
+  char dest77[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest7, src1, len1), s21_memcpy(dest77, src1, len1));
+  // копирование в пустую строку неполную строку
+  char sr8[] = " ";
+  char dest8[] = "No pain, no gain!";
+  char dest88[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest88, src8, len1), s21_memcpy(dest77, src1, len1));
+  // копирование пробела
+}
+END_TEST
+
+
 int reduction(int arr1, int arr2, int length) {
         int res1 = memcmp(arr1, arr2, length);
         res1 = res1 > 0 ? 1 : res1 == 0 ? 0 : -1;
