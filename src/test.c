@@ -81,7 +81,7 @@ int reduction(int arr1, int arr2, int length) {
         res1 = res1 > 0 ? 1 : res1 == 0 ? 0 : -1;
         return res1;
 }
-START_TEST(test_s21_memcmp) {
+START_TEST(test_memcmp) {
     s21_size_t len0 = 0;
     s21_size_t len1 = 1;
     s21_size_t len2 = 2;
@@ -144,16 +144,17 @@ START_TEST(tests_memset) {
 }
 END_TEST
 
-START_TEST(strchr_1) {
-  int ch = 'A';
-  int exist = 'B';
-  int twice = 't';
+START_TEST(tests_strchr) {
+  int not_exist = 'A';
+  int exist = 'K';
+  int twice = 'e';
   int end = '\0';
   int digit = 42;
-  int sym = ',';
-  char s1[] = "Better late, than never";
+  int maybe_digit = '7';
+  int sym = '!';
+  char s1[] = "Keep calm and code on!";
   // Несуществующий символ
-  ck_assert_pstr_eq(strchr(s1, ch), s21_strchr(s1, ch));
+  ck_assert_pstr_eq(strchr(s1, not_exist), s21_strchr(s1, not_exist));
   // Существующий символ
   ck_assert_pstr_eq(strchr(s1, exist), s21_strchr(s1, exist));
   // Существующий символ, который встречается несколько раз
@@ -164,5 +165,25 @@ START_TEST(strchr_1) {
   ck_assert_pstr_eq(strchr(s1, sym), s21_strchr(s1, sym));
   // Число
   ck_assert_pstr_eq(strchr(s1, digit), s21_strchr(s1, digit));
+  ck_assert_pstr_eq(strchr(s1, maybe_digit), s21_strchr(s1, maybe_digit));
+}
+END_TEST
+
+START_TEST(tests_strrchr) {
+  int not_exist = 'A';
+  int exist = 'd';
+  int twice = 'e';
+  int end = '\0';
+  int digit = 42;
+  int maybe_digit = '7';
+  int sym = ',';
+  char yep[] = "Eat, code, love";
+  ck_assert_pstr_eq(strrchr(yep, not_exist), s21_strrchr(yep, not_exist));
+  ck_assert_pstr_eq(strrchr(yep, exist), s21_strrchr(yep, exist));
+  ck_assert_pstr_eq(strrchr(yep, twice), s21_strrchr(yep, twice));
+  ck_assert_pstr_eq(strrchr(yep, end), s21_strrchr(yep, end));
+  ck_assert_pstr_eq(strrchr(yep, sym), s21_strrchr(yep, sym));
+  ck_assert_pstr_eq(strrchr(yep, digit), s21_strrchr(yep, digit));
+  ck_assert_pstr_eq(strrchr(yep, maybe_digit), s21_strrchr(yep, maybe_digit));
 }
 END_TEST

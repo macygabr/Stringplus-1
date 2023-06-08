@@ -113,8 +113,7 @@ char *s21_strbrk(const char *str1, const char *str2)  {
     return result;
 }
 
-// Выполняет поиск первого вхождения символа c (беззнаковый тип) в строке,
-// на которую указывает аргумент str.
+// Поиск первого вхождения символа в строку
 char *s21_strchr(const char *str, int c) {
     char *result = S21_NULL;
     const char *endStr = str + s21_strlen(str);
@@ -126,8 +125,7 @@ char *s21_strchr(const char *str, int c) {
     return result;
 }
 
-// Выполняет поиск последнего вхождения символа c (беззнаковый тип)
-// в строке, на которую указывает аргумент str.
+// Поиск последнего вхождения символа в строку
 char *s21_strrchr(const char *str, int c)  {
     char *result = S21_NULL;
      for(;*str != '\0'; str++) {
