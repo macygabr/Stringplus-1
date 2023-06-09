@@ -7,7 +7,7 @@ s21_size_t s21_strlen(const char *str);
 
 void *s21_insert(const char *src, const char *str, s21_size_t start_index);
 
-void *s21_itoa(int a, char *result);
+void s21_itoa(int a, char *result);
 
 char *s21_strcat(char *dest, const char *src);
 
