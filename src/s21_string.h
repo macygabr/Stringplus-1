@@ -23,7 +23,9 @@ typedef struct {
   int flag_x;
   int flag_o;
   int flag_u;
+  int flag_lattice;
   int flag_negative;
+  int flag_positiv;
   int flag_dot;
   char e_exp[256];
   int flag_accuracy;
@@ -39,6 +41,7 @@ void itoa(write_in_buf* output, long double n, char s[], int itsFloat);
 void count_space(write_in_buf* output, char* format);
 double simple_pow(int base, int exp);
 void add_space(write_in_buf* output, char* buf);
+void add_sign (write_in_buf *output, char *buf);
 void sellect_flags(char* buf, write_in_buf* output, char* format);
 void sellect_width(char* buf, write_in_buf* output, char* format);
 void sellect_accuracy(char* buf, write_in_buf* output, char* format);
