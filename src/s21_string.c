@@ -1,7 +1,7 @@
 #include "s21_string.h"
 #include <stdio.h>
 
-// Выполняет поиск первого вхождения символа c (беззнаковый тип) в первых n байтах строки
+// Выполняет поиск первого вхождения указанного символа в массиве
 void *s21_memchr(const void *str, int c, s21_size_t n) {
     int end = 1;
     char *ptr = (char *)str, *result = S21_NULL;
@@ -16,24 +16,24 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
     return result;
 }
 
-// Сравнивает первые n байтов str1 и str2
+// Сравнивает первые n байтов двух массивов
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
         int result = 0;
-        unsigned char *ps1 = (unsigned char *)str1;
-        unsigned char *ps2 = (unsigned char *)str2;
+        unsigned char *string1 = (unsigned char *)str1;
+        unsigned char *string2 = (unsigned char *)str2;
         for (s21_size_t i = 0; i < n; i++) {
-            if (*ps1 == *ps2) {
-                ps1++;
-                ps2++;
+            if (*string1 == *string2) {
+                string1++;
+                string2++;
             } else {
-                result = *ps1 - *ps2;
+                result = *string1 - *string2;
                 n = 0;
             }
         }
     return result;
 }
 
-// Вычисляет длину строки str, не включая завершающий нулевой символ.
+// Вычисляет длину строки str, не включая завершающий нулевой символ
 s21_size_t s21_strlen(const char* str) {
     int i;
     for (i = 0; str[i] != '\0'; i++)
@@ -76,7 +76,7 @@ void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
     return dest;
 }
 
-// Копирует символ c (беззнаковый тип) в первые n символов строки, на которую указывает аргумент str.
+// Заполнение массива указанными символами
 void *s21_memset(void *str, int c, s21_size_t n) {
     char *s = str;
     while(n > 0) {
@@ -86,7 +86,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
     return str;
 }
 
-// Сравнивает не более первых n байтов str1 и str2
+// Сравнение строк с ограничением количества сравниваемых символов
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n)  {
     int result = 0;
     for (s21_size_t i = 0; i < n; i++)
@@ -113,8 +113,7 @@ char *s21_strbrk(const char *str1, const char *str2)  {
     return result;
 }
 
-// Выполняет поиск первого вхождения символа c (беззнаковый тип) в строке,
-// на которую указывает аргумент str.
+// Поиск первого вхождения символа в строку
 char *s21_strchr(const char *str, int c) {
     char *result = S21_NULL;
     const char *endStr = str + s21_strlen(str);
@@ -126,8 +125,7 @@ char *s21_strchr(const char *str, int c) {
     return result;
 }
 
-// Выполняет поиск последнего вхождения символа c (беззнаковый тип)
-// в строке, на которую указывает аргумент str.
+// Поиск последнего вхождения символа в строку
 char *s21_strrchr(const char *str, int c)  {
     char *result = S21_NULL;
      for(;*str != '\0'; str++) {
