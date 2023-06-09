@@ -75,4 +75,21 @@ START_TEST(tests_memcpy) {
 }
 END_TEST
 
+Suite *test_memcpy(void) {
+  Suite *s = suite_create("\033[45m-=S21_MEMCPY=-\033[0m");
+  TCase *tc = tcase_create("memcpy_tc");
 
+  tcase_add_test(tc, tests_memchr);
+  tcase_add_test(tc, tests_memcpy);
+  tcase_add_test(tc, memcpy_3);
+  tcase_add_test(tc, memcpy_4);
+  tcase_add_test(tc, memcpy_5);
+  tcase_add_test(tc, memcpy_6);
+  tcase_add_test(tc, memcpy_7);
+  tcase_add_test(tc, memcpy_8);
+  tcase_add_test(tc, memcpy_9);
+  tcase_add_test(tc, memcpy_10);
+
+  suite_add_tcase(s, tc);
+  return s;
+}
