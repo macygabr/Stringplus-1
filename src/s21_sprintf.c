@@ -54,31 +54,26 @@ void sellect_flags(char *buf, write_in_buf *output, char *format) {
     case '-':
       output->flag_minus = 1;
       output->format_index++;
-      // sellect_width(buf, output, format);
       sellect_flags(buf, output, format);
       break;
     case '+':
       output->flag_plus = 1;
       output->format_index++;
-      // sellect_width(buf, output, format);
       sellect_flags(buf, output, format);
       break;
     case ' ':
       output->flag_space = 1;
       output->format_index++;
-      // sellect_width(buf, output, format);
       sellect_flags(buf, output, format);
       break;
     case '0':
       output->flag_zero = 1;
       output->format_index++;
-      // sellect_width(buf, output, format);
       sellect_flags(buf, output, format);
       break;
     case '#':
       output->flag_lattice = 1;
       output->format_index++;
-      // sellect_width(buf, output, format);
       sellect_flags(buf, output, format);
       break;
     default:
@@ -228,7 +223,6 @@ void flag_d(char *buf, write_in_buf *output) {
   buf = strcat(buf, str);
   output->index_buf_mass += strlen(str);
   output->res += strlen(str);
-  // printf("{%s}\n", buf);
 }
 
 void flag_c(char *buf, write_in_buf *output) {
@@ -271,9 +265,10 @@ void flag_f(char *buf, write_in_buf *output) {
 void flag_s(char *buf, write_in_buf *output) {
   char strn[256];
   char *str2;
-  wchar_t *str_wchar;
-  if (output->flag_l)
-    str_wchar = va_arg(output->argptr, wchar_t *);
+  // wchar_t *str_wchar;
+  // str2 = str_wchar;
+  if (output->flag_l);
+    //str_wchar = va_arg(output->argptr, wchar_t *);
   else
     str2 = va_arg(output->argptr, char *);
   strn[256] = '\0';
@@ -295,7 +290,6 @@ void flag_s(char *buf, write_in_buf *output) {
     buf[0] = '\0';
     output->res = -1;
   }
-  // printf("{%s}\n", strn);
 }
 
 void flag_u(char *buf, write_in_buf *output) {
@@ -364,33 +358,21 @@ void flag_p(char *buf, write_in_buf *output) {
   //  printf("%c\n", input_data[0]);
 }
 void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
-  unsigned long long i = 0, j = 0;
-  long int sign = n, notWhole = -1;
+  long int i = 0, j = 0, sign = n, notWhole = -1;
   long double origin_n_doub = n;
   long int origin_n_int = n;
   char c;
   s[0] = '\0';
-
   if ((n) < 0) n *= -1;
   if (itsFloat) {
     if (output->accuracy < 0) output->accuracy = 6;
     for (notWhole = 0; notWhole < output->accuracy + 1; notWhole++) n *= 10;
-    // n = (long int)n;
     if ((long int)n % 10 >= 5) {
       n /= 10;
       n++;
     } else
       n /= 10;
     notWhole--;
-  }
-  // printf("[%Lf]\n[%s]\n\n", n, s);
-  // i = 0;
-  if (output->flag_g) {
-    while ((long int)n % 10 == 0 && n != 0) {
-      n /= 10;
-      notWhole--;
-    }
-    if (n == origin_n_int) notWhole--;
   }
 
   do {
@@ -514,9 +496,9 @@ long double sel_num(write_in_buf *output, long double n) {
   for (j = 1; int_n_num /= 10; j++)
     ;
   int_n_num = j;
-  output->accuracy_g = output->accuracy - int_n_num;
-  output->accuracy = output->accuracy_g;
-  for (i = 0; i < output->accuracy_g + 1; i++) n *= 10;
+  int accuracy_g = output->accuracy - int_n_num;
+  output->accuracy = accuracy_g;
+  for (i = 0; i < accuracy_g + 1; i++) n *= 10;
   n = (long int)n;
   if ((long int)n % 10 >= 5) {
     n /= 10;
