@@ -90,6 +90,158 @@ Suite *test_memcpy(void) {
   tcase_add_test(tc, memcpy_9);
   tcase_add_test(tc, memcpy_10);
 
+int reduction(int arr1, int arr2, int length) {
+        int res1 = memcmp(arr1, arr2, length);
+        res1 = res1 > 0 ? 1 : res1 == 0 ? 0 : -1;
+        return res1;
+}
+START_TEST(test_memcmp) {
+    s21_size_t len0 = 0;
+    s21_size_t len1 = 1;
+    s21_size_t len2 = 2;
+    s21_size_t len6 = 6;
+    s21_size_t len11 = 11;
+    s21_size_t len13 = 13;
+    s21_size_t len53 = 53;
+    // Сравнение массива из символов
+    char arr1 = "Hola, amigo!";
+    char arr2 = "Hola, amigo!";
+    ck_assert_ptr_eq(reduction(arr1, arr2, len13), s21_memcmp(arr1, arr2, len13));
+    ck_assert_ptr_eq(reduction(arr1, arr2, len6), s21_memcmp(arr1, arr2, len6));
+    ck_assert_ptr_eq(reduction(arr1, arr2, len0), s21_memcmp(arr1, arr2, len0));
+    // Сравнение массива из чисел
+    char arr3 = "4815162342";
+    char arr4 = "4815162342";
+    ck_assert_ptr_eq(reduction(arr3, arr4, len11), s21_memcmp(arr3, arr4, len11));
+    ck_assert_ptr_eq(reduction(arr3, arr4, len6), s21_memcmp(arr3, arr4, len6));
+    ck_assert_ptr_eq(reduction(arr3, arr4, len0), s21_memcmp(arr3, arr4, len0));
+    // Сравнение массива из фразы
+    char arr5 = "The sign of the result is the sign of the difference";
+    char arr6 = "The sign of the result is the sign of the difference";
+    ck_assert_ptr_eq(reduction(arr5, arr6, len53), s21_memcmp(arr5, arr6, len53));
+    ck_assert_ptr_eq(reduction(arr5, arr6,len13), s21_memcmp(arr5, arr6, len13));
+    ck_assert_ptr_eq(reduction(arr5, arr6, len0), s21_memcmp(arr5, arr6, len0));
+    // Сравнение пустой строки с пробелом
+    char arr7 = " ";
+    char arr8 = " ";
+    ck_assert_ptr_eq(reduction(arr7, arr8, len2), s21_memcmp(arr7, arr8, len2));
+    // Сравнение пустой строки
+    char arr9 = "";
+    char arr10 = "";
+    ck_assert_ptr_eq(reduction(arr9, arr10, len1), s21_memcmp(arr9, arr10, len1));
+}
+END_TEST
+
+START_TEST(tests_memset) {
+  s21_size_t len0 = 0;
+  s21_size_t len5 = 5;
+  int add_end = '\0';
+  int add_digit = 7;
+  int add_space = ' ';
+  char string1[] = "";
+  char string2[] = "";
+  ck_assert_str_eq(memset(string1, add_end, len0), s21_memset(string2, add_end, len0));
+  ck_assert_str_eq(memset(string1, add_digit, len5), s21_memset(string2, add_digit, len5));
+  char string3[] = "Danke schon";
+  char string4[] = "Danke schon";
+  ck_assert_str_eq(memset(string3, add_end, len5), s21_memset(string4, add_end, len5));
+  char string5[] = "123456789";
+  char string6[] = "123456789";
+  s21_size_t length = strlen(string5);
+  ck_assert_str_eq(memset(string5, add_space, length), s21_memset(string6, add_space, length));
+  char string7[] = "First things first";
+  char string8[] = "First things first";
+  ck_assert_str_eq(memset(string7, add_space, len0), s21_memset(string8, add_space, len0));
+  char string9[] = "Oh my God!";
+  char string10[] = "Oh my God!";
+  ck_assert_str_eq(memset(string9, add_space, len5), s21_memset(string10, add_space, len5));
+}
+END_TEST
+
+START_TEST(tests_strchr) {
+  int not_exist = 'A';
+  int exist = 'K';
+  int twice = 'e';
+  int end = '\0';
+  int digit = 42;
+  int maybe_digit = '7';
+  int sym = '!';
+  char s1[] = "Keep calm and code on!";
+  // Несуществующий символ
+  ck_assert_pstr_eq(strchr(s1, not_exist), s21_strchr(s1, not_exist));
+  // Существующий символ
+  ck_assert_pstr_eq(strchr(s1, exist), s21_strchr(s1, exist));
+  // Существующий символ, который встречается несколько раз
+  ck_assert_pstr_eq(strchr(s1, twice), s21_strchr(s1, twice));
+  // Конец строки
+  ck_assert_pstr_eq(strchr(s1, end), s21_strchr(s1, end));
+  // Символ
+  ck_assert_pstr_eq(strchr(s1, sym), s21_strchr(s1, sym));
+  // Число
+  ck_assert_pstr_eq(strchr(s1, digit), s21_strchr(s1, digit));
+  ck_assert_pstr_eq(strchr(s1, maybe_digit), s21_strchr(s1, maybe_digit));
+}
+END_TEST
+
+START_TEST(tests_strrchr) {
+  int not_exist = 'A';
+  int exist = 'd';
+  int twice = 'e';
+  int end = '\0';
+  int digit = 42;
+  int maybe_digit = '7';
+  int sym = ',';
+  char yep[] = "Eat, code, love";
+  ck_assert_pstr_eq(strrchr(yep, not_exist), s21_strrchr(yep, not_exist));
+  ck_assert_pstr_eq(strrchr(yep, exist), s21_strrchr(yep, exist));
+  ck_assert_pstr_eq(strrchr(yep, twice), s21_strrchr(yep, twice));
+  ck_assert_pstr_eq(strrchr(yep, end), s21_strrchr(yep, end));
+  ck_assert_pstr_eq(strrchr(yep, sym), s21_strrchr(yep, sym));
+  ck_assert_pstr_eq(strrchr(yep, digit), s21_strrchr(yep, digit));
+  ck_assert_pstr_eq(strrchr(yep, maybe_digit), s21_strrchr(yep, maybe_digit));
+}
+END_TEST
   suite_add_tcase(s, tc);
   return s;
 }
+
+int reduction2(int arr1, int arr2, int length) {
+        int ress = strncmp(arr1, arr2, length);
+        ress = ress > 0 ? 1 : ress == 0 ? 0 : -1;
+        return ress;
+}
+START_TEST(test_strncmp) {
+    s21_size_t len0 = 0;
+    s21_size_t len1 = 1;
+    s21_size_t len2 = 2;
+    s21_size_t len11 = 11;
+    s21_size_t len21 = 21;
+    s21_size_t len30 = 30;
+    // Сравнение массива из символов
+    char song1 = "Sweet dreams are made of this";
+    char song2 = "Sweet dreams are made of this";
+    ck_assert_ptr_eq(reduction2(song1, song2, len30), s21_strncmp(song1, song2, len30));
+    ck_assert_ptr_eq(reduction2(song1, song2, len0), s21_strncmp(song1, song2, len0));
+    // Сравнение массива разных фраз
+    char song3 = "Who am I to disagree";
+    char song4 = "Who am I to disagryy";
+    ck_assert_ptr_eq(reduction2(song3, song4, len21), s21_strncmp(song3, song4, len21));
+    // Сравнение массива из чисел
+    char digit1 = "4815162342";
+    char digit2 = "4815162342";
+    ck_assert_ptr_eq(reduction2(digit1, digit2, len11), s21_strncmp(digit1, digit2, len11));
+    ck_assert_ptr_eq(reduction2(digit1, digit2, len2), s21_strncmp(digit1, digit2, len2));
+    ck_assert_ptr_eq(reduction2(digit1, digit2, len0), s21_strncmp(digit1, digit2, len0));
+    // Сравнение пустой строки с пробелом
+    char space_str1 = " ";
+    char space_str2= " ";
+    ck_assert_ptr_eq(reduction2(space_str1, space_str2, len2), s21_strncmp(space_str1, space_str2, len2));
+    // Сравнение пустой строки
+    char empty_str1 = "";
+    char empty_str2 = "";
+    char empty_str3 = "K";
+    char empty_str4 = "";
+    ck_assert_ptr_eq(reduction2(empty_str1, empty_str2, len1), s21_strncmp(empty_str1, empty_str2, len1));
+    ck_assert_ptr_eq(reduction2(empty_str3, empty_str4, len1), s21_strncmp(empty_str3, empty_str4, len1));
+}
+END_TEST
