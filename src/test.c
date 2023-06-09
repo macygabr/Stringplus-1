@@ -143,6 +143,57 @@ START_TEST(tests_memset) {
 }
 END_TEST
 
+START_TEST(tests_strncat) {
+  char src1[] = "";
+  char src2[] = " ";
+  char src3[] = "\0";
+  char src4[] = "world";
+  char src5[] = "a";
+  int len0 = 0;
+  int len1 = 1;
+  int len2 = 2;
+  int len5 = 5;
+  int len10 = 10;
+
+  str1 = "Hello ";
+  str11 = "Hello ";
+  ck_assert_pstr_eq(strncat(str1, src4, len5), s21_strncat(str11, src4, len5));
+  // добавить слово целиком
+  str2 = "Hello ";
+  str22 = "Hello ";
+  ck_assert_pstr_eq(strncat(str2, src4, len2), s21_strncat(str22, src4, len2));
+  // добавить слово НЕ целиком
+  str3 = "Hell ";
+  str33 = "Hell ";
+  ck_assert_pstr_eq(strncat(str3, src4, len10), s21_strncat(str3, src4, len10));
+  // добавить строку больше исходной
+  str4 = "Hell ";
+  str44 = "Hell ";
+  ck_assert_pstr_eq(strncat(str4, src5, len1), s21_strncat(str4, src5, len1));
+  // добавить символ
+  str5 = "Hi";
+  str55 = "Hi";
+  ck_assert_pstr_eq(strncat(str5, src1, len1), s21_strncat(str55, src1, len1));
+  // добавить пустую строку
+  str6 = "";
+  str66 = "";
+  ck_assert_pstr_eq(strncat(str6, src4, len5), s21_strncat(str66, src4, len5));
+  // добавить строку в пустую строку целиком
+  str7 = "";
+  str77 = "";
+  ck_assert_pstr_eq(strncat(str7, src4, len1), s21_strncat(str77, src4, len1));
+  // добавить строку в пустую строку НЕ целиком
+  str8 = "Hello";
+  str88 = "Hello";
+  ck_assert_pstr_eq(strncat(str8, src4, len0), s21_strncat(str88, src4, len0));
+  // добавить 0 символов
+  str9 = "Hello";
+  str99 = "Hello";
+  ck_assert_pstr_eq(strncat(str9, src3, len2), s21_strncat(str99, src3, len2));
+  // добавить символ конца строки "\0"
+}
+END_TEST
+
 START_TEST(tests_strchr) {
   int not_exist = 'A';
   int exist = 'K';
@@ -240,6 +291,7 @@ Suite *test_memchr(void) {
   tcase_add_test(tc, tests_memset);
   tcase_add_test(tc, tests_strchr);
   tcase_add_test(tc, tests_strrchr);
+  tcase_add_test(tc, tests_strncat);
   suite_add_tcase(s, tc);
   return s;
 }
