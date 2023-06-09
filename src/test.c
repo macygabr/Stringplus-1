@@ -263,6 +263,7 @@ Suite *test_memchr(void) {
   tcase_add_test(tc, tests_memcmp);
   tcase_add_test(tc, tests_memset);
   tcase_add_test(tc, tests_strchr);
+  tcase_add_test(tc, tests_strlen);
   tcase_add_test(tc, tests_strrchr);
   suite_add_tcase(s, tc);
   return s;
