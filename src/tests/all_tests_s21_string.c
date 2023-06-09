@@ -1157,11 +1157,6 @@ START_TEST(sprintf_30_f) {
   char str2[400];
   char *str3 = "test: %020f! test: %-020f! test: %+025f!";
   double num = 837564.4753366;
-
-    // sprintf(str1, str3, num, num, num);
-    //                s21_sprintf(str2, str3, num, num, num);
-    //   printf("[%s]\n[%s]\n\n", str1, str2);
-
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
   ck_assert_pstr_eq(str1, str2);
@@ -1173,10 +1168,9 @@ START_TEST(sprintf_31_f) {
   char str2[400];
   char *str3 = "test: %-+ 025.5f! test: %- 020.4f test: %+ 016.6f!";
   double num = 837564.47533;
-
-        sprintf(str1, str3, num, num, num);
-                   s21_sprintf(str2, str3, num, num, num);
-      printf("[%s]\n[%s]\n\n", str1, str2);
+      //   sprintf(str1, str3, num, num, num);
+      //              s21_sprintf(str2, str3, num, num, num);
+      // printf("[%s]\n[%s]\n\n", str1, str2);
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
   ck_assert_pstr_eq(str1, str2);
@@ -1285,9 +1279,10 @@ END_TEST
 START_TEST(sprintf_41_f) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %.6Lf! test: %.Lf test: %+ 0Lf!!";
+  char *str3 = "test: %.6Lf! test: %.1Lf test: %+ 0Lf!!";
   long double num = 000000000000000.00000000000;
-    sprintf(str1, str3, num, num, num);
+    
+        sprintf(str1, str3, num, num, num);
                    s21_sprintf(str2, str3, num, num, num);
       printf("[%s]\n[%s]\n\n", str1, str2);
 

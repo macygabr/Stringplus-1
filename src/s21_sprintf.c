@@ -6,13 +6,13 @@
 
 #include "s21_string.h"
 
-
 int s21_sprintf(char *buf, char *format, ...) {
   write_in_buf output = {0};
   va_start(output.argptr, format);
   buf[0] = '\0';
   int format_len = strlen(format);
-  for (output.format_index = 0; output.format_index < format_len && output.res != -1;
+  for (output.format_index = 0;
+       output.format_index < format_len && output.res != -1;
        output.format_index++) {
     output.flag_plus = 0;
     output.flag_space = 0;
@@ -32,19 +32,18 @@ int s21_sprintf(char *buf, char *format, ...) {
     output.flag_u = 0;
     output.flag_dot = 0;
     output.flag_negative = 0;
-    output.flag_positiv =0;
+    output.flag_positiv = 0;
     output.flag_accuracy = 0;
     output.accuracy = 6;
     if (format[output.format_index] == '%') {
       output.format_index++;
       sellect_flags(buf, &output, format);
       if (output.flag_minus) add_space(&output, buf);
-    } else{
+    } else {
       buf[output.index_buf_mass++] = format[output.format_index];
-      output.res ++;
+      output.res++;
     }
     buf[output.index_buf_mass + 1] = '\0';
-    
   }
   va_end(output.argptr);
   return output.res;
@@ -55,32 +54,32 @@ void sellect_flags(char *buf, write_in_buf *output, char *format) {
     case '-':
       output->flag_minus = 1;
       output->format_index++;
-      //sellect_width(buf, output, format);
+      // sellect_width(buf, output, format);
       sellect_flags(buf, output, format);
       break;
     case '+':
       output->flag_plus = 1;
       output->format_index++;
-      //sellect_width(buf, output, format);
-       sellect_flags(buf, output, format);
+      // sellect_width(buf, output, format);
+      sellect_flags(buf, output, format);
       break;
     case ' ':
       output->flag_space = 1;
       output->format_index++;
-      //sellect_width(buf, output, format);
-       sellect_flags(buf, output, format);
+      // sellect_width(buf, output, format);
+      sellect_flags(buf, output, format);
       break;
     case '0':
       output->flag_zero = 1;
       output->format_index++;
-      //sellect_width(buf, output, format);
-       sellect_flags(buf, output, format);
+      // sellect_width(buf, output, format);
+      sellect_flags(buf, output, format);
       break;
     case '#':
-      output->flag_lattice =1;
+      output->flag_lattice = 1;
       output->format_index++;
-      //sellect_width(buf, output, format);
-       sellect_flags(buf, output, format);
+      // sellect_width(buf, output, format);
+      sellect_flags(buf, output, format);
       break;
     default:
       sellect_width(buf, output, format);
@@ -109,32 +108,31 @@ void sellect_width(char *buf, write_in_buf *output, char *format) {
 }
 void sellect_accuracy(char *buf, write_in_buf *output, char *format) {
   int rub_flag = 0;
-  if(format[output->format_index] == '.'){
+  if (format[output->format_index] == '.') {
     output->format_index++;
     output->flag_accuracy = 1;
-    switch (format[output->format_index])
-    {
-    case '*':
+    switch (format[output->format_index]) {
+      case '*':
         output->accuracy = va_arg(output->argptr, int);
-        if(output->accuracy == 0) output->flag_dot=1;
+        if (output->accuracy == 0) output->flag_dot = 1;
         output->format_index++;
         sellect_modifier(buf, output, format);
-      break;
-    case '0' ... '9':
+        break;
+      case '0' ... '9':
         rub_flag = output->space;
         count_space(output, format);
         output->accuracy = output->space;
         output->space = rub_flag;
-        if(output->accuracy == 0) output->flag_dot=1;
+        if (output->accuracy == 0) output->flag_dot = 1;
         sellect_modifier(buf, output, format);
-      break;
-    default:
-        output->flag_dot =1;
+        break;
+      default:
+        output->flag_dot = 1;
         sellect_modifier(buf, output, format);
-      break;
+        break;
     }
-  }
-  else sellect_modifier(buf, output, format);
+  } else
+    sellect_modifier(buf, output, format);
 }
 
 void sellect_modifier(char *buf, write_in_buf *output, char *format) {
@@ -218,17 +216,19 @@ void sellect_type(char *buf, write_in_buf *output, char *format) {
 void flag_d(char *buf, write_in_buf *output) {
   char str[256];
   long int input_data;
-  if (output->flag_l) input_data = va_arg(output->argptr, long int);
-  else input_data = va_arg(output->argptr, int);
+  if (output->flag_l)
+    input_data = va_arg(output->argptr, long int);
+  else
+    input_data = va_arg(output->argptr, int);
   if (output->flag_h) input_data = (short int)input_data;
   itoa(output, input_data, str, 0);
   output->str_long = strlen(str);
-    add_sign(output,buf);
+  add_sign(output, buf);
   if (!output->flag_minus) add_space(output, buf);
   buf = strcat(buf, str);
   output->index_buf_mass += strlen(str);
   output->res += strlen(str);
-  //printf("{%s}\n", buf);
+  // printf("{%s}\n", buf);
 }
 
 void flag_c(char *buf, write_in_buf *output) {
@@ -240,30 +240,29 @@ void flag_c(char *buf, write_in_buf *output) {
 }
 
 void flag_f(char *buf, write_in_buf *output) {
-  int itsFloat =1;
+  int itsFloat = 1;
   char str[256];
-  if(output->flag_L) {
+  if (output->flag_L) {
     long double input_long_double = va_arg(output->argptr, long double);
-    if(output->flag_dot) {
-      if(output->flag_lattice) output->flag_dot =0;
-      if(input_long_double == (long int) input_long_double) itsFloat =0;
-      output->accuracy =0;
+    if (output->flag_dot) {
+      if (output->flag_lattice) output->flag_dot = 0;
+      if (input_long_double == (long int)input_long_double) itsFloat = 0;
+      output->accuracy = 0;
     }
     itoa(output, input_long_double, str, itsFloat);
-  }
-  else {
+  } else {
     double input_double = va_arg(output->argptr, double);
-    if(output->flag_dot){
-      if(output->flag_lattice) output->flag_dot =0;
-      if(input_double == (int) input_double) itsFloat =0;
-      output->accuracy =0;
+    if (output->flag_dot) {
+      if (output->flag_lattice) output->flag_dot = 0;
+      if (input_double == (int)input_double) itsFloat = 0;
+      output->accuracy = 0;
     }
-    itoa(output,input_double, str, itsFloat);
+    itoa(output, input_double, str, itsFloat);
   }
   output->str_long = strlen(str);
-  add_sign(output,buf);
+  add_sign(output, buf);
   if (!output->flag_minus) add_space(output, buf);
-  
+
   buf = strcat(buf, str);
   output->index_buf_mass += strlen(str);
   output->res += strlen(str);
@@ -272,41 +271,44 @@ void flag_f(char *buf, write_in_buf *output) {
 void flag_s(char *buf, write_in_buf *output) {
   char strn[256];
   char *str2;
-  wchar_t* str_wchar;
-  if(output->flag_l) str_wchar = va_arg(output->argptr, wchar_t*);
-  else str2 = va_arg(output->argptr, char *);
+  wchar_t *str_wchar;
+  if (output->flag_l)
+    str_wchar = va_arg(output->argptr, wchar_t *);
+  else
+    str2 = va_arg(output->argptr, char *);
   strn[256] = '\0';
-  if (!output->flag_accuracy){
+  if (!output->flag_accuracy) {
     strcpy(strn, str2);
-  }
-  else {
-    if(output->accuracy < 0) output->accuracy = (int)strlen(str2);
+  } else {
+    if (output->accuracy < 0) output->accuracy = (int)strlen(str2);
     strncpy(strn, str2, output->accuracy);
     strn[output->accuracy] = '\0';
   }
   output->str_long = strlen(strn);
-    add_sign(output,buf);
+  add_sign(output, buf);
   if (!output->flag_minus) add_space(output, buf);
   output->index_buf_mass += strlen(strn);
   buf = strcat(buf, strn);
   output->res += strlen(strn);
 
-  if(output->flag_l) {
-  buf[0] ='\0';
-  output->res = -1;
+  if (output->flag_l) {
+    buf[0] = '\0';
+    output->res = -1;
   }
   // printf("{%s}\n", strn);
 }
 
 void flag_u(char *buf, write_in_buf *output) {
   char str[256];
-   unsigned int input_data;
-  if (output->flag_l) input_data = va_arg(output->argptr, long int);
-  else input_data = va_arg(output->argptr, unsigned int);
+  unsigned int input_data;
+  if (output->flag_l)
+    input_data = va_arg(output->argptr, long int);
+  else
+    input_data = va_arg(output->argptr, unsigned int);
   if (output->flag_h) input_data = (unsigned short int)input_data;
   itoa(output, input_data, str, 0);
   output->str_long = strlen(str);
-  add_sign(output,buf);
+  add_sign(output, buf);
   if (!output->flag_minus) add_space(output, buf);
   buf = strcat(buf, str);
   output->index_buf_mass += strlen(str);
@@ -323,8 +325,9 @@ void flag_g(char *buf, write_in_buf *output) {
   input_double = va_arg(output->argptr, double);
   input_double = sel_num(output, input_double);
 
-    // if(strlen(input_double - (long int)input_double) >= 6)scientific_notation(output, str, input_double);
-    // else itoa(output, input_double, str, 1);
+  // if(strlen(input_double - (long int)input_double) >=
+  // 6)scientific_notation(output, str, input_double); else itoa(output,
+  // input_double, str, 1);
   output->str_long = strlen(str);
   if (!output->flag_minus) add_space(output, buf);
   buf = strcat(buf, str);
@@ -364,15 +367,15 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
   unsigned long long i = 0, j = 0;
   long int sign = n, notWhole = -1;
   long double origin_n_doub = n;
-  long int origin_n_int =n;
+  long int origin_n_int = n;
   char c;
   s[0] = '\0';
 
   if ((n) < 0) n *= -1;
   if (itsFloat) {
-    if(output->accuracy<0) output->accuracy=6;
+    if (output->accuracy < 0) output->accuracy = 6;
     for (notWhole = 0; notWhole < output->accuracy + 1; notWhole++) n *= 10;
-    //n = (long int)n;
+    // n = (long int)n;
     if ((long int)n % 10 >= 5) {
       n /= 10;
       n++;
@@ -380,29 +383,32 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
       n /= 10;
     notWhole--;
   }
-    // printf("[%Lf]\n[%s]\n\n", n, s);
-  //i = 0;
+  // printf("[%Lf]\n[%s]\n\n", n, s);
+  // i = 0;
   if (output->flag_g) {
-    while ((long int)n % 10 == 0 && n!=0) {
+    while ((long int)n % 10 == 0 && n != 0) {
       n /= 10;
       notWhole--;
     }
-    if(n == origin_n_int) notWhole--;
+    if (n == origin_n_int) notWhole--;
   }
-   
+
   do {
     if (notWhole == i && !output->flag_dot) s[i++] = '.';
     int n_positiv = (long int)n % 10;
-    if(n_positiv <0) n_positiv *= -1;
+    if (n_positiv < 0) n_positiv *= -1;
     s[i++] = n_positiv + '0';
-    n/=10;
+    n /= 10;
   } while ((int)n != 0);
-  if(((origin_n_doub < 1 && origin_n_doub >= 0) || (origin_n_doub > -1 && origin_n_doub <= 0)) && output->accuracy != 0 && itsFloat){
-   s[i++] = '.';
-   s[i++] = '0';
+  if (((origin_n_doub < 1 && origin_n_doub >= 0) ||
+       (origin_n_doub > -1 && origin_n_doub <= 0)) &&
+      output->accuracy != 0 && itsFloat) {
+    s[i++] = '.';
+    s[i++] = '0';
   }
   s[i] = '\0';
-  while (output->flag_accuracy == 1 && !output->flag_g && !output->flag_dot && (int)strlen(s) < output->accuracy) {
+  while (output->flag_accuracy == 1 && !output->flag_g && !output->flag_dot &&
+         (int)strlen(s) < output->accuracy) {
     s[i++] = '0';
     s[i] = '\0';
   }
@@ -410,14 +416,21 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
   //   sign = 1;
   //   i=0;
   //   }
-  if (origin_n_doub >= 0 && output->flag_space && !output->flag_zero && !output->flag_plus && !output->flag_u) s[i++] = ' ';
-  if (origin_n_doub >= 0 && output->flag_space && output->flag_zero && !output->flag_plus && !output->flag_u) output->flag_add_space=1;
+  if (origin_n_doub >= 0 && output->flag_space && !output->flag_zero &&
+      !output->flag_plus && !output->flag_u)
+    s[i++] = ' ';
+  if (origin_n_doub >= 0 && output->flag_space && output->flag_zero &&
+      !output->flag_plus && !output->flag_u)
+    output->flag_add_space = 1;
 
   if (origin_n_doub < 0 && !output->flag_u && !output->flag_zero) s[i++] = '-';
-  if(origin_n_doub < 0 && output->flag_zero) output->flag_negative =1;
+  if (origin_n_doub < 0 && output->flag_zero) output->flag_negative = 1;
 
-  if (origin_n_doub >= 0 && output->flag_plus  && !output->flag_u && !output->flag_zero) s[i++] = '+';
-  if (origin_n_doub >= 0 && output->flag_plus && output->flag_zero) output->flag_positiv =1;
+  if (origin_n_doub >= 0 && output->flag_plus && !output->flag_u &&
+      !output->flag_zero)
+    s[i++] = '+';
+  if (origin_n_doub >= 0 && output->flag_plus && output->flag_zero)
+    output->flag_positiv = 1;
 
   s[i] = '\0';
   for (i = 0, j = strlen(s) - 1; i < j; i++, j--) {
@@ -425,26 +438,29 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
     s[i] = s[j];
     s[j] = c;
   }
-  
-  if(output->flag_dot && origin_n_int == 0 && !itsFloat) s[i] = '\0';
-  
-  if(origin_n_doub == 0.0 && itsFloat){
-      s[i++] = '.';
-      for (int k=0; (k< output->accuracy); k++) s[i++] = '0';
-      s[i] = '\0';
+
+  if (output->flag_dot && origin_n_int == 0 && !itsFloat) s[i] = '\0';
+
+  if (origin_n_doub == 0.0 && itsFloat) {
+    s[i++] = '.';
+    for (int k = 0; (k < output->accuracy); k++) s[i++] = '0';
+    s[i] = '\0';
   }
-  //printf("[%d]\n", output->accuracy);
-  // if(output->accuracy == 0 && origin_n_int == 0 && itsFloat) { // ubuntu MACOS
-  //   s[0] = origin_n_int +'0';
-  //   s[1] = '\0';
-  // }
+  // printf("[%d]\n", output->accuracy);
+  //  if(output->accuracy == 0 && origin_n_int == 0 && itsFloat) { // ubuntu
+  //  MACOS
+  //    s[0] = origin_n_int +'0';
+  //    s[1] = '\0';
+  //  }
 }
 
 void count_space(write_in_buf *output, char *format) {
   output->space = 0;
   double rub = 0;
   int i = 0;
-  for (i = 0; format[output->format_index] <= '9' && format[output->format_index] >= '0'; i++) {
+  for (i = 0; format[output->format_index] <= '9' &&
+              format[output->format_index] >= '0';
+       i++) {
     rub += (format[output->format_index] - '0') / simple_pow(10, i);
     output->format_index++;
   }
@@ -470,22 +486,22 @@ void add_space(write_in_buf *output, char *buf) {
       buf[output->index_buf_mass++] = ' ';
   buf[output->index_buf_mass] = '\0';
   output->res += j;
-  //printf("%s\n", buf);
-  //output->res += j;
+  // printf("%s\n", buf);
+  // output->res += j;
 }
 
-void add_sign (write_in_buf *output, char *buf){
-    if( output->flag_negative) {
+void add_sign(write_in_buf *output, char *buf) {
+  if (output->flag_negative) {
     buf[output->index_buf_mass++] = '-';
     output->res++;
     output->space--;
   }
-  if( output->flag_positiv) {
+  if (output->flag_positiv) {
     buf[output->index_buf_mass++] = '+';
     output->res++;
     output->space--;
   }
-  if( output->flag_add_space) {
+  if (output->flag_add_space) {
     buf[output->index_buf_mass++] = ' ';
     output->res++;
     output->space--;
@@ -577,15 +593,16 @@ void hexadecimal(write_in_buf *output, char s[], long int n) {
   }
 }
 
-long double arround(long double input_long_double){
-  int i=1;
-  for (i=1; input_long_double /= 10; i++);
+long double arround(long double input_long_double) {
+  int i = 1;
+  for (i = 1; input_long_double /= 10; i++)
+    ;
   // printf("[%f]\n", input_long_double);
-  input_long_double *= simple_pow(10,i);
-  if((long int)input_long_double %10 >=5) {
-    input_long_double /=10;
+  input_long_double *= simple_pow(10, i);
+  if ((long int)input_long_double % 10 >= 5) {
+    input_long_double /= 10;
     input_long_double++;
-  } else  input_long_double /=10;
-return input_long_double;
+  } else
+    input_long_double /= 10;
+  return input_long_double;
 }
-
