@@ -168,6 +168,30 @@ START_TEST(tests_strchr) {
 }
 END_TEST
 
+START_TEST(tests_strlen) {
+  char wich_length1[] = "Boys";
+  char wich_length2[] = "1234567890";
+  char wich_length3[] = "";
+  char wich_length4[] = "\0";
+  char wich_length5[] = "!";
+  char wich_length6[] = "I hate doing tests, it's not funny at all!!!";
+  char wich_length7[] = "\n\n\n";
+  char wich_length8[] = "wtf \0 wtf";
+  char wich_length9[] = "\0test";
+  char wich_length10[] = "        Bless you   \0    .....";
+  ck_assert_int_eq(strlen(wich_length1), s21_strlen(wich_length1));
+  ck_assert_int_eq(strlen(wich_length2), s21_strlen(wich_length2));
+  ck_assert_int_eq(strlen(wich_length3), s21_strlen(wich_length3));
+  ck_assert_int_eq(strlen(wich_length4), s21_strlen(wich_length4));
+  ck_assert_int_eq(strlen(wich_length5), s21_strlen(wich_length5));
+  ck_assert_int_eq(strlen(wich_length6), s21_strlen(wich_length6));
+  ck_assert_int_eq(strlen(wich_length7), s21_strlen(wich_length7));
+  ck_assert_int_eq(strlen(wich_length8), s21_strlen(wich_length8));
+  ck_assert_int_eq(strlen(wich_length9), s21_strlen(wich_length9));
+  ck_assert_int_eq(strlen(wich_length10), s21_strlen(wich_length10));
+}
+END_TEST
+
 START_TEST(tests_strrchr) {
   int not_exist = 'A';
   int exist = 'd';
