@@ -75,31 +75,12 @@ START_TEST(tests_memcpy) {
 }
 END_TEST
 
-Suite *test_memcpy(void) {
-  Suite *s = suite_create("\033[45m-=S21_MEMCPY=-\033[0m");
-  TCase *tc = tcase_create("memcpy_tc");
-
-<<<<<<< HEAD
-  tcase_add_test(tc, tests_memchr);
-  tcase_add_test(tc, tests_memcpy);
-  tcase_add_test(tc, memcpy_3);
-  tcase_add_test(tc, memcpy_4);
-  tcase_add_test(tc, memcpy_5);
-  tcase_add_test(tc, memcpy_6);
-  tcase_add_test(tc, memcpy_7);
-  tcase_add_test(tc, memcpy_8);
-  tcase_add_test(tc, memcpy_9);
-  tcase_add_test(tc, memcpy_10);
-
-  suite_add_tcase(s, tc);
-  return s;
-}
-=======
 int reduction(int arr1, int arr2, int length) {
         int res1 = memcmp(arr1, arr2, length);
         res1 = res1 > 0 ? 1 : res1 == 0 ? 0 : -1;
         return res1;
 }
+
 START_TEST(test_memcmp) {
     s21_size_t len0 = 0;
     s21_size_t len1 = 1;
@@ -212,6 +193,7 @@ int reduction2(int arr1, int arr2, int length) {
         ress = ress > 0 ? 1 : ress == 0 ? 0 : -1;
         return ress;
 }
+
 START_TEST(test_strncmp) {
     s21_size_t len0 = 0;
     s21_size_t len1 = 1;
@@ -247,4 +229,3 @@ START_TEST(test_strncmp) {
     ck_assert_ptr_eq(reduction2(empty_str3, empty_str4, len1), s21_strncmp(empty_str3, empty_str4, len1));
 }
 END_TEST
->>>>>>> a5d7da544c008f65b16125c739be63a7c087d903
