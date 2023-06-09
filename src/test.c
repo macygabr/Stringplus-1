@@ -192,7 +192,6 @@ int reduction2(int arr1, int arr2, int length) {
         ress = ress > 0 ? 1 : ress == 0 ? 0 : -1;
         return ress;
 }
-
 START_TEST(test_strncmp) {
     s21_size_t len0 = 0;
     s21_size_t len1 = 1;
@@ -229,7 +228,10 @@ START_TEST(test_strncmp) {
 }
 END_TEST
 
+
 Suite *test_memchr(void) {
+  Suite *s = suite_create("\033[45m-=S21_MEMCHR=-\033[0m");
+  TCase *tc = tcase_create("memchr_tc");
 
   suite_add_tcase(s, tc);
   tcase_add_test(tc, tests_memchr);
