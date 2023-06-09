@@ -2,7 +2,7 @@
 
 int main() {
    int error = 0;
-  Suite *test_arr[] = {test_s21_sprintf(), test_s21_sprintf() ,  NULL};
+    Suite *test_arr[] = {test_s21_sprintf(), test_s21_sprintf() ,  NULL};
 
   for (int i = 0; test_arr[i] != NULL; i++) {
     SRunner *runner = srunner_create(test_arr[i]);

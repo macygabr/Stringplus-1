@@ -28,6 +28,7 @@ int s21_sprintf(char *buf, char *format, ...) {
     output.flag_e = 0;
     output.flag_x = 0;
     output.flag_o = 0;
+    output.flag_u = 0;
     output.flag_dot = 0;
     output.flag_negative = 0;
     output.flag_accuracy = 0;
@@ -170,6 +171,7 @@ void sellect_type(char *buf, write_in_buf *output, char *format) {
       flag_f(buf, output);
       break;
     case 'u':
+      output->flag_u = 1;
       flag_u(buf, output);
       break;
     case 'g':
@@ -233,6 +235,8 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
       n /= 10;
       notWhole--;
     }
+    if(n == origin_n_int) notWhole--;
+    printf("{%Lf}\n", n);
   }
   do {
     if (notWhole == i && output->accuracy != 0) s[i++] = '.';
@@ -253,10 +257,10 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
     sign = 1;
     i=0;
     }
-  if (origin_n_doub >= 0 && output->flag_space && !output->flag_plus) s[i++] = ' ';
-  if (origin_n_doub < 0 && !output->flag_zero) s[i++] = '-';
+  if (origin_n_doub >= 0 && output->flag_space && !output->flag_plus && !output->flag_u) s[i++] = ' ';
+  if (origin_n_doub < 0 && !output->flag_zero && !output->flag_u) s[i++] = '-';
   if(origin_n_doub < 0 && output->flag_zero) output->flag_negative =1;
-  if (origin_n_doub >= 0 && output->flag_plus) s[i++] = '+';
+  if (origin_n_doub >= 0 && output->flag_plus && !output->flag_u) s[i++] = '+';
   s[i] = '\0';
   for (i = 0, j = strlen(s) - 1; i < j; i++, j--) {
     c = s[i];
@@ -265,10 +269,10 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
   }
   if(output->accuracy == 0 && origin_n_int == 0 && !itsFloat) s[0] = '\0';
   
-  // if(output->accuracy == 0 && origin_n_int == 0 && itsFloat) {
-  //   s[0] = origin_n_int +'0';
-  //   s[1] = '\0';
-  // }
+  if(output->accuracy == 0 && origin_n_int == 0 && itsFloat) {
+    s[0] = origin_n_int +'0';
+    s[1] = '\0';
+  }
 }
 
 void count_space(write_in_buf *output, char *format) {
@@ -457,7 +461,11 @@ void flag_s(char *buf, write_in_buf *output) {
 
 void flag_u(char *buf, write_in_buf *output) {
   char str[256];
-  itoa(output, va_arg(output->argptr, unsigned int), str, 0);
+   unsigned int input_data;
+  if (output->flag_l) input_data = va_arg(output->argptr, long int);
+  else input_data = va_arg(output->argptr, unsigned int);
+  if (output->flag_h) input_data = (unsigned short int)input_data;
+  itoa(output, input_data, str, 0);
   output->str_long = strlen(str);
   if (!output->flag_minus) add_space(output, buf);
   buf = strcat(buf, str);
@@ -469,9 +477,14 @@ void flag_g(char *buf, write_in_buf *output) {
   char str[256];
   long double input_double;
   output->flag_g = 1;
+  // if (output->flag_l) input_double = va_arg(output->argptr, long int);
+  // else input_data = va_arg(output->argptr, unsigned int);
+  // if (output->flag_h) input_data = (unsigned short int)input_data;
   input_double = va_arg(output->argptr, double);
   input_double = sel_num(output, input_double);
-  itoa(output, input_double, str, 1);
+
+    if(strlen(input_double - (long int)input_double) >= 6)scientific_notation(output, str, input_double);
+    else itoa(output, input_double, str, 1);
   output->str_long = strlen(str);
   if (!output->flag_minus) add_space(output, buf);
   buf = strcat(buf, str);

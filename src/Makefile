@@ -3,7 +3,9 @@ CFLAGS= -c -Wall -Wextra -Werror -std=c11
 FLAGS= -g -Wall -Wextra -Werror
 FILES = s21_sprintf.c 
 TEST_FLAGS=-lcheck --coverage
-TEST_FUNC= tests/test_s21_string.c
+TEST_FUNC= tests/all_tests_s21_string.c
+
+
 
 OS := $(shell uname -s)
 ifeq ($(OS), Linux)

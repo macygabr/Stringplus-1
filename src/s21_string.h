@@ -22,6 +22,7 @@ typedef struct {
   int flag_e;
   int flag_x;
   int flag_o;
+  int flag_u;
   int flag_negative;
   int flag_dot;
   char e_exp[256];
