@@ -40,6 +40,6 @@ check:
 	./tests
 
 my: clean s21_string.a
-	$(CC) $(FLAGS) test_func.c s21_string.a -o test_func
+	$(CC) test_func.c s21_string.a -o test_func
 	echo
 	./test_func

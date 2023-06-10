@@ -140,17 +140,17 @@ char *s21_strrchr(const char *str, int c) {
 
 // Находит первое вхождение всей строки needle (не включая завершающий нулевой
 // символ), которая появляется в строке haystack.
-char *s21_strstr(const char *haystack, const char *needle) {
-  s21_size_t s1 = s21_strlen(haystack);
-  s21_size_t s2 = s21_strlen(needle);
-  char *result = S21_NULL;
-  s21_size_t i = 0;
-  while ((!s21_strncmp(haystack + i, needle, s2) == 0) && (i <= s1 - s2)) {
-    ++i;
-    result = (char *)haystack + i;
-  }
-  return result;
-}
+// char *s21_strstr(const char *haystack, const char *needle) {
+//   s21_size_t s1 = s21_strlen(haystack);
+//   s21_size_t s2 = s21_strlen(needle);
+//   char *result = S21_NULL;
+//   s21_size_t i = 0;
+//   while ((!s21_strncmp(haystack + i, needle, s2) == 0) && (i <= s1 - s2)) {
+//     ++i;
+//     result = (char *)haystack + i;
+//   }
+//   return result;
+// }
 
 // Разбивает строку str на ряд токенов, разделенных delim.
 char *s21_strtok(char *str, const char *delim) {
@@ -180,13 +180,13 @@ char *s21_strtok(char *str, const char *delim) {
 
 // Вычисляет длину начального сегмента str1, который полностью состоит из
 // символов, не входящих в str2.
-s21_size_t s21_strcspn(const char *str1, const char *str2) {
-  int result = s21_strlen(str1);
-  if (s21_strpbrk(str1, str2) != S21_NULL) {
-    result = s21_strpbrk(str1, str2) - str1;
-  }
-  return result;
-}
+// s21_size_t s21_strcspn(const char *str1, const char *str2) {
+//   int result = s21_strlen(str1);
+//   if (s21_strpbrk(str1, str2) != S21_NULL) {
+//     result = s21_strpbrk(str1, str2) - str1;
+//   }
+//   return result;
+// }
 
 // Выполняет поиск во внутреннем массиве номера ошибки errnum и
 // возвращает указатель на строку с сообщением об ошибке.

@@ -311,28 +311,18 @@ void flag_u(char *buf, write_in_buf *output) {
 
 void flag_g(char *buf, write_in_buf *output) {
   char str[256];
-  long int i = 0, j = 0;
+  // long int i = 0, j = 0;
   long double input_double;
   output->flag_g = 1;
   // if (output->flag_l) input_double = va_arg(output->argptr, long int);
   // else input_data = va_arg(output->argptr, unsigned int);
   // if (output->flag_h) input_data = (unsigned short int)input_data;
   input_double = va_arg(output->argptr, double);
-  long double rub_input_data1 = input_double;
-  long double rub_input_data2 = input_double;
-
-  // printf("%Lf = %d+%d\n", input_double, i,j);
-  for (i = 0; (long int)(rub_input_data1) % 10 != 0; i++) rub_input_data1 /= 10;
-  for (j = 0; (long int)rub_input_data2 / 10 != 0; j++) rub_input_data2 /= 10;
-
-  if (i + j > 6)
-    scientific_notation(output, str, input_double);
-  else {
-    input_double = sel_num(output, input_double);
-    // printf("%Lf = %d+%d\n", input_double, i,j+1);
-    itoa(output, input_double, str, 1);
-  }
+  scientific_notation(output, str, input_double);
   add_sign(output, buf);
+
+    // input_double = sel_num(output, input_double);
+    // itoa(output, input_double, str, 1);
 
   output->str_long = s21_strlen(str);
   if (!output->flag_minus) add_space(output, buf);
@@ -373,12 +363,14 @@ void flag_p(char *buf, write_in_buf *output) {
   //  input_data = va_arg(output->argptr, void*);
   //  printf("%c\n", input_data[0]);
 }
+
 void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
   long int i = 0, j = 0, notWhole = -1;
   long double origin_n_doub = n;
   long int origin_n_int = n;
   char c;
   s[0] = '\0';
+  if(output->flag_lattice) output->flag_dot =0;
   if ((n) < 0) n *= -1;
   if (itsFloat) {
     if (output->accuracy < 0) output->accuracy = 6;
@@ -390,7 +382,6 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
       n /= 10;
     notWhole--;
   }
-
   do {
     if (notWhole == i && !output->flag_dot) s[i++] = '.';
     int n_positiv = (long int)n % 10;
@@ -431,6 +422,7 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
     output->flag_positiv = 1;
 
   s[i] = '\0';
+  int Cum = -1 , point = 0;
   for (i = 0, j = s21_strlen(s) - 1; i < j; i++, j--) {
     c = s[i];
     s[i] = s[j];
@@ -444,7 +436,18 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
         s[i] = '\0';
       break;
     }
+    // output->accuracy
+    if (s[i] != '.') {
+      Cum++;
+    } else point = 1;
+    
+    if (output->flag_g && output->accuracy <= Cum+1) {
+      break;
+    }
   }
+  
+  if (output->flag_g)
+    s[output->accuracy+point+output->flag_lattice] = '\0';
 
   if (output->flag_dot && origin_n_int == 0 && !itsFloat) s[i] = '\0';
 
@@ -541,32 +544,17 @@ long double sel_num(write_in_buf *output, long double n) {
 }
 
 void scientific_notation(write_in_buf *output, char s[], long double n) {
-  long int i = 0, j = 0;
-  long int copy_n_int = (long int)n;
-  long double copy_n_doub = n;
-  if (n < 0) {
-    copy_n_int = -copy_n_int;
-    copy_n_doub = -copy_n_doub;
-    n *= -1;
-    output->flag_negative = 1;
-  }
+  long int i = 0, /*j = 0,*/ whole_num=0;
+  //long int copy_n_int = (long int)n;
+  // long double copy_n_doub = n;
   long double origin_n_save = n;
-  if (origin_n_save > 1)
-    for (i = 0; copy_n_int /= 10; i++)
-      ;
-  else
-    for (j = 0; (copy_n_doub *= 10) < 10; j++)
-      ;
-  n /= simple_pow(10, i);
-  if (!output->flag_accuracy)
-    output->accuracy = j + i - 1;
-  else
-    output->accuracy = output->accuracy - 1;
-  // printf("%d %d \n", output->accuracy, i);
-  if (output->flag_negative) n *= -1;
+  if(output->flag_dot) output->accuracy =1;
+  if(output->accuracy == 0) output->accuracy =1;
+
   itoa(output, n, s, 1);
   output->str_long = s21_strlen(s);
-  if (output->flag_e || output->flag_g)
+  if(whole_num >= output->accuracy){
+    if (output->flag_e || output->flag_g)
     s[output->str_long++] = 'e';
   else
     s[output->str_long++] = 'E';
@@ -582,6 +570,7 @@ void scientific_notation(write_in_buf *output, char s[], long double n) {
     s[output->str_long++] = i % 10 + '0';
   }
   s[output->str_long++] = '\0';
+  }
 }
 
 void hexadecimal(write_in_buf *output, char s[], long int n) {
