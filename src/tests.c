@@ -1,5 +1,9 @@
-#include "test_s21_string.h"
-#include "../s21_string.h"
+#include <check.h>
+#include <limits.h>
+#include <string.h>
+#include <wchar.h>
+
+#include "s21_string.h"
 
 START_TEST(test_d) {
   char str1[1024] = "";
@@ -34,26 +38,26 @@ START_TEST(test_d) {
 
   for (int i = 0; i <= 9; i++) {
     for (int j = 0; j <= 4; j++) {
-            // sprintf(str1, flags[i], str3[j]);
-            //        s21_sprintf(str2, flags[i],  str3[j]);
-            //        printf("[%s] = [%s] %s %d\n", str1, str2, flags[i], str3[j]);
+      // sprintf(str1, flags[i], str3[j]);
+      //        s21_sprintf(str2, flags[i],  str3[j]);
+      //        printf("[%s] = [%s] %s %d\n", str1, str2, flags[i], str3[j]);
       ck_assert_int_eq(sprintf(str1, flags[i], str3[j]),
-                   s21_sprintf(str2, flags[i], str3[j]));
+                       s21_sprintf(str2, flags[i], str3[j]));
       ck_assert_pstr_eq(str1, str2);
     }
   }
-  for (int i = 10; i <= 11; i++) 
-    for (int j = 0; j <= 4; j++) 
-          for(int k =0; k<=4; k++){
-      ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
-                   s21_sprintf(str2, flags[i], str4[k], str3[j]));
-      ck_assert_pstr_eq(str1, str2);
-    }
+  for (int i = 10; i <= 11; i++)
+    for (int j = 0; j <= 4; j++)
+      for (int k = 0; k <= 4; k++) {
+        ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
+                         s21_sprintf(str2, flags[i], str4[k], str3[j]));
+        ck_assert_pstr_eq(str1, str2);
+      }
 }
 END_TEST
 
 START_TEST(test_c) {
-    char str1[1024] = "";
+  char str1[1024] = "";
   char str2[1024] = "";
   char *flags[100];
   char str3[100];
@@ -86,17 +90,17 @@ START_TEST(test_c) {
   for (int i = 0; i <= 9; i++) {
     for (int j = 0; j <= 4; j++) {
       ck_assert_int_eq(sprintf(str1, flags[i], str3[j]),
-                   s21_sprintf(str2, flags[i], str3[j]));
+                       s21_sprintf(str2, flags[i], str3[j]));
       ck_assert_pstr_eq(str1, str2);
     }
   }
-  for (int i = 10; i <= 11; i++) 
-    for (int j = 0; j <= 4; j++) 
-          for(int k =0; k<=4; k++){
-      ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
-                   s21_sprintf(str2, flags[i], str4[k], str3[j]));
-      ck_assert_pstr_eq(str1, str2);
-    }
+  for (int i = 10; i <= 11; i++)
+    for (int j = 0; j <= 4; j++)
+      for (int k = 0; k <= 4; k++) {
+        ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
+                         s21_sprintf(str2, flags[i], str4[k], str3[j]));
+        ck_assert_pstr_eq(str1, str2);
+      }
 }
 END_TEST
 
@@ -139,24 +143,24 @@ START_TEST(test_f) {
       //              s21_sprintf(str2, flags[i], str3[j]);
       //     printf("%s\n%s\n", str1, str2);
       ck_assert_int_eq(sprintf(str1, flags[i], str3[j]),
-                   s21_sprintf(str2, flags[i], str3[j]));
+                       s21_sprintf(str2, flags[i], str3[j]));
       ck_assert_pstr_eq(str1, str2);
     }
 
-for(int i = 10; i<=11; i++)
-  for (int j = 0; j <= 4; j++) 
-        for(int k =0; k<=4; k++){
-          // sprintf(str1, flags[i], str4[k], str3[j]);
-          //          s21_sprintf(str2, flags[i], str4[k], str3[j]);
-          // printf("%s\n%s\n%d %f\n\n", str1, str2, str4[k], str3[j]);
-      ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
-                   s21_sprintf(str2, flags[i], str4[k], str3[j]));
-      ck_assert_pstr_eq(str1, str2);
-    }
+  for (int i = 10; i <= 11; i++)
+    for (int j = 0; j <= 4; j++)
+      for (int k = 0; k <= 4; k++) {
+        // sprintf(str1, flags[i], str4[k], str3[j]);
+        //          s21_sprintf(str2, flags[i], str4[k], str3[j]);
+        // printf("%s\n%s\n%d %f\n\n", str1, str2, str4[k], str3[j]);
+        ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
+                         s21_sprintf(str2, flags[i], str4[k], str3[j]));
+        ck_assert_pstr_eq(str1, str2);
+      }
 
   ck_assert_int_eq(sprintf(str1, flags[12], long_double),
                    s21_sprintf(str2, flags[12], long_double));
-      ck_assert_pstr_eq(str1, str2);
+  ck_assert_pstr_eq(str1, str2);
 }
 END_TEST
 
@@ -164,7 +168,7 @@ START_TEST(test_s) {
   char str1[1024] = "";
   char str2[1024] = "";
   char *flags[100];
-  char* str3[100];
+  char *str3[100];
   int str4[100];
   flags[0] = "N%s";
   flags[1] = "Nu% s";
@@ -198,17 +202,17 @@ START_TEST(test_s) {
       //  s21_sprintf(str2, flags[i], str3[j]);
       //  printf("[%s] = [%s] %s %s\n",str1, str2,flags[i], str3[j]);
       ck_assert_int_eq(sprintf(str1, flags[i], str3[j]),
-                   s21_sprintf(str2, flags[i], str3[j]));
+                       s21_sprintf(str2, flags[i], str3[j]));
       ck_assert_pstr_eq(str1, str2);
     }
   }
-for(int i = 10; i<=10; i++)
-  for (int j = 0; j <= 0; j++) 
-        for(int k =0; k<=1; k++){
-      ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
-                   s21_sprintf(str2, flags[i], str4[k], str3[j]));
-      ck_assert_pstr_eq(str1, str2);
-    }
+  for (int i = 10; i <= 10; i++)
+    for (int j = 0; j <= 0; j++)
+      for (int k = 0; k <= 1; k++) {
+        ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
+                         s21_sprintf(str2, flags[i], str4[k], str3[j]));
+        ck_assert_pstr_eq(str1, str2);
+      }
 }
 END_TEST
 
@@ -243,20 +247,20 @@ START_TEST(test_u) {
   str4[3] = 1;
   str4[4] = -1;
 
-  for (int i = 0; i <= 9; i++) 
+  for (int i = 0; i <= 9; i++)
     for (int j = 0; j <= 4; j++) {
       ck_assert_int_eq(sprintf(str1, flags[i], str3[j]),
-                   s21_sprintf(str2, flags[i], str3[j]));
+                       s21_sprintf(str2, flags[i], str3[j]));
       ck_assert_pstr_eq(str1, str2);
     }
 
-  for (int i = 10; i <= 11; i++) 
-    for (int j = 0; j <= 4; j++) 
-          for(int k =0; k<=4; k++){
-      ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
-                   s21_sprintf(str2, flags[i], str4[k], str3[j]));
-      ck_assert_pstr_eq(str1, str2);
-    }
+  for (int i = 10; i <= 11; i++)
+    for (int j = 0; j <= 4; j++)
+      for (int k = 0; k <= 4; k++) {
+        ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
+                         s21_sprintf(str2, flags[i], str4[k], str3[j]));
+        ck_assert_pstr_eq(str1, str2);
+      }
 }
 END_TEST
 
@@ -279,9 +283,66 @@ START_TEST(test_g) {
   flags[10] = "Nurlan %.*g Tur";
   flags[11] = "Nurlan %*g Turs";
 
-  str3[0] = 1.0;
+  str3[0] = 1.123;
   str3[1] = 123.4567;
-  str3[2] = 1234567;
+  str3[2] = 7654321;
+  str3[3] = -1234567;
+  // str3[4] = 0;
+
+  str4[0] = 12;
+  str4[1] = -12;
+  str4[2] = 0;
+  str4[3] = 1;
+  str4[4] = -1;
+
+  for (int i = 0; i <= 9; i++)
+    for (int j = 0; j <= 3; j++) {
+      // sprintf(str1, flags[i], str3[j]);
+      // s21_sprintf(str2, flags[i], str3[j]);
+      // printf("[%s] =[%s], %s, %f, %d\n",str1,str2, flags[i], str3[j]);
+
+      ck_assert_int_eq(sprintf(str1, flags[i], str3[j]),
+                       s21_sprintf(str2, flags[i], str3[j]));
+      ck_assert_pstr_eq(str1, str2);
+    }
+
+  for (int i = 10; i <= 11; i++)
+    for (int j = 0; j <= 3; j++)
+      for (int k = 0; k <= 4; k++) {
+        //              sprintf(str1, flags[i], str4[k], str3[j]);
+        // s21_sprintf(str2, flags[i], str4[k], str3[j]);
+        // printf("[%s] =[%s], %s, %f, %d\n",str1,str2, flags[i], str4[k],
+        // str3[j]);
+
+        ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
+                         s21_sprintf(str2, flags[i], str4[k], str3[j]));
+        ck_assert_pstr_eq(str1, str2);
+      }
+}
+END_TEST
+
+START_TEST(test_x) {
+  char str1[1024] = "";
+  char str2[1024] = "";
+  char *flags[100];
+  int str3[100];
+  int str4[100];
+  flags[0] = "N%x";
+  flags[1] = "Nu% x";
+  flags[2] = "Nur%-x";
+  flags[3] = "Nurl%+x";
+  flags[4] = "Nurla%#x";
+  flags[5] = "Nurlan%0x";
+  flags[6] = "Nurlan %6x";
+  flags[7] = "Nurlan %.4x ";
+  flags[8] = "Nurlan %hx T";
+  flags[9] = "Nurlan %lx Tu";
+  flags[10] = "Nurlan %.*x Tur";
+  flags[11] = "Nurlan %*x Turs";
+
+  str3[0] = 633546;
+  str3[1] = 123;
+  str3[2] = 7654321;
   str3[3] = -1234567;
   str3[4] = 0;
 
@@ -291,26 +352,31 @@ START_TEST(test_g) {
   str4[3] = 1;
   str4[4] = -1;
 
-  for (int i = 0; i <= 9; i++) 
+  for (int i = 0; i <= 9; i++)
     for (int j = 0; j <= 4; j++) {
-      //       sprintf(str1, flags[i], str3[j]);
-      // s21_sprintf(str2, flags[i], str3[j]);
-      // printf("[%s] =[%s], %s, %f\n",str1,str2, flags[i], str3[j]);
+      sprintf(str1, flags[i], str3[j]);
+      s21_sprintf(str2, flags[i], str3[j]);
+      printf("[%s] =[%s], %s, %d\n", str1, str2, flags[i], str3[j]);
+
       ck_assert_int_eq(sprintf(str1, flags[i], str3[j]),
-                   s21_sprintf(str2, flags[i], str3[j]));
+                       s21_sprintf(str2, flags[i], str3[j]));
       ck_assert_pstr_eq(str1, str2);
     }
 
-  for (int i = 10; i <= 11; i++) 
-    for (int j = 0; j <= 4; j++) 
-          for(int k =0; k<=4; k++){
-      ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
-                   s21_sprintf(str2, flags[i], str4[k], str3[j]));
-      ck_assert_pstr_eq(str1, str2);
-    }
+  for (int i = 10; i <= 11; i++)
+    for (int j = 0; j <= 3; j++)
+      for (int k = 0; k <= 4; k++) {
+        //              sprintf(str1, flags[i], str4[k], str3[j]);
+        // s21_sprintf(str2, flags[i], str4[k], str3[j]);
+        // printf("[%s] =[%s], %s, %f, %d\n",str1,str2, flags[i], str4[k],
+        // str3[j]);
+
+        // ck_assert_int_eq(sprintf(str1, flags[i], str4[k], str3[j]),
+        //                  s21_sprintf(str2, flags[i], str4[k], str3[j]));
+        // ck_assert_pstr_eq(str1, str2);
+      }
 }
 END_TEST
-
 
 START_TEST(sprintf_1_c) {
   char str1[100];
@@ -440,11 +506,11 @@ START_TEST(sprintf_10_c) {
   int a = -10;
   unsigned long int b = 10;
   unsigned long int c = 10;
-  
+
   sprintf(str1, str3, a, a, b, c, c);
   // s21_sprintf(str2, str3, a, a, b, c, c);
   // printf("%s\n%s\n\n", str1,str2);
-  
+
   ck_assert_int_eq(sprintf(str1, str3, a, a, b, c, c),
                    s21_sprintf(str2, str3, a, a, b, c, c));
   ck_assert_pstr_eq(str1, str2);
@@ -684,10 +750,10 @@ START_TEST(sprintf_10_signed) {
   char *str3 = "(%d) Test (%3.d) Test (%5.7d) TEST %10d %#d %-d %+d %.d % .d";
   int val = 0;
 
-//  sprintf(str1, str3, val, val, val, val, val, val, val, val, val);
-//       s21_sprintf(str2, str3, val, val, val, val, val, val, val, val, val,
-//                   val);
-//   printf("[%s]\n[%s]\n\n", str1, str2);
+  //  sprintf(str1, str3, val, val, val, val, val, val, val, val, val);
+  //       s21_sprintf(str2, str3, val, val, val, val, val, val, val, val, val,
+  //                   val);
+  //   printf("[%s]\n[%s]\n\n", str1, str2);
 
   ck_assert_int_eq(
       sprintf(str1, str3, val, val, val, val, val, val, val, val, val),
@@ -838,10 +904,10 @@ START_TEST(sprintf_1_f) {
   char str2[200];
   char *str3 = "%f TEST %.f TEST %4f TEST %4.f TEST %5.10f!";
   double num = 76.756589367;
-      // sprintf(str1, str3, num, num, num, num, num);
-      // s21_sprintf(str2, str3, num, num, num, num, num);
-       
-      //  printf("[%s] = [%s]\n",str1, str2);
+  // sprintf(str1, str3, num, num, num, num, num);
+  // s21_sprintf(str2, str3, num, num, num, num, num);
+
+  //  printf("[%s] = [%s]\n",str1, str2);
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
   ck_assert_pstr_eq(str1, str2);
@@ -997,9 +1063,9 @@ START_TEST(sprintf_15_f) {
   char *str3 = "test: %#-10.9f! test: %-+25.12f!";
   double num = -365289.3462865487;
 
-      //   sprintf(str1, str3, num, num);
-      // s21_sprintf(str2, str3, num, num);
-      //  printf("[%s]\n[%s]\n",str1, str2);
+  //   sprintf(str1, str3, num, num);
+  // s21_sprintf(str2, str3, num, num);
+  //  printf("[%s]\n[%s]\n",str1, str2);
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
   ck_assert_pstr_eq(str1, str2);
@@ -1168,9 +1234,9 @@ START_TEST(sprintf_31_f) {
   char str2[400];
   char *str3 = "test: %-+ 025.5f! test: %- 020.4f test: %+ 016.6f!";
   double num = 837564.47533;
-      //   sprintf(str1, str3, num, num, num);
-      //              s21_sprintf(str2, str3, num, num, num);
-      // printf("[%s]\n[%s]\n\n", str1, str2);
+  //   sprintf(str1, str3, num, num, num);
+  //              s21_sprintf(str2, str3, num, num, num);
+  // printf("[%s]\n[%s]\n\n", str1, str2);
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
   ck_assert_pstr_eq(str1, str2);
@@ -1281,10 +1347,10 @@ START_TEST(sprintf_41_f) {
   char str2[400];
   char *str3 = "test: %.6Lf! test: %.1Lf test: %+ 0Lf!!";
   long double num = 000000000000000.00000000000;
-    
-        sprintf(str1, str3, num, num, num);
-                   s21_sprintf(str2, str3, num, num, num);
-      printf("[%s]\n[%s]\n\n", str1, str2);
+
+  sprintf(str1, str3, num, num, num);
+  s21_sprintf(str2, str3, num, num, num);
+  printf("[%s]\n[%s]\n\n", str1, str2);
 
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -1408,9 +1474,9 @@ START_TEST(sprintf_52_f) {
   char *str3 = "test: %-+.1Lf!\ntest: %- .2Lf!\ntest: %-0.3Lf!";
   long double num = -0.999999;
 
-    // sprintf(str1, str3, num, num, num);
-    //                s21_sprintf(str2, str3, num, num, num);
-    //   printf("[%s]\n[%s]\n\n", str1, str2);
+  // sprintf(str1, str3, num, num, num);
+  //                s21_sprintf(str2, str3, num, num, num);
+  //   printf("[%s]\n[%s]\n\n", str1, str2);
 
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
@@ -1431,8 +1497,13 @@ END_TEST
 START_TEST(sprintf_1_g) {
   char str1[200];
   char str2[200];
-  char *str3 = "%g TEST %.g TEST %4g TEST %4.g TEST %5.10g!";
+  char *str3 = "%g TEST %.1g TEST %4g TEST %4.g TEST %6.10g!";
   double num = 76.756589367;
+
+  sprintf(str1, str3, num, num, num);
+  s21_sprintf(str2, str3, num, num, num);
+  printf("[%s]\n[%s]\n\n", str1, str2);
+
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
   ck_assert_pstr_eq(str1, str2);
@@ -2994,101 +3065,102 @@ START_TEST(sprintf_3_percent) {
 }
 END_TEST
 
-
 int main(void) {
   Suite *suite = suite_create("UNITS");
   TCase *tcase = tcase_create("TESTS");
   SRunner *srunner = srunner_create(suite);
   int val = 0;
-  
+
   suite_add_tcase(suite, tcase);
   tcase_add_test(tcase, test_d);
- // tcase_add_test(tcase, test_c);
+  tcase_add_test(tcase, test_c);
   tcase_add_test(tcase, test_f);
- // tcase_add_test(tcase, test_s);
+  tcase_add_test(tcase, test_s);
   tcase_add_test(tcase, test_u);
   // tcase_add_test(tcase, test_g);
-//c
-//   tcase_add_test(tcase, sprintf_1_c);
-//   tcase_add_test(tcase, sprintf_2_c);
-//   tcase_add_test(tcase, sprintf_3_c);
-//   tcase_add_test(tcase, sprintf_4_c);
-//   tcase_add_test(tcase, sprintf_5_c);
-//   tcase_add_test(tcase, sprintf_6_c);
-//   tcase_add_test(tcase, sprintf_7_c);
-//   tcase_add_test(tcase, sprintf_8_c);
-//   tcase_add_test(tcase, sprintf_9_c);
-//   tcase_add_test(tcase, sprintf_10_c);
-//   tcase_add_test(tcase, sprintf_11_c);
-//   tcase_add_test(tcase, sprintf_12_c);
-//   tcase_add_test(tcase, sprintf_13_c);
-//   tcase_add_test(tcase, sprintf_14_c);
-//   tcase_add_test(tcase, sprintf_15_c);
-//   tcase_add_test(tcase, sprintf_16_c);
-//   tcase_add_test(tcase, sprintf_17_c);
-//   tcase_add_test(tcase, sprintf_18_c);
-//   tcase_add_test(tcase, sprintf_19_c);
-// // d
-//   tcase_add_test(tcase, sprintf_1_signed);
-//   tcase_add_test(tcase, sprintf_2_signed);
-//   tcase_add_test(tcase, sprintf_3_signed);
-//   tcase_add_test(tcase, sprintf_4_signed);
-//   tcase_add_test(tcase, sprintf_5_signed);
-//   tcase_add_test(tcase, sprintf_6_signed);
-//   tcase_add_test(tcase, sprintf_7_signed);
-//   tcase_add_test(tcase, sprintf_8_signed);
-//   tcase_add_test(tcase, sprintf_9_signed);
-//   tcase_add_test(tcase, sprintf_10_signed);
-//   tcase_add_test(tcase, sprintf_11_signed);
-//   tcase_add_test(tcase, sprintf_12_signed);
-//   tcase_add_test(tcase, sprintf_13_signed);
-//   tcase_add_test(tcase, sprintf_14_signed);
-//   tcase_add_test(tcase, sprintf_15_signed);
-//   tcase_add_test(tcase, sprintf_16_signed);
-//   tcase_add_test(tcase, sprintf_17_signed);
-//   tcase_add_test(tcase, sprintf_18_signed);
-//   tcase_add_test(tcase, sprintf_19_signed);
+  tcase_add_test(tcase, test_x);
 
-// //f
-//   tcase_add_test(tcase, sprintf_1_f);
-//   tcase_add_test(tcase, sprintf_2_f);
-//   tcase_add_test(tcase, sprintf_3_f);
-//   tcase_add_test(tcase, sprintf_4_f);
-//   tcase_add_test(tcase, sprintf_5_f);
-//   tcase_add_test(tcase, sprintf_6_f);
-//   tcase_add_test(tcase, sprintf_7_f);
-//   tcase_add_test(tcase, sprintf_8_f);
-//   tcase_add_test(tcase, sprintf_9_f);
-//   tcase_add_test(tcase, sprintf_10_f);
-//   tcase_add_test(tcase, sprintf_11_f);
-//   tcase_add_test(tcase, sprintf_12_f);
-//   tcase_add_test(tcase, sprintf_13_f);
-//   tcase_add_test(tcase, sprintf_14_f);
-//   tcase_add_test(tcase, sprintf_15_f); // 15 степень
-//   tcase_add_test(tcase, sprintf_16_f);
-//   tcase_add_test(tcase, sprintf_17_f);
-//   tcase_add_test(tcase, sprintf_18_f);
-//   tcase_add_test(tcase, sprintf_19_f);
-//   tcase_add_test(tcase, sprintf_20_f);
-//   tcase_add_test(tcase, sprintf_21_f);
-//   tcase_add_test(tcase, sprintf_22_f);
-//   tcase_add_test(tcase, sprintf_23_f);
-//   tcase_add_test(tcase, sprintf_24_f);
-//   tcase_add_test(tcase, sprintf_25_f);
-//   tcase_add_test(tcase, sprintf_26_f);
-//   tcase_add_test(tcase, sprintf_27_f);
-//   tcase_add_test(tcase, sprintf_28_f);
-//   tcase_add_test(tcase, sprintf_30_f);
-//   tcase_add_test(tcase, sprintf_31_f);
-//   tcase_add_test(tcase, sprintf_32_f);
-//   tcase_add_test(tcase, sprintf_33_f);
-//   tcase_add_test(tcase, sprintf_34_f);
-//   tcase_add_test(tcase, sprintf_35_f);
-//   tcase_add_test(tcase, sprintf_36_f);
-//   tcase_add_test(tcase, sprintf_37_f);
-//   tcase_add_test(tcase, sprintf_38_f);
-//   tcase_add_test(tcase, sprintf_39_f);
-//   tcase_add_test(tcase, sprintf_40_f);
+  // c
+  tcase_add_test(tcase, sprintf_1_c);
+  tcase_add_test(tcase, sprintf_2_c);
+  tcase_add_test(tcase, sprintf_3_c);
+  tcase_add_test(tcase, sprintf_4_c);
+  tcase_add_test(tcase, sprintf_5_c);
+  tcase_add_test(tcase, sprintf_6_c);
+  tcase_add_test(tcase, sprintf_7_c);
+  tcase_add_test(tcase, sprintf_8_c);
+  tcase_add_test(tcase, sprintf_9_c);
+  tcase_add_test(tcase, sprintf_10_c);
+  tcase_add_test(tcase, sprintf_11_c);
+  tcase_add_test(tcase, sprintf_12_c);
+  tcase_add_test(tcase, sprintf_13_c);
+  tcase_add_test(tcase, sprintf_14_c);
+  tcase_add_test(tcase, sprintf_15_c);
+  tcase_add_test(tcase, sprintf_16_c);
+  tcase_add_test(tcase, sprintf_17_c);
+  tcase_add_test(tcase, sprintf_18_c);
+  tcase_add_test(tcase, sprintf_19_c);
+  // d
+  tcase_add_test(tcase, sprintf_1_signed);
+  tcase_add_test(tcase, sprintf_2_signed);
+  tcase_add_test(tcase, sprintf_3_signed);
+  tcase_add_test(tcase, sprintf_4_signed);
+  tcase_add_test(tcase, sprintf_5_signed);
+  tcase_add_test(tcase, sprintf_6_signed);
+  tcase_add_test(tcase, sprintf_7_signed);
+  tcase_add_test(tcase, sprintf_8_signed);
+  tcase_add_test(tcase, sprintf_9_signed);
+  tcase_add_test(tcase, sprintf_10_signed);
+  tcase_add_test(tcase, sprintf_11_signed);
+  tcase_add_test(tcase, sprintf_12_signed);
+  tcase_add_test(tcase, sprintf_13_signed);
+  tcase_add_test(tcase, sprintf_14_signed);
+  tcase_add_test(tcase, sprintf_15_signed);
+  tcase_add_test(tcase, sprintf_16_signed);
+  tcase_add_test(tcase, sprintf_17_signed);
+  tcase_add_test(tcase, sprintf_18_signed);
+  tcase_add_test(tcase, sprintf_19_signed);
+
+  // f
+  tcase_add_test(tcase, sprintf_1_f);
+  tcase_add_test(tcase, sprintf_2_f);
+  tcase_add_test(tcase, sprintf_3_f);
+  tcase_add_test(tcase, sprintf_4_f);
+  tcase_add_test(tcase, sprintf_5_f);
+  tcase_add_test(tcase, sprintf_6_f);
+  tcase_add_test(tcase, sprintf_7_f);
+  tcase_add_test(tcase, sprintf_8_f);
+  tcase_add_test(tcase, sprintf_9_f);
+  tcase_add_test(tcase, sprintf_10_f);
+  tcase_add_test(tcase, sprintf_11_f);
+  tcase_add_test(tcase, sprintf_12_f);
+  tcase_add_test(tcase, sprintf_13_f);
+  tcase_add_test(tcase, sprintf_14_f);
+  tcase_add_test(tcase, sprintf_15_f);  // 15 степень
+  tcase_add_test(tcase, sprintf_16_f);
+  tcase_add_test(tcase, sprintf_17_f);
+  tcase_add_test(tcase, sprintf_18_f);
+  tcase_add_test(tcase, sprintf_19_f);
+  tcase_add_test(tcase, sprintf_20_f);
+  tcase_add_test(tcase, sprintf_21_f);
+  tcase_add_test(tcase, sprintf_22_f);
+  tcase_add_test(tcase, sprintf_23_f);
+  tcase_add_test(tcase, sprintf_24_f);
+  tcase_add_test(tcase, sprintf_25_f);
+  tcase_add_test(tcase, sprintf_26_f);
+  tcase_add_test(tcase, sprintf_27_f);
+  tcase_add_test(tcase, sprintf_28_f);
+  tcase_add_test(tcase, sprintf_30_f);
+  tcase_add_test(tcase, sprintf_31_f);
+  tcase_add_test(tcase, sprintf_32_f);
+  tcase_add_test(tcase, sprintf_33_f);
+  tcase_add_test(tcase, sprintf_34_f);
+  tcase_add_test(tcase, sprintf_35_f);
+  tcase_add_test(tcase, sprintf_36_f);
+  tcase_add_test(tcase, sprintf_37_f);
+  tcase_add_test(tcase, sprintf_38_f);
+  tcase_add_test(tcase, sprintf_39_f);
+  tcase_add_test(tcase, sprintf_40_f);
   // tcase_add_test(tcase, sprintf_41_f);
   // tcase_add_test(tcase, sprintf_42_f);
   // tcase_add_test(tcase, sprintf_43_f);
@@ -3102,7 +3174,7 @@ int main(void) {
   // tcase_add_test(tcase, sprintf_51_f);
   // tcase_add_test(tcase, sprintf_52_f);
   // tcase_add_test(tcase, sprintf_54_f);
-//// g
+  //// g
   // tcase_add_test(tcase, sprintf_1_g);
   // tcase_add_test(tcase, sprintf_2_g);
   // tcase_add_test(tcase, sprintf_3_g);
@@ -3148,83 +3220,82 @@ int main(void) {
   // tcase_add_test(tcase, sprintf_43_g);
   // tcase_add_test(tcase, sprintf_44_g);
   // tcase_add_test(tcase, sprintf_45_g);
-////x
-  // tcase_add_test(tcase, sprintf_1_hex);
-  // tcase_add_test(tcase, sprintf_2_hex);
-  // tcase_add_test(tcase, sprintf_3_hex);
-  // tcase_add_test(tcase, sprintf_4_hex);
-  // tcase_add_test(tcase, sprintf_5_hex);
-  // tcase_add_test(tcase, sprintf_6_hex);
-  // tcase_add_test(tcase, sprintf_7_hex);
-  // tcase_add_test(tcase, sprintf_8_hex);
-  // tcase_add_test(tcase, sprintf_9_hex);
-  // tcase_add_test(tcase, sprintf_10_hex);
-  // tcase_add_test(tcase, sprintf_11_hex);
-  // tcase_add_test(tcase, sprintf_12_hex);
-  // tcase_add_test(tcase, sprintf_13_hex);
-  // tcase_add_test(tcase, sprintf_14_hex);
-  // tcase_add_test(tcase, sprintf_15_hex);
-  // tcase_add_test(tcase, sprintf_16_hex);
-  // tcase_add_test(tcase, sprintf_17_hex);
-  // tcase_add_test(tcase, sprintf_1_HEX);
-  // tcase_add_test(tcase, sprintf_2_HEX);
-  // tcase_add_test(tcase, sprintf_3_HEX);
-  // tcase_add_test(tcase, sprintf_4_HEX);
-  // tcase_add_test(tcase, sprintf_5_HEX);
-  // tcase_add_test(tcase, sprintf_6_HEX);
-  // tcase_add_test(tcase, sprintf_7_HEX);
-  // tcase_add_test(tcase, sprintf_8_HEX);
-  // tcase_add_test(tcase, sprintf_9_HEX);
-  // tcase_add_test(tcase, sprintf_10_HEX);
-  // tcase_add_test(tcase, sprintf_11_HEX);
-  // tcase_add_test(tcase, sprintf_12_HEX);
-  // tcase_add_test(tcase, sprintf_13_HEX);
-  // tcase_add_test(tcase, sprintf_14_HEX);
-  // tcase_add_test(tcase, sprintf_15_HEX);
-  // tcase_add_test(tcase, sprintf_16_HEX);
-  // tcase_add_test(tcase, sprintf_1_signed_i);
-  // tcase_add_test(tcase, sprintf_2_signed_i);
-  // tcase_add_test(tcase, sprintf_3_signed_i);
-  // tcase_add_test(tcase, sprintf_4_signed_i);
-  // tcase_add_test(tcase, sprintf_5_signed_i);
-  // tcase_add_test(tcase, sprintf_6_signed_i);
-  // tcase_add_test(tcase, sprintf_7_signed_i);
-  // tcase_add_test(tcase, sprintf_8_signed_i);
-  // tcase_add_test(tcase, sprintf_9_signed_i);
-  // tcase_add_test(tcase, sprintf_10_signed_i);
-  // tcase_add_test(tcase, sprintf_11_signed_i);
-  // tcase_add_test(tcase, sprintf_12_signed_i);
-  // tcase_add_test(tcase, sprintf_13_signed_i);
-  // tcase_add_test(tcase, sprintf_14_signed_i);
-  // tcase_add_test(tcase, sprintf_15_signed_i);
-  // tcase_add_test(tcase, sprintf_16_signed_i);
-  // tcase_add_test(tcase, sprintf_17_signed_i);
-  // tcase_add_test(tcase, sprintf_1_n);
-  // tcase_add_test(tcase, sprintf_2_n);
-  // tcase_add_test(tcase, sprintf_1_octal);
-  // tcase_add_test(tcase, sprintf_2_octal);
-  // tcase_add_test(tcase, sprintf_3_octal);
-  // tcase_add_test(tcase, sprintf_4_octal);
-  // tcase_add_test(tcase, sprintf_5_octal);
-  // tcase_add_test(tcase, sprintf_6_octal);
-  // tcase_add_test(tcase, sprintf_7_octal);
-  // tcase_add_test(tcase, sprintf_8_octal);
-  // tcase_add_test(tcase, sprintf_9_octal);
-  // tcase_add_test(tcase, sprintf_10_octal);
-  // tcase_add_test(tcase, sprintf_11_octal);
-  // tcase_add_test(tcase, sprintf_12_octal);
-  // tcase_add_test(tcase, sprintf_13_octal);
-  // tcase_add_test(tcase, sprintf_14_octal);
-  // tcase_add_test(tcase, sprintf_15_octal);
-  // tcase_add_test(tcase, sprintf_16_octal);
-  // tcase_add_test(tcase, sprintf_17_octal);
-  // tcase_add_test(tcase, sprintf_18_octal);
-  // tcase_add_test(tcase, sprintf_1_percent);
-  // tcase_add_test(tcase, sprintf_2_percent);
-  // tcase_add_test(tcase, sprintf_3_percent);
- srunner_run_all(srunner, CK_NORMAL);
+  // x
+  //  tcase_add_test(tcase, sprintf_1_hex);
+  //  tcase_add_test(tcase, sprintf_2_hex);
+  //  tcase_add_test(tcase, sprintf_3_hex);
+  //  tcase_add_test(tcase, sprintf_4_hex);
+  //  tcase_add_test(tcase, sprintf_5_hex);
+  //  tcase_add_test(tcase, sprintf_6_hex);
+  //  tcase_add_test(tcase, sprintf_7_hex);
+  //  tcase_add_test(tcase, sprintf_8_hex);
+  //  tcase_add_test(tcase, sprintf_9_hex);
+  //  tcase_add_test(tcase, sprintf_10_hex);
+  //  tcase_add_test(tcase, sprintf_11_hex);
+  //  tcase_add_test(tcase, sprintf_12_hex);
+  //  tcase_add_test(tcase, sprintf_13_hex);
+  //  tcase_add_test(tcase, sprintf_14_hex);
+  //  tcase_add_test(tcase, sprintf_15_hex);
+  //  tcase_add_test(tcase, sprintf_16_hex);
+  //  tcase_add_test(tcase, sprintf_17_hex);
+  //  tcase_add_test(tcase, sprintf_1_HEX);
+  //  tcase_add_test(tcase, sprintf_2_HEX);
+  //  tcase_add_test(tcase, sprintf_3_HEX);
+  //  tcase_add_test(tcase, sprintf_4_HEX);
+  //  tcase_add_test(tcase, sprintf_5_HEX);
+  //  tcase_add_test(tcase, sprintf_6_HEX);
+  //  tcase_add_test(tcase, sprintf_7_HEX);
+  //  tcase_add_test(tcase, sprintf_8_HEX);
+  //  tcase_add_test(tcase, sprintf_9_HEX);
+  //  tcase_add_test(tcase, sprintf_10_HEX);
+  //  tcase_add_test(tcase, sprintf_11_HEX);
+  //  tcase_add_test(tcase, sprintf_12_HEX);
+  //  tcase_add_test(tcase, sprintf_13_HEX);
+  //  tcase_add_test(tcase, sprintf_14_HEX);
+  //  tcase_add_test(tcase, sprintf_15_HEX);
+  //  tcase_add_test(tcase, sprintf_16_HEX);
+  //  tcase_add_test(tcase, sprintf_1_signed_i);
+  //  tcase_add_test(tcase, sprintf_2_signed_i);
+  //  tcase_add_test(tcase, sprintf_3_signed_i);
+  //  tcase_add_test(tcase, sprintf_4_signed_i);
+  //  tcase_add_test(tcase, sprintf_5_signed_i);
+  //  tcase_add_test(tcase, sprintf_6_signed_i);
+  //  tcase_add_test(tcase, sprintf_7_signed_i);
+  //  tcase_add_test(tcase, sprintf_8_signed_i);
+  //  tcase_add_test(tcase, sprintf_9_signed_i);
+  //  tcase_add_test(tcase, sprintf_10_signed_i);
+  //  tcase_add_test(tcase, sprintf_11_signed_i);
+  //  tcase_add_test(tcase, sprintf_12_signed_i);
+  //  tcase_add_test(tcase, sprintf_13_signed_i);
+  //  tcase_add_test(tcase, sprintf_14_signed_i);
+  //  tcase_add_test(tcase, sprintf_15_signed_i);
+  //  tcase_add_test(tcase, sprintf_16_signed_i);
+  //  tcase_add_test(tcase, sprintf_17_signed_i);
+  //  tcase_add_test(tcase, sprintf_1_n);
+  //  tcase_add_test(tcase, sprintf_2_n);
+  //  tcase_add_test(tcase, sprintf_1_octal);
+  //  tcase_add_test(tcase, sprintf_2_octal);
+  //  tcase_add_test(tcase, sprintf_3_octal);
+  //  tcase_add_test(tcase, sprintf_4_octal);
+  //  tcase_add_test(tcase, sprintf_5_octal);
+  //  tcase_add_test(tcase, sprintf_6_octal);
+  //  tcase_add_test(tcase, sprintf_7_octal);
+  //  tcase_add_test(tcase, sprintf_8_octal);
+  //  tcase_add_test(tcase, sprintf_9_octal);
+  //  tcase_add_test(tcase, sprintf_10_octal);
+  //  tcase_add_test(tcase, sprintf_11_octal);
+  //  tcase_add_test(tcase, sprintf_12_octal);
+  //  tcase_add_test(tcase, sprintf_13_octal);
+  //  tcase_add_test(tcase, sprintf_14_octal);
+  //  tcase_add_test(tcase, sprintf_15_octal);
+  //  tcase_add_test(tcase, sprintf_16_octal);
+  //  tcase_add_test(tcase, sprintf_17_octal);
+  //  tcase_add_test(tcase, sprintf_18_octal);
+  //  tcase_add_test(tcase, sprintf_1_percent);
+  //  tcase_add_test(tcase, sprintf_2_percent);
+  //  tcase_add_test(tcase, sprintf_3_percent);
+  srunner_run_all(srunner, CK_NORMAL);
   val = srunner_ntests_failed(srunner);
   srunner_free(srunner);
   return val == 0 ? 0 : 1;
 }
-

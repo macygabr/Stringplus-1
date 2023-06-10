@@ -1,10 +1,9 @@
 CC=gcc
 CFLAGS= -c -Wall -Wextra -Werror -std=c11  
 FLAGS= -g -Wall -Wextra -Werror
-FILES = s21_sprintf.c 
+FILES = s21_string.c s21_sprintf.c
 TEST_FLAGS=-lcheck --coverage
-TEST_FUNC= tests/all_tests_s21_string.c
-
+TEST_FUNC= tests.c
 
 
 OS := $(shell uname -s)
@@ -36,11 +35,11 @@ test: check clean
 
 check:
 	cp -f ../materials/linters/.clang-format ./.clang-format
-	clang-format -n *.c *.h
-	$(CC) $(FLAGS) $(FILES) unit.c -lm -lcheck -pthread -o tests
+	clang-format -i *.c *.h
+	$(CC) $(FLAGS) $(FILES) $(TEST_FUNC) -lm -lcheck -pthread -o tests
 	./tests
 
 my: clean s21_string.a
-	$(CC) $(FLAGS) test_my_func.c s21_string.a -o test_my_func
-	echo             
-	./test_my_func
+	$(CC) $(FLAGS) test_func.c s21_string.a -o test_func
+	echo
+	./test_func
