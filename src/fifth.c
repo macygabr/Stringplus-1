@@ -276,6 +276,14 @@ char *s21_strerror(int errnum) {
 }
 #endif
 
+void s21_delete(char *trim_deleted, int p) {
+  for (int i = 0, j = 0; i < s21_strlen(trim_deleted); j++, i++) {
+    if (i == p) i++;
+    trim_deleted[j] = trim_deleted[i];
+  }
+  trim_deleted[s21_strlen(trim_deleted) - 1] = '\0';
+}
+
 char *s21_strcat(char *dest, const char *src) {
   char *destmem = dest;
   while (*dest != 0) dest++;
@@ -322,35 +330,10 @@ char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
 }
 
 s21_size_t s21_strlen(const char *str) {
-  s21_size_t len = 0;
-  if (str == NULL)
-    len = -1;
-  else
-    for (; str[len]; len++)
-      ;
-  return len + 1;
-}
-
-void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
-  char *rezult;
-  if (start_index > s21_strlen(str) || (str == NULL && src == NULL))
-    rezult = NULL;
-  else if (str != NULL && src != NULL) {
-    rezult =
-        (char *)malloc((s21_strlen(str) + s21_strlen(src) + 1) * sizeof(char));
-    s21_strncpy(rezult, str, start_index);
-    s21_strncpy(rezult + start_index, src, s21_strlen(src) - 1);
-    s21_strncpy(rezult + start_index + s21_strlen(src) - 1, str + start_index,
-                s21_strlen(str) - start_index + 1);
-  } else if (src == NULL) {
-    rezult = malloc(sizeof(str));
-    s21_strncpy(rezult, str, s21_strlen(str));
-  } else if (str == NULL && start_index == 0) {
-    rezult = malloc(sizeof(src));
-    s21_strncpy(rezult, src, s21_strlen(src));
-  } else
-    rezult = NULL;
-  return (char *)rezult;
+  int i;
+  for (i = 0; str[i] != '\0'; i++)
+    ;
+  return i;
 }
 
 void *s21_to_lower(const char *str) {
@@ -382,7 +365,11 @@ void *s21_trim(const char *src, const char *trim_chars) {
   if (src == NULL)
     rezult = NULL;
   else {
-    int len = s21_strlen(src) - 1;
+    int len = s21_strlen(src);
+    int trim_len = 0;
+    if (trim_chars != NULL) trim_len = s21_strlen(trim_chars);
+    int start = 0, end = len - 1;
+
     if (trim_chars == NULL) {
       int start = 0, end = len - 1;
       while (src[start] == ' ' || src[start] == '\t' || src[start] == '\n' ||
@@ -391,46 +378,66 @@ void *s21_trim(const char *src, const char *trim_chars) {
       while (src[end] == ' ' || src[end] == '\t' || src[end] == '\n' ||
              src[end] == '\r')
         end--;
-      rezult = (char *)malloc(sizeof(char) * (end - start));
+      rezult = (char *)malloc(sizeof(char) * (end - start + 1));
       for (int i = start, j = 0; i <= end; j++, i++) {
         rezult[j] = src[i];
         rezult[j + 1] = '\0';
       }
+    } else if (len == 0) {
+      rezult = malloc(sizeof(char));
+      rezult[0] = '\0';
+    } else if (trim_len == 0) {
+      rezult = malloc(sizeof(src));
+      s21_strncpy(rezult, src, len);
     } else {
-      int trim_len = s21_strlen(trim_chars);
-      int null_flag = 0;
-      int start = 0, end = len - 1;
       char *trim_deleted = malloc(sizeof(trim_chars));
-      s21_strncpy(trim_deleted, trim_chars, s21_strlen(trim_chars));
+      s21_strncpy(trim_deleted, trim_chars, trim_len);
       for (int i = 0; i < trim_len; i++) {
-        while (src[start] == trim_deleted[i]) start++;
-        while (src[end] == trim_deleted[i]) end--;
-        if (start == end) {
-          null_flag = 1;
+        if (src[start] == trim_deleted[i]) {
+          while (src[start] == trim_deleted[i]) start++;
+          s21_delete(trim_deleted, i);
+          i = -1;
+          trim_len = trim_len - 1;
         }
-        char *buff = malloc(sizeof(trim_deleted) - sizeof(char));
-        for (int k = 0, j = 0; j < trim_len; k++, j++) {
-          if (j == i) j++;
-          buff[k] = trim_deleted[j];
-        }
-        free(trim_deleted);
-        trim_deleted = malloc(sizeof(buff));
-        s21_strncpy(trim_deleted, buff, s21_strlen(buff));
-        free(buff);
-        i = -1;
-        trim_len = trim_len - 1;
       }
-      free(trim_deleted);
-      if (null_flag == 1)
-        rezult = NULL;
-      else {
-        rezult = malloc(sizeof(char) * (end - start + 1));
-        for (int j = 0, i = start; i <= end; j++, i++) {
-          rezult[j] = src[i];
-          rezult[j + 1] = '\0';
+      trim_len = s21_strlen(trim_chars);
+      s21_strncpy(trim_deleted, trim_chars, trim_len);
+      for (int i = 0; i < trim_len; i++) {
+        if (src[end] == trim_deleted[i]) {
+          while (src[end] == trim_deleted[i]) end--;
+          s21_delete(trim_deleted, i);
+          i = -1;
+          trim_len = trim_len - 1;
         }
+      }
+      rezult = malloc(sizeof(char) * (end - start + 1));
+      int res_len = end - start + 1;
+      for (int j = 0, i = start; i <= end, j < res_len; j++, i++) {
+        rezult[j] = src[i];
       }
     }
   }
+  return (char *)rezult;
+}
+
+void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
+  char *rezult;
+  if (start_index > s21_strlen(src) || (src == NULL) || (str == NULL))
+    rezult = NULL;
+  else if (src != NULL && str != NULL) {
+    rezult =
+        (char *)malloc((s21_strlen(src) + s21_strlen(str) + 1) * sizeof(char));
+    s21_strncpy(rezult, src, start_index);
+    s21_strncpy(rezult + start_index, str, s21_strlen(str) - 1);
+    s21_strncpy(rezult + start_index + s21_strlen(str) - 1, src + start_index,
+                s21_strlen(src) - start_index + 1);
+  } else if (str == NULL) {
+    rezult = malloc(sizeof(src));
+    s21_strncpy(rezult, src, s21_strlen(src));
+  } else if (src == NULL && start_index == 0) {
+    rezult = malloc(sizeof(str));
+    s21_strncpy(rezult, str, s21_strlen(str));
+  } else
+    rezult = NULL;
   return (char *)rezult;
 }
