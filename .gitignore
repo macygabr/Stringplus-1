@@ -54,3 +54,5 @@ dkms.conf
 # My ignore_list
 .DS_Store
 .vscode
+test_func.c
+test_func
