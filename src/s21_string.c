@@ -44,8 +44,8 @@ s21_size_t s21_strlen(const char* str) {
 // Добавляет строку, на которую указывает src, в конец строки, на которую указывает dest,
 // длиной до n символов.
 char *s21_strncat(char *dest, const char *src, s21_size_t n) {
-    char *begin = dest + strlen(dest);
-    char *end = dest + strlen(dest) + n - 1;
+    char *begin = dest + s21_strlen(dest);
+    char *end = dest + s21_strlen(dest) + n - 1;
     while (*src != '\0' && begin <= end) {
         *begin++ = *src++;
     }
@@ -92,7 +92,7 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n)  {
     for (s21_size_t i = 0; i < n; i++)
     {
         if (str1[i] != str2[i]) {
-        (str1[i] < str2[i]) ? result = -1 : result = 1;
+        	result = (str1[i] < str2[i]) ? -1 : 1;
         }
     }
     return result;
@@ -101,9 +101,9 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n)  {
 // Находит первый символ в строке str1, который соответствует любому символу, указанному в str2.
 char *s21_strbrk(const char *str1, const char *str2)  {
    char*result = NULL;
-    const char *s1 = str1 + strlen(str1);
+    const char *s1 = str1 + s21_strlen(str1);
     for(;*s1 != *str1; s1--) {
-        const char *s2 = str2 + strlen(str2);
+        const char *s2 = str2 + s21_strlen(str2);
         for(;*s2 != *str2; s2--) {
             if(*s1 == *s2) {
                 result = (char*)s1;
@@ -139,11 +139,11 @@ char *s21_strrchr(const char *str, int c)  {
 // Находит первое вхождение всей строки needle (не включая завершающий нулевой символ),
 // которая появляется в строке haystack.
 char *s21_strstr(const char *haystack, const char *needle) {
-    s21_size_t s1 = strlen(haystack);
-    s21_size_t s2 = strlen(needle);
+    s21_size_t s1 = s21_strlen(haystack);
+    s21_size_t s2 = s21_strlen(needle);
     char *result = S21_NULL;
     s21_size_t i = 0;
-    while((!strncmp(haystack + i, needle, s2) == 0) && (i <= s1 - s2)) {
+    while((!s21_strncmp(haystack + i, needle, s2) == 0) && (i <= s1 - s2)) {
         ++i;
         result = (char*)haystack + i;
     }
@@ -179,10 +179,10 @@ char *s21_strtok(char* str, const char* delim) {
 
 // Вычисляет длину начального сегмента str1, который полностью состоит из символов, не входящих в str2.
 s21_size_t s21_strcspn(const char *str1, const char *str2) {
-    int result = s21_strlen(str1);
+    int result = s21_strlen(str1);/*
     if(s21_strpbrk(str1,str2) != S21_NULL) {
         result = s21_strpbrk(str1,str2) - str1;
-    }
+    }*/
     return result;
 }
 
@@ -355,3 +355,4 @@ char *s21_strcat(char *dest, const char *src) {
     *dest = *src;
     return destmem;
 }
+
