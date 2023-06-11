@@ -1,8 +1,8 @@
 #include <check.h>
 #include <limits.h>
+#include <stdio.h>
 #include <string.h>
 #include <wchar.h>
-#include <stdio.h>
 
 #include "../s21_string.h"
 
@@ -393,10 +393,10 @@ START_TEST(test_e) {
 
   for (int i = 0; i <= 10; i++)
     for (int j = 0; j <= 3; j++) {
-        // sprintf(str1, flags[i], str3[j]);
-        // s21_sprintf(str2, flags[i], str3[j]);
-        // printf("[%s] =[%s], %s, %f\n",str1,str2, flags[i], str3[j]);
-    ck_assert_int_eq(sprintf(str1, flags[i], str3[j]),
+      // sprintf(str1, flags[i], str3[j]);
+      // s21_sprintf(str2, flags[i], str3[j]);
+      // printf("[%s] =[%s], %s, %f\n",str1,str2, flags[i], str3[j]);
+      ck_assert_int_eq(sprintf(str1, flags[i], str3[j]),
                        s21_sprintf(str2, flags[i], str3[j]));
       ck_assert_pstr_eq(str1, str2);
     }
@@ -1538,7 +1538,6 @@ START_TEST(sprintf_1_HEX) {
 }
 END_TEST
 
-
 START_TEST(sprintf_1_signed_i) {
   char str1[100] = "";
   char str2[100] = "";
@@ -1548,7 +1547,6 @@ START_TEST(sprintf_1_signed_i) {
   ck_assert_pstr_eq(str1, str2);
 }
 END_TEST
-
 
 START_TEST(sprintf_1_octal) {
   char str1[100] = "";
@@ -1560,7 +1558,6 @@ START_TEST(sprintf_1_octal) {
 }
 END_TEST
 
-
 START_TEST(sprintf_1_percent) {
   char str1[100] = "";
   char str2[100] = "";
@@ -1571,6 +1568,196 @@ START_TEST(sprintf_1_percent) {
 }
 END_TEST
 
+// roddstat
+
+START_TEST(trim_1) {
+  char s1[30] = "s21_Hello, world!";
+  char s3[] = "_12s!";
+  char s4[] = "Hello, world";
+  char *s2 = s21_trim(s1, s3);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(trim_2) {
+  char s1[30] = "";
+  char s3[] = "";
+  char *s4 = "";
+  char *s2 = s21_trim(s1, s3);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(trim_3) {
+  char *s1 = S21_NULL;
+  char s3[] = "";
+  char *s4 = S21_NULL;
+  char *s2 = s21_trim(s1, s3);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(trim_4) {
+  char s1[30] = "s21_Hello, world!";
+  char s3[] = "s21_Hello, world!";
+  char s4[] = "";
+  char *s2 = s21_trim(s1, s3);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(trim_5) {
+  char s1[30] = "s21_Hello, world!";
+  char s3[] = "0123456789Hello, world";
+  char *s4 = "s21_Hello, world!";
+  char *s2 = s21_trim(s1, s3);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(trim_6) {
+  char s1[30] = " s21_Hello, world!";
+  char s3[] = " !";
+  char *s4 = "s21_Hello, world";
+  char *s2 = s21_trim(s1, s3);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(trim_7) {
+  char *s1 = S21_NULL;
+  char *s3 = S21_NULL;
+  char *s4 = S21_NULL;
+  char *s2 = s21_trim(s1, s3);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(trim_8) {
+  char s1[] = " s21_Hello, world! ";
+  char *s3 = S21_NULL;
+  char *s4 = "s21_Hello, world";
+  char *s2 = s21_trim(s1, s3);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(trim_9) {
+  char s1[] = " \ts21_Hello, world!\n ";
+  char *s3 = "";
+  char *s4 = " \ts21_Hello, world!\n ";
+  char *s2 = s21_trim(s1, s3);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(insert_1) {
+  char s1[50] = "s21_Hello, world!";
+  char s3[] = "s21_test.";
+  char s4[] = "s21_Hello, s21_test.world!";
+  s21_size_t num = 11;
+  char *s2 = s21_insert(s1, s3, num);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(insert_2) {
+  char s1[50] = "";
+  char s3[] = "";
+  char *s4 = S21_NULL;
+  s21_size_t num = 5;
+  char *s2 = s21_insert(s1, s3, num);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(insert_3) {
+  char *s1 = "";
+  char s3[] = "";
+  char *s4 = S21_NULL;
+  s21_size_t num = 1;
+  char *s2 = s21_insert(s1, s3, num);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(insert_4) {
+  char s1[50] = "";
+  char s3[] = "";
+  char s4[] = "";
+  s21_size_t num = 0;
+  char *s2 = s21_insert(s1, s3, num);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(insert_5) {
+  char s1[50] = "s21_Hello, world!";
+  char s3[] = "s21_test.";
+  char s4[] = "s21_test.s21_Hello, world!";
+  s21_size_t num = 0;
+  char *s2 = s21_insert(s1, s3, num);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(insert_6) {
+  char s1[50] = "s21_Hello, world!";
+  char s3[] = "s21_test.";
+  char *s4 = S21_NULL;
+  s21_size_t num = -1;
+  char *s2 = s21_insert(s1, s3, num);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(insert_7) {
+  char *s1 = S21_NULL;
+  char *s3 = S21_NULL;
+  char *s4 = S21_NULL;
+  s21_size_t num = 0;
+  char *s2 = s21_insert(s1, s3, num);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(insert_8) {
+  char s1[] = "s21_Hello, world!";
+  char *s3 = S21_NULL;
+  char *s4 = S21_NULL;
+  s21_size_t num = 0;
+  char *s2 = s21_insert(s1, s3, num);
+  ck_assert_pstr_eq(s4, s2);
+  if (s2) free(s2);
+}
+END_TEST
+
+START_TEST(insert_9) {
+  char s1[] = "";
+  char *s3 = S21_NULL;
+  char *s4 = S21_NULL;
+  s21_size_t num = 0;
+  char *s2 = s21_insert(s1, s3, num);
+  ck_assert_pstr_eq(s2, s4);
+  if (s2) free(s2);
+}
+END_TEST
 
 int main(void) {
   Suite *suite = suite_create("UNITS");
@@ -1681,12 +1868,34 @@ int main(void) {
   tcase_add_test(tcase, sprintf_10_g);
   tcase_add_test(tcase, sprintf_11_g);
   tcase_add_test(tcase, sprintf_12_g);
-    tcase_add_test(tcase, sprintf_1_hex);
-   tcase_add_test(tcase, sprintf_1_HEX);
-    tcase_add_test(tcase, sprintf_1_signed_i);
-    tcase_add_test(tcase, sprintf_1_octal);
-   tcase_add_test(tcase, sprintf_1_percent);
+  tcase_add_test(tcase, sprintf_1_hex);
+  tcase_add_test(tcase, sprintf_1_HEX);
+  tcase_add_test(tcase, sprintf_1_signed_i);
+  tcase_add_test(tcase, sprintf_1_octal);
+  tcase_add_test(tcase, sprintf_1_percent);
 
+  // trim
+  tcase_add_test(tcase, trim_1);
+  tcase_add_test(tcase, trim_2);
+  tcase_add_test(tcase, trim_3);
+  tcase_add_test(tcase, trim_4);
+  tcase_add_test(tcase, trim_5);
+  tcase_add_test(tcase, trim_6);
+  tcase_add_test(tcase, trim_7);
+  tcase_add_test(tcase, trim_8);
+  tcase_add_test(tcase, trim_9);
+  // insert
+  tcase_add_test(tcase, insert_1);
+  tcase_add_test(tcase, insert_2);
+  tcase_add_test(tcase, insert_3);
+  tcase_add_test(tcase, insert_4);
+  tcase_add_test(tcase, insert_5);
+  tcase_add_test(tcase, insert_6);
+  tcase_add_test(tcase, insert_7);
+  tcase_add_test(tcase, insert_8);
+  tcase_add_test(tcase, insert_9);
+  // low
+  // up
   srunner_run_all(srunner, CK_NORMAL);
   val = srunner_ntests_failed(srunner);
   srunner_free(srunner);
