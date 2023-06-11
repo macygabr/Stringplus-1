@@ -142,58 +142,58 @@ START_TEST(tests_memset) {
   ck_assert_str_eq(memset(string9, add_space, len5), s21_memset(string10, add_space, len5));
 }
 END_TEST
-// 5
-// START_TEST(tests_strncat) {
-//   char src1[] = "";
-//   char src2[] = " ";
-//   char src3[] = "\0";
-//   char src4[] = "world";
-//   char src5[] = "a";
-//   int len0 = 0;
-//   int len1 = 1;
-//   int len2 = 2;
-//   int len5 = 5;
-//   int len10 = 10;
-// // часто используемые переменные
-//   str1 = "Hello ";
-//   str11 = "Hello ";
-//   ck_assert_pstr_eq(strncat(str1, src4, len5), s21_strncat(str11, src4, len5));
-//   // добавить слово целиком
-//   str2 = "Hello ";
-//   str22 = "Hello ";
-//   ck_assert_pstr_eq(strncat(str2, src4, len2), s21_strncat(str22, src4, len2));
-//   // добавить слово НЕ целиком
-//   str3 = "Hell ";
-//   str33 = "Hell ";
-//   ck_assert_pstr_eq(strncat(str3, src4, len10), s21_strncat(str3, src4, len10));
-//   // добавить строку больше исходной
-//   str4 = "Hell ";
-//   str44 = "Hell ";
-//   ck_assert_pstr_eq(strncat(str4, src5, len1), s21_strncat(str4, src5, len1));
-//   // добавить символ
-//   str5 = "Hi";
-//   str55 = "Hi";
-//   ck_assert_pstr_eq(strncat(str5, src1, len1), s21_strncat(str55, src1, len1));
-//   // добавить пустую строку
-//   str6 = "";
-//   str66 = "";
-//   ck_assert_pstr_eq(strncat(str6, src4, len5), s21_strncat(str66, src4, len5));
-//   // добавить строку в пустую строку целиком
-//   str7 = "";
-//   str77 = "";
-//   ck_assert_pstr_eq(strncat(str7, src4, len1), s21_strncat(str77, src4, len1));
-//   // добавить строку в пустую строку НЕ целиком
-//   str8 = "Hello";
-//   str88 = "Hello";
-//   ck_assert_pstr_eq(strncat(str8, src4, len0), s21_strncat(str88, src4, len0));
-//   // добавить 0 символов
-//   str9 = "Hello";
-//   str99 = "Hello";
-//   ck_assert_pstr_eq(strncat(str9, src3, len2), s21_strncat(str99, src3, len2));
-//   // добавить символ конца строки "\0"
-// }
-// END_TEST
-// 6
+5
+START_TEST(tests_strncat) {
+  char src1[] = "";
+  char src2[] = " ";
+  char src3[] = "\0";
+  char src4[] = "world";
+  char src5[] = "a";
+  int len0 = 0;
+  int len1 = 1;
+  int len2 = 2;
+  int len5 = 5;
+  int len10 = 10;
+// часто используемые переменные
+  char str1 = "Hello ";
+  char str11 = "Hello ";
+  ck_assert_pstr_eq(strncat(str1, src4, len5), s21_strncat(str11, src4, len5));
+  // добавить слово целиком
+  char str2 = "Hello ";
+  char str22 = "Hello ";
+  ck_assert_pstr_eq(strncat(str2, src4, len2), s21_strncat(str22, src4, len2));
+  // добавить слово НЕ целиком
+  char str3 = "Hell ";
+  char str33 = "Hell ";
+  ck_assert_pstr_eq(strncat(str3, src4, len10), s21_strncat(str3, src4, len10));
+  // добавить строку больше исходной
+  char str4 = "Hell ";
+  char str44 = "Hell ";
+  ck_assert_pstr_eq(strncat(str4, src5, len1), s21_strncat(str4, src5, len1));
+  // добавить символ
+  char str5 = "Hi";
+  char str55 = "Hi";
+  ck_assert_pstr_eq(strncat(str5, src1, len1), s21_strncat(str55, src1, len1));
+  // добавить пустую строку
+  char str6 = "";
+  char str66 = "";
+  ck_assert_pstr_eq(strncat(str6, src4, len5), s21_strncat(str66, src4, len5));
+  // добавить строку в пустую строку целиком
+  char str7 = "";
+  char str77 = "";
+  ck_assert_pstr_eq(strncat(str7, src4, len1), s21_strncat(str77, src4, len1));
+  // добавить строку в пустую строку НЕ целиком
+  char str8 = "Hello";
+  char str88 = "Hello";
+  ck_assert_pstr_eq(strncat(str8, src4, len0), s21_strncat(str88, src4, len0));
+  // добавить 0 символов
+  char str9 = "Hello";
+  char str99 = "Hello";
+  ck_assert_pstr_eq(strncat(str9, src3, len2), s21_strncat(str99, src3, len2));
+  // добавить символ конца строки "\0"
+}
+END_TEST
+6
 START_TEST(tests_strchr) {
   int not_exist = 'A';
   int exist = 'K';
