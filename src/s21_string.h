@@ -136,7 +136,10 @@ char *s21_strtok(char *str, const char *delim);
 /// @return 
 int s21_sprintf(char* buf, char* format, ...);
 //void print_arg(va_list argptr, base_mass str);
-
+void *s21_to_upper(const char *str);
+void *s21_to_lower(const char *str);
+void *s21_insert(const char *src, const char *str, s21_size_t start_index);
+void *s21_trim(const char *src, const char *trim_chars);
 typedef struct {
     char mas_format[100];
     int mas_format_len;
