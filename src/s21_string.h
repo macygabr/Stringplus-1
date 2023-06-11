@@ -97,7 +97,7 @@ s21_size_t s21_strcspn(const char *str1, const char *str2);
 char *s21_strerror(int errnum);
 
 void s21_itoa(int a, char s[]);
-void s21_reverse(char *s);
+
 char *s21_strcat(char *dest, const char *src);
 
 /// @brief Computes the length of the string str up to, but not including the terminating null character.
