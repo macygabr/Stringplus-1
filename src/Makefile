@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS= -c -Wall -Wextra -Werror -std=c11  
-FLAGS= -g -Wall -Wextra -Werror
+FLAGS= -g
 FILES = s21_string.c s21_sprintf.c
 TEST_FLAGS=-lcheck --coverage
-TEST_FUNC= tests.c
+TEST_FUNC= tests/test_s21_string.c
 
 
 OS := $(shell uname -s)
@@ -25,7 +25,7 @@ s21_string.a: $(FILES)
 
 gcov_report:
 	mkdir -p gcov
-	gcc $(FILES) $(TEST_FUNC) -o gcov/greport $(TEST_FLAGS) 
+	gcc $(FLAGS) $(FILES) $(TEST_FUNC) -o gcov/greport $(TEST_FLAGS) 
 	./gcov/greport
 	lcov -t "s21_sprintf" -o s21_sprintf.info -c -d .
 	genhtml -o ./report s21_sprintf.info
@@ -40,6 +40,6 @@ check:
 	./tests
 
 my: clean s21_string.a
-	$(CC) test_func.c s21_string.a -o test_func
+	$(CC) $(FLAGS) test_func.c s21_string.a -o test_func
 	echo
 	./test_func

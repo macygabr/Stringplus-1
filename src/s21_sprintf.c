@@ -2,7 +2,8 @@
 // #include <stdio.h>
 // #include <stdlib.h>
 #include <string.h>
-
+#include <stdio.h>
+#include <wchar.h>
 #include "s21_string.h"
 
 int s21_sprintf(char *buf, char *format, ...) {
@@ -226,6 +227,7 @@ void flag_d(char *buf, write_in_buf *output) {
 
 void flag_c(char *buf, write_in_buf *output) {
   output->str_long = 1;
+  if(output->flag_zero) output->flag_zero =0;
   if (!output->flag_minus) add_space(output, buf);
   buf[output->index_buf_mass++] = va_arg(output->argptr, int);
   buf[output->index_buf_mass] = '\0';
@@ -235,21 +237,16 @@ void flag_c(char *buf, write_in_buf *output) {
 void flag_f(char *buf, write_in_buf *output) {
   int itsFloat = 1;
   char str[256];
+  if(output->accuracy < 0) output->accuracy =6;
+  if(output->flag_dot) output->accuracy =0;
+  if(output->flag_dot && output->flag_lattice) output->flag_dot = 0;
+
   if (output->flag_L) {
-    long double input_long_double = va_arg(output->argptr, long double);
-    if (output->flag_dot) {
-      if (output->flag_lattice) output->flag_dot = 0;
-      if (input_long_double == (long int)input_long_double) itsFloat = 0;
-      output->accuracy = 0;
+      long double input_long_double = va_arg(output->argptr, long double);
+      itoa(output, input_long_double, str, itsFloat);
     }
-    itoa(output, input_long_double, str, itsFloat);
-  } else {
+  else {
     double input_double = va_arg(output->argptr, double);
-    if (output->flag_dot) {
-      if (output->flag_lattice) output->flag_dot = 0;
-      if (input_double == (int)input_double) itsFloat = 0;
-      output->accuracy = 0;
-    }
     itoa(output, input_double, str, itsFloat);
   }
   output->str_long = s21_strlen(str);
@@ -263,14 +260,14 @@ void flag_f(char *buf, write_in_buf *output) {
 
 void flag_s(char *buf, write_in_buf *output) {
   char strn[256];
-  char *str2;
-  // wchar_t *str_wchar;
+  char *str2 = '\0';
+  wchar_t *str_wchar;
   // str2 = str_wchar;
   if (output->flag_l)
-    ;
-  // str_wchar = va_arg(output->argptr, wchar_t *);
+     str_wchar = va_arg(output->argptr, wchar_t *);
   else
     str2 = va_arg(output->argptr, char *);
+  
   strn[256] = '\0';
   if (!output->flag_accuracy) {
     strcpy(strn, str2);
@@ -286,10 +283,11 @@ void flag_s(char *buf, write_in_buf *output) {
   buf = s21_strcat(buf, strn);
   output->res += s21_strlen(strn);
 
-  if (output->flag_l) {
-    buf[0] = '\0';
-    output->res = -1;
-  }
+  // if (output->flag_l) {
+  //   buf[0] = '\0';
+  //   output->res = -1;
+  // }
+  str_wchar = str_wchar;
 }
 
 void flag_u(char *buf, write_in_buf *output) {
@@ -311,18 +309,13 @@ void flag_u(char *buf, write_in_buf *output) {
 
 void flag_g(char *buf, write_in_buf *output) {
   char str[256];
-  // long int i = 0, j = 0;
   long double input_double;
   output->flag_g = 1;
-  // if (output->flag_l) input_double = va_arg(output->argptr, long int);
-  // else input_data = va_arg(output->argptr, unsigned int);
-  // if (output->flag_h) input_data = (unsigned short int)input_data;
+  if(output->flag_dot) output->accuracy =1;
   input_double = va_arg(output->argptr, double);
+
   scientific_notation(output, str, input_double);
   add_sign(output, buf);
-
-    // input_double = sel_num(output, input_double);
-    // itoa(output, input_double, str, 1);
 
   output->str_long = s21_strlen(str);
   if (!output->flag_minus) add_space(output, buf);
@@ -363,27 +356,27 @@ void flag_p(char *buf, write_in_buf *output) {
   //  input_data = va_arg(output->argptr, void*);
   //  printf("%c\n", input_data[0]);
 }
-
 void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
   long int i = 0, j = 0, notWhole = -1;
   long double origin_n_doub = n;
   long int origin_n_int = n;
   char c;
   s[0] = '\0';
-  if(output->flag_lattice) output->flag_dot =0;
   if ((n) < 0) n *= -1;
   if (itsFloat) {
-    if (output->accuracy < 0) output->accuracy = 6;
-    for (notWhole = 0; notWhole < output->accuracy + 1; notWhole++) n *= 10;
+    for (notWhole = 0; notWhole < output->accuracy + 1; notWhole++) 
+    n *= 10;
     if ((long int)n % 10 >= 5) {
       n /= 10;
       n++;
     } else
       n /= 10;
+    n = (long int)n;
     notWhole--;
   }
+
   do {
-    if (notWhole == i && !output->flag_dot) s[i++] = '.';
+    if (notWhole == i && (output->accuracy !=0 || output->flag_lattice)) s[i++] = '.';
     int n_positiv = (long int)n % 10;
     if (n_positiv < 0) n_positiv *= -1;
     s[i] = n_positiv + '0';
@@ -422,7 +415,6 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
     output->flag_positiv = 1;
 
   s[i] = '\0';
-  int Cum = -1 , point = 0;
   for (i = 0, j = s21_strlen(s) - 1; i < j; i++, j--) {
     c = s[i];
     s[i] = s[j];
@@ -436,18 +428,7 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
         s[i] = '\0';
       break;
     }
-    // output->accuracy
-    if (s[i] != '.') {
-      Cum++;
-    } else point = 1;
-    
-    if (output->flag_g && output->accuracy <= Cum+1) {
-      break;
-    }
   }
-  
-  if (output->flag_g)
-    s[output->accuracy+point+output->flag_lattice] = '\0';
 
   if (output->flag_dot && origin_n_int == 0 && !itsFloat) s[i] = '\0';
 
@@ -457,8 +438,7 @@ void itoa(write_in_buf *output, long double n, char s[], int itsFloat) {
     s[i] = '\0';
   }
   // printf("[%d]\n", output->accuracy);
-  //  if(output->accuracy == 0 && origin_n_int == 0 && itsFloat) { // ubuntu
-  //  MACOS
+  //  if(output->accuracy == 0 && origin_n_int == 0 && itsFloat) { // ubuntu MACOS
   //    s[0] = origin_n_int +'0';
   //    s[1] = '\0';
   //  }
@@ -544,33 +524,60 @@ long double sel_num(write_in_buf *output, long double n) {
 }
 
 void scientific_notation(write_in_buf *output, char s[], long double n) {
-  long int i = 0, /*j = 0,*/ whole_num=0;
-  //long int copy_n_int = (long int)n;
-  // long double copy_n_doub = n;
+  long int whole_num=0, not_whole_num=-1;
+  long int copy_n_int = (long int)n;
+  long double copy_n_doub = n;
   long double origin_n_save = n;
-  if(output->flag_dot) output->accuracy =1;
-  if(output->accuracy == 0) output->accuracy =1;
+  int add_notation =0, small =0;
 
+  for(whole_num =0; copy_n_int /= 10 ;whole_num++); 
+  whole_num++;
+  if(origin_n_save <1 && origin_n_save > -1){
+    do{
+      copy_n_doub *=10;
+      not_whole_num++;
+    } while ((int)((long int)copy_n_doub%10) == 0 );
+    small =1;
+    not_whole_num++;
+    n = copy_n_doub;
+  }
+  else{
+  do{
+      copy_n_doub *=10;
+      not_whole_num++;
+    } while ((int)((long int)copy_n_doub%10) != 0 && not_whole_num -1 <= output->accuracy - whole_num);
+  }
+
+  if(whole_num > output->accuracy || (origin_n_save <1 && origin_n_save > -1)) { 
+    n /= simple_pow(10,whole_num-1);
+    add_notation =1;
+    output->accuracy =  output->accuracy - 1;
+  } else
+    output->accuracy = output->accuracy - whole_num /*количество чисел после запятой*/;
+  
   itoa(output, n, s, 1);
   output->str_long = s21_strlen(s);
-  if(whole_num >= output->accuracy){
-    if (output->flag_e || output->flag_g)
+  if(add_notation ==1 && !((origin_n_save <= 9 && origin_n_save >= 1) || (origin_n_save >= -9 && origin_n_save <= -1))){
+    
+    if(small) whole_num = not_whole_num+1;
+  if (output->flag_e || output->flag_g)
     s[output->str_long++] = 'e';
   else
     s[output->str_long++] = 'E';
-  if (origin_n_save < 1)
+  if (origin_n_save < 1 && origin_n_save > -1)
     s[output->str_long++] = '-';
   else
     s[output->str_long++] = '+';
-  if (i < 9) {
+  if ((whole_num -1) < 9) {
     s[output->str_long++] = '0';
-    s[output->str_long++] = i + '0';
+    s[output->str_long++] = (whole_num -1) + '0';
   } else {
-    s[output->str_long++] = i / 10 + '0';
-    s[output->str_long++] = i % 10 + '0';
+    s[output->str_long++] = (whole_num -1) / 10 + '0';
+    s[output->str_long++] = (whole_num -1) % 10 + '0';
   }
+  }
+  
   s[output->str_long++] = '\0';
-  }
 }
 
 void hexadecimal(write_in_buf *output, char s[], long int n) {
