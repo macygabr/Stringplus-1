@@ -142,7 +142,7 @@ START_TEST(tests_memset) {
   ck_assert_str_eq(memset(string9, add_space, len5), s21_memset(string10, add_space, len5));
 }
 END_TEST
-5
+// 5
 START_TEST(tests_strncat) {
   char src1[] = "";
   char src2[] = " ";
@@ -193,7 +193,7 @@ START_TEST(tests_strncat) {
   // добавить символ конца строки "\0"
 }
 END_TEST
-6
+// 6
 START_TEST(tests_strchr) {
   int not_exist = 'A';
   int exist = 'K';
