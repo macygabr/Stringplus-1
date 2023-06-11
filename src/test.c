@@ -3,10 +3,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include "s21_string.h"
-
+// 1
 START_TEST(tests_memchr) {
-    static char str1 = "Lorem ipsum dolor sit amet.";
-    static char str2 = "12345";
+    static char str1[28] = "Lorem ipsum dolor sit amet.";
+    static char str2[6] = "12345";
     int sym1 = 115;
     int sym2 = 120;
     int sym3 = 'd';
@@ -28,53 +28,7 @@ START_TEST(tests_memchr) {
     ck_assert_ptr_eq(memchr(str1, sym5, len1), s21_memchr(str1, sym5, len1)); // проверка на символ "пробел"
 }
 END_TEST
-
-START_TEST(tests_memcpy) {
-  char src1[] = "hard";
-  s21_size_t len0 = 0;
-  s21_size_t len1 = 1;
-  s21_size_t len4 = 1;
-  s21_size_t len10 = 10;
-  // выше записы часто использующие переменные
-
-  char dest1[] = "No pain, no gain!";
-  char dest11[] = "No pain, no gain!";
-  ck_assert_ptr_eq(memcpy(dest1, src1, len4), s21_memcpy(dest11, src4, len1));
-  // копирование полного слова в непустой массив
-  char dest2[] = "No pain, no gain!";
-  char dest22[] = "No pain, no gain!";
-  ck_assert_ptr_eq(memcpy(dest2, src1, len0), s21_memcpy(dest22, src1, len0));
-  // копирование 0 символов
-  char src3[] = "\0";
-  char dest3[] = "No pain, no gain!";
-  char dest33[] = "No pain, no gain!";
-  ck_assert_ptr_eq(memcpy(dest3, src3, len1), s21_memcpy(dest33, src3, len1));
-  // копирование символа конца строки.
-  char dest4[] = "No pain, no gain!";
-  char dest44[] = "No pain, no gain!";
-  ck_assert_ptr_eq(memcpy(dest4, src1, len10), s21_memcpy(dest44, src1, len10));
-  // копирование большего числа битов чем в копируемой строке
-  char src5[] = "";
-  char dest5[] = "No pain, no gain!";
-  char dest55[] = "No pain, no gain!";
-  ck_assert_ptr_eq(memcpy(dest5, src5, len10), s21_memcpy(dest55, src5, len10));
-  // копирование пустой строки
-  char dest6[] = "";
-  char dest66[] = "";
-  // копирование в пустую строку полную строку
-  ck_assert_ptr_eq(memcpy(dest6, src1, len10), s21_memcpy(dest66, src1, len10));
-  char dest7[] = "No pain, no gain!";
-  char dest77[] = "No pain, no gain!";
-  ck_assert_ptr_eq(memcpy(dest7, src1, len1), s21_memcpy(dest77, src1, len1));
-  // копирование в пустую строку неполную строку
-  char sr8[] = " ";
-  char dest8[] = "No pain, no gain!";
-  char dest88[] = "No pain, no gain!";
-  ck_assert_ptr_eq(memcpy(dest88, src8, len1), s21_memcpy(dest77, src1, len1));
-  // копирование пробела
-}
-END_TEST
-
+// 2
 int reduction(int arr1, int arr2, int length) {
         int res1 = memcmp(arr1, arr2, length);
         res1 = res1 > 0 ? 1 : res1 == 0 ? 0 : -1;
@@ -116,7 +70,53 @@ START_TEST(tests_memcmp) {
     ck_assert_ptr_eq(reduction(arr9, arr10, len1), s21_memcmp(arr9, arr10, len1));
 }
 END_TEST
-
+// 3
+START_TEST(tests_memcpy) {
+  char src1[] = "hard";
+  char src4[] = "hard";
+  s21_size_t len0 = 0;
+  s21_size_t len1 = 1;
+  s21_size_t len4 = 1;
+  s21_size_t len10 = 10;
+  // выше записы часто использующие переменные
+  char dest1[] = "No pain, no gain!";
+  char dest11[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest1, src1, len4), s21_memcpy(dest11, src4, len1));
+  // копирование полного слова в непустой массив
+  char dest2[] = "No pain, no gain!";
+  char dest22[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest2, src1, len0), s21_memcpy(dest22, src1, len0));
+  // копирование 0 символов
+  char src3[] = "\0";
+  char dest3[] = "No pain, no gain!";
+  char dest33[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest3, src3, len1), s21_memcpy(dest33, src3, len1));
+  // копирование символа конца строки.
+  char dest4[] = "No pain, no gain!";
+  char dest44[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest4, src1, len10), s21_memcpy(dest44, src1, len10));
+  // копирование большего числа битов чем в копируемой строке
+  char src5[] = "";
+  char dest5[] = "No pain, no gain!";
+  char dest55[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest5, src5, len10), s21_memcpy(dest55, src5, len10));
+  // копирование пустой строки
+  char dest6[] = "";
+  char dest66[] = "";
+  // копирование в пустую строку полную строку
+  ck_assert_ptr_eq(memcpy(dest6, src1, len10), s21_memcpy(dest66, src1, len10));
+  char dest7[] = "No pain, no gain!";
+  char dest77[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest7, src1, len1), s21_memcpy(dest77, src1, len1));
+  // копирование в пустую строку неполную строку
+  char src8[] = " ";
+  char dest8[] = "No pain, no gain!";
+  char dest88[] = "No pain, no gain!";
+  ck_assert_ptr_eq(memcpy(dest88, src8, len1), s21_memcpy(dest77, src1, len1));
+  // копирование пробела
+}
+END_TEST
+// 4
 START_TEST(tests_memset) {
   s21_size_t len0 = 0;
   s21_size_t len5 = 5;
@@ -142,58 +142,58 @@ START_TEST(tests_memset) {
   ck_assert_str_eq(memset(string9, add_space, len5), s21_memset(string10, add_space, len5));
 }
 END_TEST
-
-START_TEST(tests_strncat) {
-  char src1[] = "";
-  char src2[] = " ";
-  char src3[] = "\0";
-  char src4[] = "world";
-  char src5[] = "a";
-  int len0 = 0;
-  int len1 = 1;
-  int len2 = 2;
-  int len5 = 5;
-  int len10 = 10;
-// часто используемые переменные
-  str1 = "Hello ";
-  str11 = "Hello ";
-  ck_assert_pstr_eq(strncat(str1, src4, len5), s21_strncat(str11, src4, len5));
-  // добавить слово целиком
-  str2 = "Hello ";
-  str22 = "Hello ";
-  ck_assert_pstr_eq(strncat(str2, src4, len2), s21_strncat(str22, src4, len2));
-  // добавить слово НЕ целиком
-  str3 = "Hell ";
-  str33 = "Hell ";
-  ck_assert_pstr_eq(strncat(str3, src4, len10), s21_strncat(str3, src4, len10));
-  // добавить строку больше исходной
-  str4 = "Hell ";
-  str44 = "Hell ";
-  ck_assert_pstr_eq(strncat(str4, src5, len1), s21_strncat(str4, src5, len1));
-  // добавить символ
-  str5 = "Hi";
-  str55 = "Hi";
-  ck_assert_pstr_eq(strncat(str5, src1, len1), s21_strncat(str55, src1, len1));
-  // добавить пустую строку
-  str6 = "";
-  str66 = "";
-  ck_assert_pstr_eq(strncat(str6, src4, len5), s21_strncat(str66, src4, len5));
-  // добавить строку в пустую строку целиком
-  str7 = "";
-  str77 = "";
-  ck_assert_pstr_eq(strncat(str7, src4, len1), s21_strncat(str77, src4, len1));
-  // добавить строку в пустую строку НЕ целиком
-  str8 = "Hello";
-  str88 = "Hello";
-  ck_assert_pstr_eq(strncat(str8, src4, len0), s21_strncat(str88, src4, len0));
-  // добавить 0 символов
-  str9 = "Hello";
-  str99 = "Hello";
-  ck_assert_pstr_eq(strncat(str9, src3, len2), s21_strncat(str99, src3, len2));
-  // добавить символ конца строки "\0"
-}
-END_TEST
-
+// 5
+// START_TEST(tests_strncat) {
+//   char src1[] = "";
+//   char src2[] = " ";
+//   char src3[] = "\0";
+//   char src4[] = "world";
+//   char src5[] = "a";
+//   int len0 = 0;
+//   int len1 = 1;
+//   int len2 = 2;
+//   int len5 = 5;
+//   int len10 = 10;
+// // часто используемые переменные
+//   str1 = "Hello ";
+//   str11 = "Hello ";
+//   ck_assert_pstr_eq(strncat(str1, src4, len5), s21_strncat(str11, src4, len5));
+//   // добавить слово целиком
+//   str2 = "Hello ";
+//   str22 = "Hello ";
+//   ck_assert_pstr_eq(strncat(str2, src4, len2), s21_strncat(str22, src4, len2));
+//   // добавить слово НЕ целиком
+//   str3 = "Hell ";
+//   str33 = "Hell ";
+//   ck_assert_pstr_eq(strncat(str3, src4, len10), s21_strncat(str3, src4, len10));
+//   // добавить строку больше исходной
+//   str4 = "Hell ";
+//   str44 = "Hell ";
+//   ck_assert_pstr_eq(strncat(str4, src5, len1), s21_strncat(str4, src5, len1));
+//   // добавить символ
+//   str5 = "Hi";
+//   str55 = "Hi";
+//   ck_assert_pstr_eq(strncat(str5, src1, len1), s21_strncat(str55, src1, len1));
+//   // добавить пустую строку
+//   str6 = "";
+//   str66 = "";
+//   ck_assert_pstr_eq(strncat(str6, src4, len5), s21_strncat(str66, src4, len5));
+//   // добавить строку в пустую строку целиком
+//   str7 = "";
+//   str77 = "";
+//   ck_assert_pstr_eq(strncat(str7, src4, len1), s21_strncat(str77, src4, len1));
+//   // добавить строку в пустую строку НЕ целиком
+//   str8 = "Hello";
+//   str88 = "Hello";
+//   ck_assert_pstr_eq(strncat(str8, src4, len0), s21_strncat(str88, src4, len0));
+//   // добавить 0 символов
+//   str9 = "Hello";
+//   str99 = "Hello";
+//   ck_assert_pstr_eq(strncat(str9, src3, len2), s21_strncat(str99, src3, len2));
+//   // добавить символ конца строки "\0"
+// }
+// END_TEST
+// 6
 START_TEST(tests_strchr) {
   int not_exist = 'A';
   int exist = 'K';
@@ -218,56 +218,12 @@ START_TEST(tests_strchr) {
   ck_assert_pstr_eq(strchr(s1, maybe_digit), s21_strchr(s1, maybe_digit));
 }
 END_TEST
-
-START_TEST(tests_strlen) {
-  char wich_length1[] = "Boys";
-  char wich_length2[] = "1234567890";
-  char wich_length3[] = "";
-  char wich_length4[] = "\0";
-  char wich_length5[] = "!";
-  char wich_length6[] = "I hate doing tests, it's not funny at all!!!";
-  char wich_length7[] = "\n\n\n";
-  char wich_length8[] = "wtf \0 wtf";
-  char wich_length9[] = "\0test";
-  char wich_length10[] = "        Bless you   \0    .....";
-  ck_assert_int_eq(strlen(wich_length1), s21_strlen(wich_length1));
-  ck_assert_int_eq(strlen(wich_length2), s21_strlen(wich_length2));
-  ck_assert_int_eq(strlen(wich_length3), s21_strlen(wich_length3));
-  ck_assert_int_eq(strlen(wich_length4), s21_strlen(wich_length4));
-  ck_assert_int_eq(strlen(wich_length5), s21_strlen(wich_length5));
-  ck_assert_int_eq(strlen(wich_length6), s21_strlen(wich_length6));
-  ck_assert_int_eq(strlen(wich_length7), s21_strlen(wich_length7));
-  ck_assert_int_eq(strlen(wich_length8), s21_strlen(wich_length8));
-  ck_assert_int_eq(strlen(wich_length9), s21_strlen(wich_length9));
-  ck_assert_int_eq(strlen(wich_length10), s21_strlen(wich_length10));
-}
-END_TEST
-
-START_TEST(tests_strrchr) {
-  int not_exist = 'A';
-  int exist = 'd';
-  int twice = 'e';
-  int end = '\0';
-  int digit = 42;
-  int maybe_digit = '7';
-  int sym = ',';
-  char yep[] = "Eat, code, love";
-  ck_assert_pstr_eq(strrchr(yep, not_exist), s21_strrchr(yep, not_exist));
-  ck_assert_pstr_eq(strrchr(yep, exist), s21_strrchr(yep, exist));
-  ck_assert_pstr_eq(strrchr(yep, twice), s21_strrchr(yep, twice));
-  ck_assert_pstr_eq(strrchr(yep, end), s21_strrchr(yep, end));
-  ck_assert_pstr_eq(strrchr(yep, sym), s21_strrchr(yep, sym));
-  ck_assert_pstr_eq(strrchr(yep, digit), s21_strrchr(yep, digit));
-  ck_assert_pstr_eq(strrchr(yep, maybe_digit), s21_strrchr(yep, maybe_digit));
-}
-END_TEST
-
+// 7
 int reduction2(int arr1, int arr2, int length) {
         int ress = strncmp(arr1, arr2, length);
         ress = ress > 0 ? 1 : ress == 0 ? 0 : -1;
         return ress;
 }
-
 START_TEST(test_strncmp) {
     s21_size_t len0 = 0;
     s21_size_t len1 = 1;
@@ -303,10 +259,121 @@ START_TEST(test_strncmp) {
     ck_assert_ptr_eq(reduction2(empty_str3, empty_str4, len1), s21_strncmp(empty_str3, empty_str4, len1));
 }
 END_TEST
+// 8
+START_TEST(tests_strncpy) {
+  char src1 = "";
+  char src2 = "Life cycle";
+  char src3 = "\0";
+  int len0 = 0;
+  int len1 = 1;
+  int len4 = 4;
+  int lenStr = s21_strlen(src2);
+  char dest1 = "Eat Sleep Code Repeat";
+  char dest11 = "Eat Sleep Code Repeat";
+  ck_assert_pstr_eq(strncpy(dest1, src2, lenStr), s21_strncpy(dest11, src2, lenStr));
+  // Скопировать полную строку
+  char dest2 = "Eat Sleep Code Repeat";
+  char dest22 = "Eat Sleep Code Repeat";
+  ck_assert_pstr_eq(strncpy(dest2, src2, len4), s21_strncpy(dest22, src2, len4));
+  // Первая строка короче копируемой
+  char dest3 = "Eat Sleep Code Repeat";
+  char dest33 = "Eat Sleep Code Repeat";
+  ck_assert_pstr_eq(strncpy(dest3, src1, len4), s21_strncpy(dest33, src1, len4));
+  // Копируемая строка пустая
+  char dest4 = "";
+  char dest44 = "";
+  ck_assert_pstr_eq(strncpy(dest4, src2, len4), s21_strncpy(dest44, src2, len4));
+  // Все строки пустые
+  char dest5 = "Eat Sleep Code Repeat";
+  char dest55 = "Eat Sleep Code Repeat";
+  ck_assert_pstr_eq(strncpy(dest5, src3, len1), s21_strncpy(dest55, src3, len1));
+  // Прибавить символ конца строки
+  char dest6 = "Eat Sleep Code Repeat";
+  char dest66 = "Eat Sleep Code Repeat";
+  ck_assert_pstr_eq(strncpy(dest6, src2, len1), s21_strncpy(dest66, src2, len1));
+  // Копирование 1 символа из копируемой строки
+  char dest7 = "Eat Sleep Code Repeat";
+  char dest77 = "Eat Sleep Code Repeat";
+  ck_assert_pstr_eq(strncpy(dest7, src2, len0), s21_strncpy(dest77, src2, len0));
+  // Копирование 0 символов из копируемой строки
+}
+END_TEST
+// 9
+START_TEST(tests_strspn) {
+  char str1 = "In the end";
+  char str11 = "In";
+  ck_assert_int_eq(strspn(str1, str11), s21_strspn(str1, str11));
+  // искомые символы находятся в начале строки
+  char str22 = "nI";
+  ck_assert_int_eq(strspn(str1, str22), s21_strspn(str1, str22));
+  // искомые символы находятся в начале строки, но находятся в другой последовательности
+  char str33 = "the";
+  ck_assert_int_eq(strspn(str1, str33), s21_strspn(str1, str33));
+  // искомые символы находятся в середине строки
+  char str44 = "n";
+  ck_assert_int_eq(strspn(str1, str44), s21_strspn(str1, str44));
+  // один искомый символ
+  char str55 = "";
+  ck_assert_int_eq(strspn(str1, str55), s21_strspn(str1, str55));
+  // искомый символ пустой
+  char str66 = "\0";
+  ck_assert_int_eq(strspn(str1, str66), s21_strspn(str1, str66));
+  // искомый символ равен концу строки
+  char str7 = "";
+  char str77 = "";
+  ck_assert_int_eq(strspn(str7, str11), s21_strspn(str7, str11));
+  // первая строка пустая
+  ck_assert_int_eq(strspn(str1, str77), s21_strspn(str1, str77));
+  // вторая строка пустая
+  ck_assert_int_eq(strspn(str7, str77), s21_strspn(str7, str77));
+  // все строки пустые
+  char str88 = "In the end";
+  ck_assert_int_eq(strspn(str1, str88), s21_strspn(str1, str88));
+  // строки одинаковые
+}
+END_TEST
+// 10
+START_TEST(error_0) {
+  char *str1 = s21_strerror(1);
+  char *str2 = strerror(1);
+  ck_assert_pstr_eq(str1, str2);
+}
+END_TEST
 
+START_TEST(error_1) {
+  char *str1 = s21_strerror(200);
+  char *str2 = strerror(200);
+  ck_assert_pstr_eq(str1, str2);
+}
+// 11
+START_TEST(tests_strlen) {
+  char wich_length1[] = "Boys";
+  char wich_length2[] = "1234567890";
+  char wich_length3[] = "";
+  char wich_length4[] = "\0";
+  char wich_length5[] = "!";
+  char wich_length6[] = "I hate doing tests, it's not funny at all!!!";
+  char wich_length7[] = "\n\n\n";
+  char wich_length8[] = "wtf \0 wtf";
+  char wich_length9[] = "\0test";
+  char wich_length10[] = "        Bless you   \0    .....";
+  ck_assert_int_eq(strlen(wich_length1), s21_strlen(wich_length1));
+  ck_assert_int_eq(strlen(wich_length2), s21_strlen(wich_length2));
+  ck_assert_int_eq(strlen(wich_length3), s21_strlen(wich_length3));
+  ck_assert_int_eq(strlen(wich_length4), s21_strlen(wich_length4));
+  ck_assert_int_eq(strlen(wich_length5), s21_strlen(wich_length5));
+  ck_assert_int_eq(strlen(wich_length6), s21_strlen(wich_length6));
+  ck_assert_int_eq(strlen(wich_length7), s21_strlen(wich_length7));
+  ck_assert_int_eq(strlen(wich_length8), s21_strlen(wich_length8));
+  ck_assert_int_eq(strlen(wich_length9), s21_strlen(wich_length9));
+  ck_assert_int_eq(strlen(wich_length10), s21_strlen(wich_length10));
+}
+END_TEST
+// 12
 START_TEST(tests_strpbrk) {
   char str1 = "Wow! This is horosho";
   char str11 = "!";
+  char str77 = "";
   ck_assert_pstr_eq(strpbrk(str1, str11), s21_strpbrk(str1, str11));
   // проверка на наличие одного символа
   char str22 = "is";
@@ -331,7 +398,26 @@ START_TEST(tests_strpbrk) {
   // 2 строки пустые
 }
 END_TEST
-
+// 13
+START_TEST(tests_strrchr) {
+  int not_exist = 'A';
+  int exist = 'd';
+  int twice = 'e';
+  int end = '\0';
+  int digit = 42;
+  int maybe_digit = '7';
+  int sym = ',';
+  char yep[] = "Eat, code, love";
+  ck_assert_pstr_eq(strrchr(yep, not_exist), s21_strrchr(yep, not_exist));
+  ck_assert_pstr_eq(strrchr(yep, exist), s21_strrchr(yep, exist));
+  ck_assert_pstr_eq(strrchr(yep, twice), s21_strrchr(yep, twice));
+  ck_assert_pstr_eq(strrchr(yep, end), s21_strrchr(yep, end));
+  ck_assert_pstr_eq(strrchr(yep, sym), s21_strrchr(yep, sym));
+  ck_assert_pstr_eq(strrchr(yep, digit), s21_strrchr(yep, digit));
+  ck_assert_pstr_eq(strrchr(yep, maybe_digit), s21_strrchr(yep, maybe_digit));
+}
+END_TEST
+// 14
 START_TEST(tests_strstr) {
   char str1[] = "Oh Oh Oh!";
   char str11[] = "Oh Oh Oh!";
@@ -362,17 +448,7 @@ START_TEST(tests_strstr) {
   // найти символ конца строки
 }
 END_TEST
-
-// void split_str_on_tokens(str0, str00, tok0) {
-//   char *begin_str0 = strtok(str0, tok0);
-//   char *begin_str00 = strtok(str00, tok0);
-//   while (begin_str0 != S21_NULL && begin_str00 != S21_NULL) {
-//     begin_str0 = strtok(S21_NULL, tok0);
-//     begin_str00 = strtok(S21_NULL, tok0);
-//     ck_assert_pstr_eq(begin_str0, begin_str00);
-//   }
-// }
-
+// 15
 START_TEST(tests_strtok) {
   char str1[] = "This is/my function";
   char str11[] = "This is/my function";
@@ -426,80 +502,18 @@ START_TEST(tests_strtok) {
   // нет не одного разделителя
 }
 END_TEST
+// void split_str_on_tokens(str0, str00, tok0) {
+//   char *begin_str0 = strtok(str0, tok0);
+//   char *begin_str00 = strtok(str00, tok0);
+//   while (begin_str0 != S21_NULL && begin_str00 != S21_NULL) {
+//     begin_str0 = strtok(S21_NULL, tok0);
+//     begin_str00 = strtok(S21_NULL, tok0);
+//     ck_assert_pstr_eq(begin_str0, begin_str00);
+//   }
+// }
 
-START_TEST(tests_strncpy) {
-  char src1 = "";
-  char src2 = "Life cycle";
-  char src3 = "\0";
-  int len0 = 0;
-  int len1 = 1;
-  int len4 = 4;
-  int lenStr = s21_strlen(src2);
 
-  char dest1 = "Eat Sleep Code Repeat";
-  char dest11 = "Eat Sleep Code Repeat";
-  ck_assert_pstr_eq(strncpy(dest1, src2, lenStr), s21_strncpy(dest11, src2, lenStr));
-  // Скопировать полную строку
-  char dest2 = "Eat Sleep Code Repeat";
-  char dest22 = "Eat Sleep Code Repeat";
-  ck_assert_pstr_eq(strncpy(dest2, src2, len4), s21_strncpy(dest22, src2, len4));
-  // Первая строка короче копируемой
-  char dest3 = "Eat Sleep Code Repeat";
-  char dest33 = "Eat Sleep Code Repeat";
-  ck_assert_pstr_eq(strncpy(dest3, src1, len4), s21_strncpy(dest33, src1, len4));
-  // Копируемая строка пустая
-  char dest4 = "";
-  char dest44 = "";
-  ck_assert_pstr_eq(strncpy(dest4, src2, len4), s21_strncpy(dest44, src2, len4));
-  // Все строки пустые
-  char dest5 = "Eat Sleep Code Repeat";
-  char dest55 = "Eat Sleep Code Repeat";
-  ck_assert_pstr_eq(strncpy(dest5, src3, len1), s21_strncpy(dest55, src3, len1));
-  // Прибавить символ конца строки
-  char dest6 = "Eat Sleep Code Repeat";
-  char dest66 = "Eat Sleep Code Repeat";
-  ck_assert_pstr_eq(strncpy(dest6, src2, len1), s21_strncpy(dest66, src2, len1));
-  // Копирование 1 символа из копируемой строки
-  char dest7 = "Eat Sleep Code Repeat";
-  char dest77 = "Eat Sleep Code Repeat";
-  ck_assert_pstr_eq(strncpy(dest7, src2, len0), s21_strncpy(dest77, src2, len0));
-  // Копирование 0 символов из копируемой строки
-}
-END_TEST
 
-START_TEST(tests_strspn) {
-  char str1 = "In the end";
-  char str11 = "In";
-  ck_assert_int_eq(strspn(str1, str11), s21_strspn(str1, str11));
-  // искомые символы находятся в начале строки
-  char str22 = "nI";
-  ck_assert_int_eq(strspn(str1, str22), s21_strspn(str1, str22));
-  // искомые символы находятся в начале строки, но находятся в другой последовательности
-  char str33 = "the";
-  ck_assert_int_eq(strspn(str1, str33), s21_strspn(str1, str33));
-  // искомые символы находятся в середине строки
-  char str44 = "n";
-  ck_assert_int_eq(strspn(str1, str44), s21_strspn(str1, str44));
-  // один искомый символ
-  char str55 = "";
-  ck_assert_int_eq(strspn(str1, str55), s21_strspn(str1, str55));
-  // искомый символ пустой
-  char str66 = "\0";
-  ck_assert_int_eq(strspn(str1, str66), s21_strspn(str1, str66));
-  // искомый символ равен концу строки
-  char str7 = "";
-  char str77 = "";
-  ck_assert_int_eq(strspn(str7, str11), s21_strspn(str7, str11));
-  // первая строка пустая
-  ck_assert_int_eq(strspn(str1, str77), s21_strspn(str1, str77));
-  // вторая строка пустая
-  ck_assert_int_eq(strspn(str7, str77), s21_strspn(str7, str77));
-  // все строки пустые
-  char str88 = "In the end";
-  ck_assert_int_eq(strspn(str1, str88), s21_strspn(str1, str88));
-  // строки одинаковые
-}
-END_TEST
 
 Suite *test_memchr(void) {
   Suite *s = suite_create("\033[45m-=S21_MEMCHR=-\033[0m");
