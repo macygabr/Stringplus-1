@@ -27,6 +27,7 @@ int s21_sprintf(char *buf, char *format, ...) {
     output.flag_L = 0;
     output.flag_g = 0;
     output.flag_e = 0;
+    output.flag_E = 0;
     output.flag_x = 0;
     output.flag_o = 0;
     output.flag_u = 0;
@@ -182,6 +183,7 @@ void sellect_type(char *buf, write_in_buf *output, char *format) {
       flag_e(buf, output);
       break;
     case 'E':
+      output->flag_E = 1;
       flag_e(buf, output);
       break;
     case 'x':
@@ -201,6 +203,7 @@ void sellect_type(char *buf, write_in_buf *output, char *format) {
     case '%':
       buf[output->index_buf_mass++] = '%';
       buf[output->index_buf_mass + 1] = '\0';
+      output->res ++;
       break;
     default:
       // output->error++;
@@ -329,6 +332,7 @@ void flag_e(char *buf, write_in_buf *output) {
   long double input_double;
   input_double = va_arg(output->argptr, double);
   scientific_notation(output, str, input_double);
+  add_sign(output, buf);
   output->str_long = s21_strlen(str);
   if (!output->flag_minus) add_space(output, buf);
   buf = s21_strcat(buf, str);
@@ -497,31 +501,6 @@ void add_sign(write_in_buf *output, char *buf) {
     output->space--;
   }
 }
-long double sel_num(write_in_buf *output, long double n) {
-  int i = 0;
-  int j = 0;
-  // int k = 0;
-  // long double double_n_num = n;
-  int int_n_num = (long int)n;
-  for (j = 1; int_n_num /= 10; j++)
-    ;
-  int_n_num = j;
-  // for(k=0;(long int)double_n_num%10 != 0;k++) double_n_num *=10;
-  int accuracy_g = output->accuracy - int_n_num;
-  output->accuracy = accuracy_g;
-  for (i = 0; i < accuracy_g + 1; i++) n *= 10;
-  n = (long int)n;
-  if ((long int)n % 10 >= 5) {
-    n /= 10;
-    n = (long int)n;
-    n++;
-  } else {
-    n /= 10;
-    n = (long int)n;
-  }
-  n /= simple_pow(10, i - 1);
-  return n;
-}
 
 void scientific_notation(write_in_buf *output, char s[], long double n) {
   long int whole_num=0, not_whole_num=-1;
@@ -529,10 +508,11 @@ void scientific_notation(write_in_buf *output, char s[], long double n) {
   long double copy_n_doub = n;
   long double origin_n_save = n;
   int add_notation =0, small =0;
+  int origin_save_accuracy = output->accuracy;
 
   for(whole_num =0; copy_n_int /= 10 ;whole_num++); 
   whole_num++;
-  if(origin_n_save <1 && origin_n_save > -1){
+  if(origin_n_save <1 && origin_n_save > -1 && origin_n_save !=0){
     do{
       copy_n_doub *=10;
       not_whole_num++;
@@ -548,23 +528,25 @@ void scientific_notation(write_in_buf *output, char s[], long double n) {
     } while ((int)((long int)copy_n_doub%10) != 0 && not_whole_num -1 <= output->accuracy - whole_num);
   }
 
-  if(whole_num > output->accuracy || (origin_n_save <1 && origin_n_save > -1)) { 
+  if(whole_num > output->accuracy || (origin_n_save <1 && origin_n_save > -1) || output->flag_e || output->flag_E) { 
     n /= simple_pow(10,whole_num-1);
     add_notation =1;
     output->accuracy =  output->accuracy - 1;
   } else
     output->accuracy = output->accuracy - whole_num /*количество чисел после запятой*/;
   
+  if(output->flag_e || output->flag_E){ output->accuracy = origin_save_accuracy;}
+
   itoa(output, n, s, 1);
   output->str_long = s21_strlen(s);
-  if(add_notation ==1 && !((origin_n_save <= 9 && origin_n_save >= 1) || (origin_n_save >= -9 && origin_n_save <= -1))){
+  if((add_notation ==1 && !((origin_n_save <= 9 && origin_n_save >= 1) || (origin_n_save >= -9 && origin_n_save <= -1))) || (output->flag_e || output->flag_E)){
     
     if(small) whole_num = not_whole_num+1;
   if (output->flag_e || output->flag_g)
     s[output->str_long++] = 'e';
   else
     s[output->str_long++] = 'E';
-  if (origin_n_save < 1 && origin_n_save > -1)
+  if (origin_n_save < 1 && origin_n_save > -1 && origin_n_save!=0)
     s[output->str_long++] = '-';
   else
     s[output->str_long++] = '+';
@@ -611,18 +593,4 @@ void hexadecimal(write_in_buf *output, char s[], long int n) {
     s[i] = s[j];
     s[j] = c;
   }
-}
-
-long double arround(long double input_long_double) {
-  int i = 1;
-  for (i = 1; input_long_double /= 10; i++)
-    ;
-  // printf("[%f]\n", input_long_double);
-  input_long_double *= simple_pow(10, i);
-  if ((long int)input_long_double % 10 >= 5) {
-    input_long_double /= 10;
-    input_long_double++;
-  } else
-    input_long_double /= 10;
-  return input_long_double;
 }

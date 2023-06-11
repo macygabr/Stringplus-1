@@ -29,6 +29,7 @@ typedef struct {
   int flag_L;
   int flag_g;
   int flag_e;
+  int flag_E;
   int flag_x;
   int flag_o;
   int flag_u;

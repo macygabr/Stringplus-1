@@ -3,7 +3,7 @@ CFLAGS= -c -Wall -Wextra -Werror -std=c11
 FLAGS= -g
 FILES = s21_string.c s21_sprintf.c
 TEST_FLAGS=-lcheck --coverage
-TEST_FUNC= tests/test_s21_string.c
+TEST_FUNC= tests/tests_sprintf.c
 
 
 OS := $(shell uname -s)
