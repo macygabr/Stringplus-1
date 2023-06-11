@@ -58,7 +58,6 @@ void sellect_width(char *buf, write_in_buf *output, char *format);
 void sellect_accuracy(char *buf, write_in_buf *output, char *format);
 void sellect_modifier(char *buf, write_in_buf *output, char *format);
 void sellect_type(char *buf, write_in_buf *output, char *format);
-long double sel_num(write_in_buf *output, long double n);
 void scientific_notation(write_in_buf *output, char s[], long double n);
 void hexadecimal(write_in_buf *output, char s[], long int n);
 void flag_d(char *buf, write_in_buf *output);
