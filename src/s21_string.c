@@ -33,11 +33,10 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
 }
 // 3 Копирует n символов из src в dest
 void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
-    char *d = dest;
-    const char *s = src;
-    while (n > 0) {
+    unsigned char *d = (unsigned char*)dest;
+    unsigned const char *s = (const unsigned char*)src;
+    while (n--) {
         *d++ = *s++;
-        n--;
     }
     return dest;
 }
@@ -479,15 +478,48 @@ char *s21_strstr(const char *haystack, const char *needle) {
     s21_size_t s1 = s21_strlen(haystack);
     s21_size_t s2 = s21_strlen(needle);
     char *result = S21_NULL;
+    int error = 0;
+    if (s1 < s2) {
+      if(haystack[0] == '\0' && needle[0] == '\0') {
+            result = (char*)haystack;
+      }
+      else {
+        result = S21_NULL;
+      }
+      error = 1;
+    }
+    if (needle[0] == '\0') {
+      result = (char*)haystack;
+      
+    }
     s21_size_t i = 0;
-              // After gpt chat:
-    while (i <= s1 - s2) {
+    while ((i <= s1 - s2) && error == 0) {
         if (s21_strncmp(haystack + i, needle, s2) == 0) {
             result = (char*)haystack + i;
             break;
         }
         ++i;
     }
+    // if (s1 < s2) {
+    //   if(haystack[0] == '\0' && needle[0] == '\0') {
+    //         result = (char*)haystack;
+    //   }
+    //   result = S21_NULL;
+    // }
+    // if (needle[0] == '\0') {
+    //   result = (char*)haystack;
+    // }
+    // if (haystack[0] == '\0') {
+    //   if (needle[0] == '\0') {
+    //         result = "";
+    //   }
+    //   else {
+    //     result = S21_NULL;
+    //   }
+    // }
+    // if (s1 == 0 && s2 == 0) {
+    //     result = "";
+    // }
     return result;
 }
     // Before:
