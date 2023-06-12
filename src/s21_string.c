@@ -418,15 +418,6 @@ char *s21_strcat(char *dest, const char *src) {
   return destmem;
 }
 
-void s21_delete(char *trim_deleted, int p) {
-  int length = s21_strlen(trim_deleted);
-  for (int i = 0, j = 0; i < length; j++, i++) {
-    if (i == p) i++;
-    trim_deleted[j] = trim_deleted[i];
-  }
-  trim_deleted[s21_strlen(trim_deleted) - 1] = '\0';
-}
-
 // 11 Вычисляет длину строки str, не включая завершающий нулевой символ
 s21_size_t s21_strlen(const char *str) {
   int i;
@@ -527,6 +518,7 @@ void *s21_to_upper(const char *str) {
     s21_strncpy(rezult, str, s21_strlen(str));
     for (int i = 0; i < (int)s21_strlen(str); i++)
       if (rezult[i] >= 'a' && rezult[i] <= 'z') rezult[i] += 'A' - 'a';
+    rezult[(int)s21_strlen(str)] = '\0';
   } else
     rezult = S21_NULL;
   return (char *)rezult;
@@ -535,10 +527,11 @@ void *s21_to_upper(const char *str) {
 void *s21_to_lower(const char *str) {
   char *rezult;
   if (str != S21_NULL) {
-    rezult = malloc(sizeof(str));
+    rezult = malloc(sizeof(str) + sizeof(char));
     s21_strncpy(rezult, str, s21_strlen(str));
     for (int i = 0; i < (int)s21_strlen(str); i++)
       if (rezult[i] >= 'A' && rezult[i] <= 'Z') rezult[i] += 'a' - 'A';
+    rezult[(int)s21_strlen(str)] = '\0';
   } else
     rezult = S21_NULL;
   return (char *)rezult;
@@ -553,7 +546,6 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
         (char *)malloc((s21_strlen(src) + s21_strlen(str) + 1) * sizeof(char));
     s21_strncpy(rezult, src, start_index);
     s21_strncpy(rezult + start_index, str, s21_strlen(str));
-    printf("%s\n", rezult);
     s21_strncpy(rezult + start_index + s21_strlen(str), src + start_index,
                 s21_strlen(src) - start_index + 1);
   } else if (src != S21_NULL && str != S21_NULL && start_index == 0 &&
