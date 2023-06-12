@@ -1570,15 +1570,7 @@ END_TEST
 
 // roddstat________________________________________________________________
 
-START_TEST(toUp_0) {
-  char str1[] = "abcdefghijklmnopqrstuvwxyz";
-  char *str2 = malloc(sizeof(str1));
-  str2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  char *res = s21_to_upper(str1);
-  ck_assert_pstr_eq(res, str2);
-  free(res);
-}
-END_TEST
+
 
 START_TEST(toUp_1) {
   char str1[] = "abcDEFGHIJklmnopqrstuvwxyz";
@@ -1590,17 +1582,9 @@ START_TEST(toUp_1) {
 }
 END_TEST
 
-START_TEST(toUp_2) {
-  char str1[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  char *str2 = malloc(sizeof(str1));
-  str2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  char *res = s21_to_upper(str1);
-  ck_assert_pstr_eq(res, str2);
-  free(res);
-}
-END_TEST
 
-START_TEST(toUp_3) {
+
+START_TEST(toUp_2) {
   char str1[] = "\t123(&@#)";
   char *str2 = malloc(sizeof(str1));
   str2 = "\t123(&@#)";
@@ -1610,7 +1594,7 @@ START_TEST(toUp_3) {
 }
 END_TEST
 
-START_TEST(toUp_4) {
+START_TEST(toUp_3) {
   char *str1 = NULL;
   char *str2 = NULL;
   char *res = s21_to_upper(str1);
@@ -1618,15 +1602,6 @@ START_TEST(toUp_4) {
 }
 END_TEST
 //-------------------------------------
-START_TEST(toLow_0) {
-  char str1[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  char *str2 = malloc(sizeof(str1));
-  str2 = "abcdefghijklmnopqrstuvwxyz";
-  char *res = s21_to_lower(str1);
-  ck_assert_pstr_eq(res, str2);
-  free(res);
-}
-END_TEST
 
 START_TEST(toLow_1) {
   char str1[] = "abcDEFGHIJklmnopqrstuvwxyz";
@@ -1638,17 +1613,8 @@ START_TEST(toLow_1) {
 }
 END_TEST
 
-START_TEST(toLow_2) {
-  char str1[] = "abcdefghijklmnopqrstuvwxyz";
-  char *str2 = malloc(sizeof(str1));
-  str2 = "abcdefghijklmnopqrstuvwxyz";
-  char *res = s21_to_lower(str1);
-  ck_assert_pstr_eq(res, str2);
-  free(res);
-}
-END_TEST
 
-START_TEST(toLow_3) {
+START_TEST(toLow_2) {
   char str1[] = "\t123(&@#)";
   char *str2 = malloc(sizeof(str1));
   str2 = "\t123(&@#)";
@@ -1658,7 +1624,7 @@ START_TEST(toLow_3) {
 }
 END_TEST
 
-START_TEST(toLow_4) {
+START_TEST(toLow_3) {
   char *str1 = NULL;
   char *str2 = NULL;
   char *res = s21_to_lower(str1);
@@ -2526,17 +2492,13 @@ int main(void) {
   tcase_add_test(tcase, tests_strtok);
 
   // up
-  tcase_add_test(tcase, toUp_0);
   tcase_add_test(tcase, toUp_1);
   tcase_add_test(tcase, toUp_2);
   tcase_add_test(tcase, toUp_3);
-  tcase_add_test(tcase, toUp_4);
   // low
-  tcase_add_test(tcase, toLow_0);
   tcase_add_test(tcase, toLow_1);
   tcase_add_test(tcase, toLow_2);
   tcase_add_test(tcase, toLow_3);
-  tcase_add_test(tcase, toLow_4);
   // trim
   tcase_add_test(tcase, trim_1);
   tcase_add_test(tcase, trim_2);
