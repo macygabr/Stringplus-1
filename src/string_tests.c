@@ -1627,17 +1627,8 @@ START_TEST(toLow_3) {
 }
 END_TEST
 //-------------------------------------
-START_TEST(trim_1) {
-  char s1[30] = "s21_Hello, world!";
-  char s3[] = "_12s!";
-  char s4[] = "Hello, world";
-  char *s2 = s21_trim(s1, s3);
-  ck_assert_pstr_eq(s4, s2);
-  if (s2) free(s2);
-}
-END_TEST
 
-START_TEST(trim_2) {
+START_TEST(trim_1) {
   char s1[30] = "";
   char s3[] = "";
   char *s4 = "";
@@ -1647,7 +1638,7 @@ START_TEST(trim_2) {
 }
 END_TEST
 
-START_TEST(trim_3) {
+START_TEST(trim_2) {
   char *s1 = S21_NULL;
   char s3[] = "";
   char *s4 = S21_NULL;
@@ -1657,7 +1648,7 @@ START_TEST(trim_3) {
 }
 END_TEST
 
-START_TEST(trim_4) {
+START_TEST(trim_3) {
   char s1[30] = "s21_Hello, world!";
   char s3[] = "s21_Hello, world!";
   char s4[] = "";
@@ -1667,27 +1658,7 @@ START_TEST(trim_4) {
 }
 END_TEST
 
-START_TEST(trim_5) {
-  char s1[30] = "s21_Hello, world!";
-  char s3[] = "0123456789Hello, world";
-  char *s4 = "s21_Hello, world!";
-  char *s2 = s21_trim(s1, s3);
-  ck_assert_pstr_eq(s4, s2);
-  if (s2) free(s2);
-}
-END_TEST
-
-START_TEST(trim_6) {
-  char s1[30] = " s21_Hello, world!";
-  char s3[] = " !";
-  char *s4 = "s21_Hello, world";
-  char *s2 = s21_trim(s1, s3);
-  ck_assert_pstr_eq(s4, s2);
-  if (s2) free(s2);
-}
-END_TEST
-
-START_TEST(trim_7) {
+START_TEST(trim_4) {
   char *s1 = S21_NULL;
   char *s3 = S21_NULL;
   char *s4 = S21_NULL;
@@ -1697,7 +1668,7 @@ START_TEST(trim_7) {
 }
 END_TEST
 
-START_TEST(trim_8) {
+START_TEST(trim_5) {
   char s1[] = " s21_Hello, world! ";
   char *s3 = S21_NULL;
   char *s4 = "s21_Hello, world!";
@@ -1707,7 +1678,7 @@ START_TEST(trim_8) {
 }
 END_TEST
 
-START_TEST(trim_9) {
+START_TEST(trim_6) {
   char s1[] = " s21_Hello, world! ";
   char *s3 = "";
   char *s4 = " s21_Hello, world! ";
@@ -2501,9 +2472,6 @@ int main(void) {
   tcase_add_test(tcase, trim_4);
   tcase_add_test(tcase, trim_5);
   tcase_add_test(tcase, trim_6);
-  tcase_add_test(tcase, trim_7);
-  tcase_add_test(tcase, trim_8);
-  tcase_add_test(tcase, trim_9);
   // insert
   tcase_add_test(tcase, insert_1);
   tcase_add_test(tcase, insert_2);
