@@ -61,7 +61,7 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
   *begin = '\0';
   return dest;
 }
-// 6 Поиск первого вхождения символа в строку ?????????????????????
+// 6 Поиск первого вхождения символа в строку
 char *s21_strchr(const char *str, int c) {
   s21_size_t i = 0;
   char *a;
@@ -427,7 +427,7 @@ s21_size_t s21_strlen(const char *str) {
   return i;
 }
 // 12 Находит первый символ в строке str1, который соответствует любому символу,
-// указанному в str2.???????????????????????
+// указанному в str2.
 char *s21_strpbrk(const char *str1, const char *str2) {
   char *ret = S21_NULL;
   for (; *str1 != 0 && !ret; str1++) {
@@ -441,16 +441,6 @@ char *s21_strpbrk(const char *str1, const char *str2) {
   return ret;
 }
 // 13 Поиск последнего вхождения символа в строку
-// ????????????????????????????????????????? char *s21_strrchr(const char *str,
-// int c)  {
-//     char *result = S21_NULL;
-//      for(;*str != '\0'; str++) {
-//         if (*str == c) {
-//             result = (char*)str;
-//         }
-//     }
-//     return result;
-// }
 char *s21_strrchr(const char *str, int c) {
   char *p_char = S21_NULL;
   for (; *str != '\0'; ++str) {
@@ -464,21 +454,7 @@ char *s21_strrchr(const char *str, int c) {
   return *p_char == c ? (char *)p_char : S21_NULL;
 }
 // 14 Находит первое вхождение всей строки needle (не включая завершающий
-// нулевой символ)
-//    которая появляется в строке haystack.
-// char *s21_strstr(const char *haystack, const char *needle) {
-//     char *ch = S21_NULL;
-//     while (*haystack && ch == S21_NULL) {
-//         int point = 0;
-//         while (*(haystack + point) == *(needle + point) && *(needle + point)
-//         != 0) {
-//             point++;
-//         }
-//         if (*(needle + point) == 0) ch = (char *)haystack;
-//         haystack++;
-//     }
-//     return ch;
-// }
+// нулевой символ) которая появляется в строке haystack.
 char *s21_strstr(const char *haystack, const char *needle) {
   s21_size_t s1 = s21_strlen(haystack);
   s21_size_t s2 = s21_strlen(needle);
@@ -494,6 +470,7 @@ char *s21_strstr(const char *haystack, const char *needle) {
   }
   if (needle[0] == '\0') {
     result = (char *)haystack;
+    error = 1;
   }
   s21_size_t i = 0;
   while ((i <= s1 - s2) && error == 0) {
@@ -503,33 +480,9 @@ char *s21_strstr(const char *haystack, const char *needle) {
     }
     ++i;
   }
-  // if (s1 < s2) {
-  //   if(haystack[0] == '\0' && needle[0] == '\0') {
-  //         result = (char*)haystack;
-  //   }
-  //   result = S21_NULL;
-  // }
-  // if (needle[0] == '\0') {
-  //   result = (char*)haystack;
-  // }
-  // if (haystack[0] == '\0') {
-  //   if (needle[0] == '\0') {
-  //         result = "";
-  //   }
-  //   else {
-  //     result = S21_NULL;
-  //   }
-  // }
-  // if (s1 == 0 && s2 == 0) {
-  //     result = "";
-  // }
+
   return result;
 }
-// Before:
-// while((!s21_strncmp(haystack + i, needle, s2) == 0) && (i <= s1 - s2)) {
-//     ++i;
-//     result = (char*)haystack + i;
-// }
 
 // 15 Разбивает строку str на ряд токенов, разделенных delim.
 char *s21_strtok(char *str, const char *delim) {
