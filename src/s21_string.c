@@ -247,16 +247,12 @@ char *s21_strerror(int errnum) {
       "State not recoverable",
       "Operation not possible due to RF-kill",
       "Memory page has hardware error"};
-  char *result = malloc(256 * sizeof(char));
+  static char result[256];
   if (errnum < 0 || errnum >= MAX_NUM_ERR) {
-    char *f = "Unknown error: ";
-    char d[256];
-    s21_itoa(errnum, d);
-    s21_strcat(result, f);
-    s21_strcat(result, d);
+    s21_sprintf(result, "Unknown error %d", errnum);
   } else
-    s21_strcat(result, Error_[errnum]);
-  return (char *)result;
+    s21_sprintf(result, "%s", Error_[errnum]);
+  return result;
 }
 #else
 char *s21_strerror(int errnum) {
@@ -369,40 +365,15 @@ char *s21_strerror(int errnum) {
       "State not recoverable",
       "Previous owner died",
       "Interface output queue is full"};
-  char *result = malloc(256 * sizeof(char));
+  static char result[256];
   if (errnum < 0 || errnum >= MAX_NUM_ERR) {
-    char *f = "Unknown error: ";
-    char d[256];
-    s21_itoa(errnum, d);
-    s21_strcat(result, f);
-    s21_strcat(result, d);
+    s21_sprintf(result, "Unknown error: %d", errnum);
   } else
-    s21_strcat(result, Error_[errnum]);
-  return (char *)result;
+    s21_sprintf(result, "%s", Error_[errnum]);
+  return result;
 }
 #endif
-// 10 Для работы strerror
-void s21_itoa(int a, char *result) {
-  int end = 0;
-  int flag = 0;
-  if (a < 0) {
-    flag = 1;
-    a = a * (-1);
-  }
-  while (a > 0) {
-    int ost = a % 10;
-    a = a / 10;
-    for (int i = end + 1; i > 0; i--) result[i] = result[i - 1];
-    result[0] = ost + '0';
-    end++;
-  }
-  if (flag == 1) {
-    for (int i = end + 1; i > 0; i--) result[i] = result[i - 1];
-    result[0] = '-';
-    end++;
-  }
-  result[end] = '\0';
-}
+
 // 10 Для работы strerror
 //    Добавляет строку, на которую указывает src, в конец строки, на которую
 //    указывает dest
