@@ -1865,7 +1865,6 @@ START_TEST(tests_memchr) {
   int sym1 = 115;
   int sym2 = 120;
   int sym3 = 'd';
-  int sym4 = 111;
   int sym5 = ' ';
   int sym6 = '4';
   int sym7 = '9';

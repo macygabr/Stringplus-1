@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS= -c -Wall -Wextra -Werror -std=c11  
-FLAGS= -g
+FLAGS= -g -Wall -Wextra -Werror
 FILES = s21_string.c s21_sprintf.c
 TEST_FLAGS=-lcheck --coverage
 TEST_FUNC= string_tests.c
@@ -35,8 +35,8 @@ test: check clean
 
 check:
 	cp -f ../materials/linters/.clang-format ./.clang-format
-	clang-format -i *.c *.h
-	$(CC) $(FLAGS) $(FILES) $(TEST_FUNC) -lm -lcheck -pthread -o tests
+	clang-format -n *.c *.h
+	$(CC) $(СFLAGS) $(FILES) $(TEST_FUNC) -lm -lcheck -pthread -o tests
 	./tests
 
 my: clean s21_string.a
