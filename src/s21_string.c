@@ -417,6 +417,16 @@ char *s21_strcat(char *dest, const char *src) {
   *dest = *src;
   return destmem;
 }
+
+void s21_delete(char *trim_deleted, int p) {
+  int length = s21_strlen(trim_deleted);
+  for (int i = 0, j = 0; i < length; j++, i++) {
+    if (i == p) i++;
+    trim_deleted[j] = trim_deleted[i];
+  }
+  trim_deleted[s21_strlen(trim_deleted) - 1] = '\0';
+}
+
 // 11 Вычисляет длину строки str, не включая завершающий нулевой символ
 s21_size_t s21_strlen(const char *str) {
   int i;
