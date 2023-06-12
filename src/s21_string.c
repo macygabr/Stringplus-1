@@ -483,30 +483,43 @@ char *s21_strtok(char *str, const char *delim) {
 //
 //  1 Возвращает копию строки (str), преобразованной в верхний регистр
 void *s21_to_upper(const char *str) {
-  char *rezult;
+  char *result;
   if (str != S21_NULL) {
-    rezult = malloc(sizeof(str));
-    s21_strncpy(rezult, str, s21_strlen(str));
-    for (int i = 0; i < (int)s21_strlen(str); i++)
-      if (rezult[i] >= 'a' && rezult[i] <= 'z') rezult[i] += 'A' - 'a';
-    rezult[(int)s21_strlen(str)] = '\0';
+    int len = 0;
+    for (; str[len] != '\0'; len++)
+      ;
+    len += 1;
+    result = (char *)malloc(len * sizeof(char));
+    for (int i = 0; i < len; i++) {
+      if ((str[i] > 96) && (str[i] < 123))
+        result[i] = str[i] - 32;
+      else
+        result[i] = str[i];
+    }
   } else
-    rezult = S21_NULL;
-  return (char *)rezult;
+    result = S21_NULL;
+  return result;
 }
 // 2 Возвращает копию строки (str), преобразованной в нижний регистр
 void *s21_to_lower(const char *str) {
-  char *rezult;
+  char *result;
   if (str != S21_NULL) {
-    rezult = malloc(sizeof(str) + sizeof(char));
-    s21_strncpy(rezult, str, s21_strlen(str));
-    for (int i = 0; i < (int)s21_strlen(str); i++)
-      if (rezult[i] >= 'A' && rezult[i] <= 'Z') rezult[i] += 'a' - 'A';
-    rezult[(int)s21_strlen(str)] = '\0';
+    int len = 0;
+    for (; str[len] != '\0'; len++)
+      ;
+    len += 1;
+    result = (char *)malloc(len * sizeof(char));
+    for (int i = 0; i < len; i++) {
+      if ((str[i] > 64) && (str[i] < 91))
+        result[i] = str[i] + 32;
+      else
+        result[i] = str[i];
+    }
   } else
-    rezult = S21_NULL;
-  return (char *)rezult;
+    result = S21_NULL;
+  return result;
 }
+
 // 3 Возвращает новую строку, в которой указанная строка (str) вставлена в
 // указанную позицию
 //   start_index) в данной строке (src)
