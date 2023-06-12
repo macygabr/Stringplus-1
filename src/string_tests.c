@@ -2414,19 +2414,19 @@ int main(void) {
   tcase_add_test(tcase, sprintf_3_c);
   tcase_add_test(tcase, sprintf_4_c);
   tcase_add_test(tcase, sprintf_5_c);
-  //tcase_add_test(tcase, sprintf_6_c);
+  // tcase_add_test(tcase, sprintf_6_c);
   tcase_add_test(tcase, sprintf_7_c);
-  //tcase_add_test(tcase, sprintf_8_c);
+  // tcase_add_test(tcase, sprintf_8_c);
   tcase_add_test(tcase, sprintf_9_c);
   tcase_add_test(tcase, sprintf_10_c);
   tcase_add_test(tcase, sprintf_11_c);
   tcase_add_test(tcase, sprintf_12_c);
   tcase_add_test(tcase, sprintf_13_c);
   tcase_add_test(tcase, sprintf_14_c);
-  //tcase_add_test(tcase, sprintf_15_c);
+  // tcase_add_test(tcase, sprintf_15_c);
   tcase_add_test(tcase, sprintf_16_c);
-  //tcase_add_test(tcase, sprintf_17_c);
-  //tcase_add_test(tcase, sprintf_18_c);
+  // tcase_add_test(tcase, sprintf_17_c);
+  // tcase_add_test(tcase, sprintf_18_c);
   tcase_add_test(tcase, sprintf_19_c);
   // d
   tcase_add_test(tcase, sprintf_1_signed);

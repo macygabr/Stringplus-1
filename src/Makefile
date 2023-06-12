@@ -35,7 +35,7 @@ test: check clean
 
 check:
 	cp -f ../materials/linters/.clang-format ./.clang-format
-	clang-format -n *.c *.h
+	clang-format -i *.c *.h
 	$(CC) $(СFLAGS) $(FILES) $(TEST_FUNC) -lm -lcheck -pthread -o tests
 	./tests
 
