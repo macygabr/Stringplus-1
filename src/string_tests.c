@@ -1941,10 +1941,10 @@ END_TEST
 // 3
 START_TEST(tests_memcpy) {
   char src1[] = "hard";
-  char src4[] = "hard";
+  // char src4[] = "hard";
   s21_size_t len0 = 0;
   s21_size_t len1 = 1;
-  s21_size_t len2 = 2;
+  // s21_size_t len2 = 2;
   s21_size_t len4 = 4;
   s21_size_t len10 = 10;
   // выше записы часто использующие переменные
@@ -1985,14 +1985,14 @@ START_TEST(tests_memset) {
   s21_size_t len0 = 0;
   s21_size_t len5 = 5;
   int add_end = '\0';
-  int add_digit = 80;
+  // int add_digit = 80;
   int add_space = ' ';
   char string1[5] = "";
   char string2[5] = "";
   ck_assert_str_eq(memset(string1, add_end, len0),
                    s21_memset(string2, add_end, len0));
-  char string11[5] = "Hello";
-  char string22[5] = "Hello";
+  // char string11[5] = "Hello";
+  // char string22[5] = "Hello";
   // ck_assert_str_eq(memset(string11, add_digit, len5), s21_memset(string22,
   // add_digit, len5));
   char string3[] = "Danke schon";
@@ -2001,7 +2001,7 @@ START_TEST(tests_memset) {
                    s21_memset(string4, add_end, len5));
   char string5[] = "123456789";
   char string6[] = "123456789";
-  s21_size_t length = strlen(string5);
+  // s21_size_t length = strlen(string5);
   ck_assert_str_eq(memset(string5, add_space, len5),
                    s21_memset(string6, add_space, len5));
   char string7[] = "First things first";
@@ -2017,7 +2017,7 @@ END_TEST
 // 5
 START_TEST(tests_strncat) {
   char src1[] = "";
-  char src2[] = " ";
+  // char src2[] = " ";
   char src3[] = "\0";
   char src4[] = "world";
   char src5[] = "a";
@@ -2036,11 +2036,11 @@ START_TEST(tests_strncat) {
   ck_assert_pstr_eq(strncat(str2, src4, len2), s21_strncat(str22, src4, len2));
   // добавить слово НЕ целиком
   char str3[20] = "Hell";
-  char str33[20] = "Hell";
+  // char str33[20] = "Hell";
   ck_assert_pstr_eq(strncat(str3, src4, len10), s21_strncat(str3, src4, len10));
   // добавить строку больше исходной
   char str4[20] = "Hell";
-  char str44[20] = "Hell";
+  // char str44[20] = "Hell";
   ck_assert_pstr_eq(strncat(str4, src5, len1), s21_strncat(str4, src5, len1));
   // добавить символ
   char str5[20] = "Hi";
