@@ -517,9 +517,9 @@ char *s21_strtok(char *str, const char *delim) {
   }
   return (result[0] == '\0') ? S21_NULL : result;
 }
-//Специальные функции обработки строк (вдохновленные классом String в языке C#)
+// Специальные функции обработки строк (вдохновленные классом String в языке C#)
 //
-// 1 Возвращает копию строки (str), преобразованной в верхний регистр
+//  1 Возвращает копию строки (str), преобразованной в верхний регистр
 void *s21_to_upper(const char *str) {
   char *rezult;
   if (str != S21_NULL) {
@@ -565,6 +565,15 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
 
   return (char *)rezult;
 }
+// 4.0 Нужно для работы s21_trim
+void s21_delete(char *trim_deleted, int p) {
+  int len = s21_strlen(trim_deleted);
+  for (int i = 0, j = 0; i < len; j++, i++) {
+    if (i == p) i++;
+    trim_deleted[j] = trim_deleted[i];
+  }
+  trim_deleted[s21_strlen(trim_deleted) - 1] = '\0';
+}
 // 4 Возвращает новую строку, в которой удаляются все начальные и
 //   конечные вхождения набора заданных символов (trim_chars) из данной строки
 //   (src).
@@ -577,7 +586,6 @@ void *s21_trim(const char *src, const char *trim_chars) {
     int trim_len = 0;
     if (trim_chars != S21_NULL) trim_len = s21_strlen(trim_chars);
     int start = 0, end = len - 1;
-
     if (trim_chars == S21_NULL) {
       int start = 0, end = len - 1;
       while (src[start] == ' ' || src[start] == '\t' || src[start] == '\n' ||
@@ -624,7 +632,7 @@ void *s21_trim(const char *src, const char *trim_chars) {
       } else {
         rezult = malloc(sizeof(char) * (end - start + 1));
         int res_len = end - start + 1;
-        for (int j = 0, i = start; i <= end && j < res_len; j++, i++) {
+        for (int j = 0, i = start; i <= end, j < res_len; j++, i++) {
           rezult[j] = src[i];
         }
       }
