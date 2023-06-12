@@ -1570,8 +1570,6 @@ END_TEST
 
 // roddstat________________________________________________________________
 
-
-
 START_TEST(toUp_1) {
   char str1[] = "abcDEFGHIJklmnopqrstuvwxyz";
   char *str2 = malloc(sizeof(str1));
@@ -1581,8 +1579,6 @@ START_TEST(toUp_1) {
   free(res);
 }
 END_TEST
-
-
 
 START_TEST(toUp_2) {
   char str1[] = "\t123(&@#)";
@@ -1612,7 +1608,6 @@ START_TEST(toLow_1) {
   free(res);
 }
 END_TEST
-
 
 START_TEST(toLow_2) {
   char str1[] = "\t123(&@#)";
