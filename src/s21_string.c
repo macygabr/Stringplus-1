@@ -1,4 +1,5 @@
 #include "s21_string.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 // 1 Выполняет поиск первого вхождения указанного символа в массиве
@@ -35,9 +36,8 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
 void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
   char *d = dest;
   const char *s = src;
-  while (n > 0) {
+  while (n--) {
     *d++ = *s++;
-    n--;
   }
   return dest;
 }
@@ -61,14 +61,13 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
   *begin = '\0';
   return dest;
 }
-// 6 Поиск первого вхождения символа в строку ?????????????????????
+// 6 Поиск первого вхождения символа в строку
 char *s21_strchr(const char *str, int c) {
   s21_size_t i = 0;
   char *a;
   a = (char *)str;
   while (str[i] != '\0') {
-    if (str[i] == c)
-      return (a + i);
+    if (str[i] == c) return (a + i);
     i++;
   }
   if (c == 0) {
@@ -413,8 +412,7 @@ void s21_itoa(int a, char *result) {
 //    указывает dest
 char *s21_strcat(char *dest, const char *src) {
   char *destmem = dest;
-  while (*dest != 0)
-    dest++;
+  while (*dest != 0) dest++;
   while (*src != 0) {
     *dest = *src;
     dest++;
@@ -431,7 +429,7 @@ s21_size_t s21_strlen(const char *str) {
   return i;
 }
 // 12 Находит первый символ в строке str1, который соответствует любому символу,
-// указанному в str2.???????????????????????
+// указанному в str2.
 char *s21_strpbrk(const char *str1, const char *str2) {
   char *ret = S21_NULL;
   for (; *str1 != 0 && !ret; str1++) {
@@ -445,16 +443,6 @@ char *s21_strpbrk(const char *str1, const char *str2) {
   return ret;
 }
 // 13 Поиск последнего вхождения символа в строку
-// ????????????????????????????????????????? char *s21_strrchr(const char *str,
-// int c)  {
-//     char *result = S21_NULL;
-//      for(;*str != '\0'; str++) {
-//         if (*str == c) {
-//             result = (char*)str;
-//         }
-//     }
-//     return result;
-// }
 char *s21_strrchr(const char *str, int c) {
   char *p_char = S21_NULL;
   for (; *str != '\0'; ++str) {
@@ -468,41 +456,35 @@ char *s21_strrchr(const char *str, int c) {
   return *p_char == c ? (char *)p_char : S21_NULL;
 }
 // 14 Находит первое вхождение всей строки needle (не включая завершающий
-// нулевой символ)
-//    которая появляется в строке haystack.
-// char *s21_strstr(const char *haystack, const char *needle) {
-//     char *ch = S21_NULL;
-//     while (*haystack && ch == S21_NULL) {
-//         int point = 0;
-//         while (*(haystack + point) == *(needle + point) && *(needle + point)
-//         != 0) {
-//             point++;
-//         }
-//         if (*(needle + point) == 0) ch = (char *)haystack;
-//         haystack++;
-//     }
-//     return ch;
-// }
+// нулевой символ) которая появляется в строке haystack.
 char *s21_strstr(const char *haystack, const char *needle) {
   s21_size_t s1 = s21_strlen(haystack);
   s21_size_t s2 = s21_strlen(needle);
   char *result = S21_NULL;
+  int error = 0;
+  if (s1 < s2) {
+    if (haystack[0] == '\0' && needle[0] == '\0') {
+      result = (char *)haystack;
+    } else {
+      result = S21_NULL;
+    }
+    error = 1;
+  }
+  if (needle[0] == '\0') {
+    result = (char *)haystack;
+    error = 1;
+  }
   s21_size_t i = 0;
-  // After gpt chat:
-  while (i <= s1 - s2) {
+  while ((i <= s1 - s2) && error == 0) {
     if (s21_strncmp(haystack + i, needle, s2) == 0) {
       result = (char *)haystack + i;
       break;
     }
     ++i;
   }
+
   return result;
 }
-// Before:
-// while((!s21_strncmp(haystack + i, needle, s2) == 0) && (i <= s1 - s2)) {
-//     ++i;
-//     result = (char*)haystack + i;
-// }
 
 // 15 Разбивает строку str на ряд токенов, разделенных delim.
 char *s21_strtok(char *str, const char *delim) {
