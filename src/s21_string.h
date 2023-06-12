@@ -4,6 +4,8 @@
 
 #include <limits.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef unsigned long s21_size_t;
 
@@ -214,11 +216,12 @@ char *s21_strtok(char *str, const char *delim);
 
 // roddstat ^^
 char *s21_strerror(int errnum);
-void s21_itoa(int a, char s[]);
-void *s21_to_upper(const char *str);
+void s21_delete(char *trim_deleted, int p);
+char *s21_strcat(char *dest, const char *src);
+void s21_itoa(int a, char *result);
+char *s21_strncpy(char *dest, const char *src, s21_size_t n);
 void *s21_to_lower(const char *str);
+void *s21_to_upper(const char *str);
+void *s21_trim(const char *src, const char *trim_chars);
 void *s21_insert(const char *src, const char *str, s21_size_t start_index);
-void s21_delete(char *trim_deleted,
-                int p) void *s21_trim(const char *src, const char *trim_chars);
-
 #endif

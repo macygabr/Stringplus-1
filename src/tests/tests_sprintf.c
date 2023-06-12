@@ -1874,28 +1874,28 @@ int main(void) {
   tcase_add_test(tcase, sprintf_1_octal);
   tcase_add_test(tcase, sprintf_1_percent);
 
-  // trim
-  tcase_add_test(tcase, trim_1);
-  tcase_add_test(tcase, trim_2);
-  tcase_add_test(tcase, trim_3);
-  tcase_add_test(tcase, trim_4);
-  tcase_add_test(tcase, trim_5);
-  tcase_add_test(tcase, trim_6);
-  tcase_add_test(tcase, trim_7);
-  tcase_add_test(tcase, trim_8);
-  tcase_add_test(tcase, trim_9);
-  // insert
-  tcase_add_test(tcase, insert_1);
-  tcase_add_test(tcase, insert_2);
-  tcase_add_test(tcase, insert_3);
-  tcase_add_test(tcase, insert_4);
-  tcase_add_test(tcase, insert_5);
-  tcase_add_test(tcase, insert_6);
-  tcase_add_test(tcase, insert_7);
-  tcase_add_test(tcase, insert_8);
-  tcase_add_test(tcase, insert_9);
-  // low
-  // up
+  // // trim
+  // tcase_add_test(tcase, trim_1);
+  // tcase_add_test(tcase, trim_2);
+  // tcase_add_test(tcase, trim_3);
+  // tcase_add_test(tcase, trim_4);
+  // tcase_add_test(tcase, trim_5);
+  // tcase_add_test(tcase, trim_6);
+  // tcase_add_test(tcase, trim_7);
+  // tcase_add_test(tcase, trim_8);
+  // tcase_add_test(tcase, trim_9);
+  // // insert
+  // tcase_add_test(tcase, insert_1);
+  // tcase_add_test(tcase, insert_2);
+  // tcase_add_test(tcase, insert_3);
+  // tcase_add_test(tcase, insert_4);
+  // tcase_add_test(tcase, insert_5);
+  // tcase_add_test(tcase, insert_6);
+  // tcase_add_test(tcase, insert_7);
+  // tcase_add_test(tcase, insert_8);
+  // tcase_add_test(tcase, insert_9);
+  // // low
+  // // up
   srunner_run_all(srunner, CK_NORMAL);
   val = srunner_ntests_failed(srunner);
   srunner_free(srunner);

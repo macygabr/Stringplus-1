@@ -3,7 +3,7 @@ CFLAGS= -c -Wall -Wextra -Werror -std=c11
 FLAGS= -g
 FILES = s21_string.c s21_sprintf.c
 TEST_FLAGS=-lcheck --coverage
-TEST_FUNC= tests/tests_sprintf.c
+TEST_FUNC= tests/tests_sprintf.c tests/tests_s21_string.c 
 
 
 OS := $(shell uname -s)
@@ -35,7 +35,7 @@ test: check clean
 
 check:
 	cp -f ../materials/linters/.clang-format ./.clang-format
-	clang-format -i *.c *.h
+	clang-format -style=Google -i *.c *.h
 	$(CC) $(FLAGS) $(FILES) $(TEST_FUNC) -lm -lcheck -pthread -o tests
 	./tests
 
